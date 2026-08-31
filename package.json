@@ -25,7 +25,8 @@
   "files": [
     "dist",
     "src/styles",
-    "src/fonts.ts"
+    "src/fonts.ts",
+    "!**/.omc"
   ],
   "scripts": {
     "build": "tsup",
