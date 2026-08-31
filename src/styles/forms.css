@@ -1,0 +1,58 @@
+/* ==========================================================
+   4 · FORMULARE
+   ========================================================== */
+.oe-field{display:grid;gap:6px}
+.oe-field>label{font:500 11px/1 var(--oe-f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--oe-mute)}
+.oe-field__hint{font-size:12px;color:var(--oe-mute)}
+.oe-field__err{font:500 12px var(--oe-f-mono);color:var(--oe-danger)}
+.oe-input,.oe-select,.oe-textarea{font:500 14px var(--oe-f-sans);padding:9px 12px;background:var(--oe-surface);border:1.5px solid var(--oe-line-2);border-radius:var(--oe-r-sm);color:var(--oe-ink);width:100%;transition:border-color .15s,box-shadow .15s,background .15s}
+.oe-input::placeholder,.oe-textarea::placeholder{color:var(--oe-mute-2)}
+.oe-input:focus,.oe-select:focus,.oe-textarea:focus{outline:0;border-color:var(--oe-green-ink);background:color-mix(in oklab, var(--oe-surface) 70%, var(--oe-paper));box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green) 18%, transparent)}
+.oe-input:disabled,.oe-select:disabled,.oe-textarea:disabled{background:var(--oe-paper-2);color:var(--oe-mute);cursor:not-allowed}
+.oe-textarea{min-height:88px;resize:vertical;line-height:1.5}
+/* Der Pfeil sitzt als CSS-Chevron im Wrapper statt als SVG mit
+   fester Füllfarbe im background-image — so folgt er dem Theme. */
+.oe-select{appearance:none;padding-inline-end:32px}
+.oe-select-wrap{position:relative;display:block}
+.oe-select-wrap::after{content:"";position:absolute;inset-inline-end:12px;top:50%;width:7px;height:7px;border-inline-end:1.6px solid var(--oe-mute);border-bottom:1.6px solid var(--oe-mute);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.oe-field.is-invalid .oe-input,.oe-field.is-invalid .oe-select,.oe-field.is-invalid .oe-textarea{border-color:var(--oe-danger);background:color-mix(in oklab, var(--oe-danger) 5%, var(--oe-surface))}
+.oe-input-group{display:flex;align-items:stretch}
+.oe-input-group .oe-input{border-start-end-radius:0;border-end-end-radius:0}
+.oe-input-group__addon{display:inline-flex;align-items:center;padding:0 11px;font:500 13px var(--oe-f-mono);color:var(--oe-mute);background:var(--oe-paper-2);border:1.5px solid var(--oe-line-2);border-inline-start:0;border-start-end-radius:var(--oe-r-sm);border-end-end-radius:var(--oe-r-sm)}
+.oe-search{position:relative}
+.oe-search .oe-input{padding-inline-start:32px}
+.oe-search svg{position:absolute;inset-inline-start:10px;top:50%;transform:translateY(-50%);width:14px;height:14px;color:var(--oe-mute);pointer-events:none}
+
+/* Checkbox & Radio */
+.oe-check{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:14px;color:var(--oe-ink)}
+.oe-check input{position:absolute;opacity:0;width:0;height:0}
+.oe-check__box{width:17px;height:17px;flex:none;border-radius:var(--oe-r-xs);border:1.5px solid var(--oe-line-2);background:var(--oe-surface);display:grid;place-items:center;transition:all .15s}
+.oe-check input:checked+.oe-check__box{background:var(--oe-green-ink);border-color:var(--oe-green-ink)}
+.oe-check input:checked+.oe-check__box::after{content:"";width:8px;height:4px;border-inline-start:2px solid var(--oe-on-accent);border-bottom:2px solid var(--oe-on-accent);transform:rotate(-45deg) translate(1px,-1px)}
+.oe-check input:focus-visible+.oe-check__box{box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green) 25%, transparent)}
+.oe-check input:disabled+.oe-check__box{opacity:.45;cursor:not-allowed}
+.oe-check--radio .oe-check__box{border-radius:var(--oe-r-full)}
+.oe-check--radio input:checked+.oe-check__box{background:var(--oe-surface);border-color:var(--oe-green-ink);border-width:5px}
+.oe-check--radio input:checked+.oe-check__box::after{display:none}
+
+/* Switch */
+.oe-switch{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:14px}
+.oe-switch input{position:absolute;opacity:0;width:0;height:0}
+.oe-switch__track{width:38px;height:22px;border-radius:var(--oe-r-full);background:var(--oe-paper-3);border:1px solid var(--oe-line-2);position:relative;transition:background .2s,border-color .2s;flex:none}
+.oe-switch__track::after{content:"";position:absolute;top:2px;inset-inline-start:2px;width:16px;height:16px;border-radius:var(--oe-r-full);background:var(--oe-knob);box-shadow:var(--oe-sh-1);transition:transform .2s,background .2s}
+.oe-switch input:checked+.oe-switch__track{background:var(--oe-green-ink);border-color:var(--oe-green-ink)}
+.oe-switch input:checked+.oe-switch__track::after{background:var(--oe-knob-on);transform:translateX(16px)}
+.oe-switch input:focus-visible+.oe-switch__track{box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green) 25%, transparent)}
+
+/* Segmented */
+.oe-segment{display:inline-flex;padding:2px;background:var(--oe-paper-2);border:1px solid var(--oe-line);border-radius:var(--oe-r-sm);gap:2px}
+.oe-segment button{border:0;background:transparent;padding:6px 12px;border-radius:var(--oe-r-xs);font:600 13px var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:background .15s,color .15s}
+.oe-segment button:hover{color:var(--oe-ink)}
+.oe-segment button.is-active{background:var(--oe-surface);color:var(--oe-ink);box-shadow:var(--oe-sh-1)}
+
+/* Chips / Filter */
+.oe-chips{display:flex;flex-wrap:wrap;gap:6px}
+.oe-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:var(--oe-r-full);border:1px solid var(--oe-line-2);background:transparent;font:500 13px var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:all .15s}
+.oe-chip:hover{color:var(--oe-ink);border-color:var(--oe-ink)}
+.oe-chip.is-active{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 25%, transparent);color:var(--oe-green-ink);font-weight:600}
+.oe-chip__x{font-family:var(--oe-f-mono);opacity:.6}

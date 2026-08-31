@@ -1,0 +1,19 @@
+/* ==========================================================
+   OpenEOS Designsystem — vollständige Klassenbibliothek
+   Enthält KEINE Untitled-UI-Bridge: die ist Tailwind-abhängig
+   und wird separat importiert (@openeos/ui/css/bridge-untitled.css).
+   ========================================================== */
+@import "./tokens.css";
+@import "./tokens-dark.css";
+@import "./base.css";
+@import "./typography.css";
+@import "./buttons.css";
+@import "./forms.css";
+@import "./badges.css";
+@import "./cards.css";
+@import "./navigation.css";
+@import "./table.css";
+@import "./feedback.css";
+@import "./domain.css";
+@import "./utilities.css";
+@import "./pos-alias.css";

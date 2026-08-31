@@ -1,0 +1,44 @@
+/* ==========================================================
+   POS-ALIASE
+   Die POS-Prototypen nutzten einen eigenen Tokensatz (--pos-*).
+   Statt eines dritten parallelen Systems zeigen sie hier auf
+   die OpenEOS-Tokens — bestehendes POS-Markup läuft unverändert
+   weiter und erbt automatisch den Dark-Mode.
+   ========================================================== */
+
+:root {
+  --pos-accent: var(--oe-green-ink);
+  --pos-accent-contrast: var(--oe-on-accent);
+  --pos-accent-soft: var(--oe-green-soft);
+  --pos-accent-ink: var(--oe-green-ink);
+
+  --pos-bg: var(--oe-paper);
+  --pos-surface: var(--oe-surface);
+  --pos-surface-2: var(--oe-paper-2);
+  --pos-line: var(--oe-paper-3);
+  --pos-line-strong: var(--oe-line-2);
+  --pos-ink: var(--oe-ink);
+  --pos-ink-2: var(--oe-mute);
+  --pos-ink-3: var(--oe-mute-2);
+
+  --pos-danger: var(--oe-danger);
+  --pos-warn: var(--oe-warn);
+  --pos-ok: var(--oe-green-2);
+
+  --ff-ui: var(--oe-f-sans);
+  --ff-mono: var(--oe-f-mono);
+}
+
+/* Die POS-Prototypen erwarten diese Klassen. */
+.pos-root { font-family: var(--ff-ui); color: var(--pos-ink); background: var(--pos-bg); }
+.pos-root *, .pos-root *::before, .pos-root *::after { box-sizing: border-box; }
+.pos-root button { font-family: inherit; color: inherit; }
+.pos-root :focus-visible { outline: 2px solid var(--pos-accent); outline-offset: 2px; }
+.pos-mono { font-family: var(--ff-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.pos-scroll { scrollbar-width: thin; scrollbar-color: var(--pos-line-strong) transparent; }
+.pos-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.pos-scroll::-webkit-scrollbar-thumb { background: var(--pos-line-strong); border-radius: 8px; }
+.pos-scroll::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes pos-pop { 0% { transform: scale(0.6); opacity: 0 } 60% { transform: scale(1.15) } 100% { transform: scale(1); opacity: 1 } }
+@keyframes pos-slide-up { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }

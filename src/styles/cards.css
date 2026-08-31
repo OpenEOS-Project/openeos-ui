@@ -1,0 +1,39 @@
+/* ==========================================================
+   6 · KARTEN, KPI, METRIKEN
+   ========================================================== */
+.oe-card{background:var(--oe-surface);border:1px solid var(--oe-line);border-radius:var(--oe-r);overflow:hidden}
+.oe-card--flat{background:var(--oe-paper-2);border-color:transparent}
+.oe-card--raised{box-shadow:var(--oe-sh-2)}
+.oe-card--ink{background:var(--oe-contrast);border-color:var(--oe-contrast-3);color:var(--oe-on-contrast)}
+.oe-card--accent{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 18%, transparent)}
+.oe-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--oe-s4);padding:var(--oe-s4) var(--oe-s5);border-bottom:1px solid var(--oe-line)}
+.oe-card__title{font:700 15px var(--oe-f-sans);letter-spacing:-.01em;margin:0}
+.oe-card__desc{font-size:13px;color:var(--oe-mute);margin:3px 0 0}
+.oe-card__body{padding:var(--oe-s5)}
+.oe-card__foot{padding:var(--oe-s3) var(--oe-s5);border-top:1px solid var(--oe-line);background:color-mix(in oklab, var(--oe-ink) 2%, transparent);display:flex;justify-content:space-between;align-items:center;gap:var(--oe-s3)}
+.oe-card--ink .oe-card__head,.oe-card--ink .oe-card__foot{border-color:var(--oe-contrast-line)}
+.oe-card--ink .oe-card__desc{color:var(--oe-on-contrast-mute)}
+
+/* KPI */
+.oe-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--oe-s3)}
+.oe-kpi{background:var(--oe-paper-2);border:1px solid transparent;border-radius:var(--oe-r);padding:var(--oe-s4) var(--oe-s5);display:grid;gap:var(--oe-s2);align-content:start}
+.oe-kpi__label{font:500 11px var(--oe-f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--oe-mute)}
+.oe-kpi__value{font:800 clamp(26px,2.4vw,34px)/1 var(--oe-f-sans);letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.oe-kpi__foot{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--oe-mute)}
+.oe-kpi--accent{background:var(--oe-green-soft)}
+.oe-kpi--accent .oe-kpi__value{color:var(--oe-green-ink)}
+.oe-kpi--accent .oe-kpi__label{color:color-mix(in oklab, var(--oe-green-ink) 75%, transparent)}
+.oe-kpi--accent .oe-kpi__foot{color:color-mix(in oklab, var(--oe-green-ink) 80%, transparent)}
+.oe-kpi--ink{background:var(--oe-contrast);color:var(--oe-on-contrast)}
+.oe-kpi--ink .oe-kpi__value{color:var(--oe-contrast-accent)}
+.oe-kpi--ink .oe-kpi__label,.oe-kpi--ink .oe-kpi__foot{color:var(--oe-on-contrast-mute)}
+.oe-spark{height:26px;width:100%;display:block}
+
+/* Metrik-Zeile */
+.oe-meter{display:grid;gap:6px}
+.oe-meter__top{display:flex;justify-content:space-between;font-size:13px}
+.oe-meter__top b{font-family:var(--oe-f-mono);font-weight:600}
+.oe-meter__bar{height:7px;border-radius:var(--oe-r-full);background:var(--oe-paper-3);overflow:hidden}
+.oe-meter__fill{height:100%;border-radius:var(--oe-r-full);background:var(--oe-green-ink);transition:width var(--oe-dur-3) var(--oe-ease)}
+.oe-meter--warn .oe-meter__fill{background:var(--oe-warn)}
+.oe-meter--danger .oe-meter__fill{background:var(--oe-danger)}

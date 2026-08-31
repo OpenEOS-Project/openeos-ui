@@ -1,0 +1,94 @@
+/* ==========================================================
+   OpenEOS Designsystem — Tokens (hell)
+   Single source of truth für Website, POS, Admin, Shop, Displays.
+   ========================================================== */
+
+:root {
+  /* ---------- Farben: Papier & Tinte ---------- */
+  --oe-paper: #f5f2ea;          /* Seitenhintergrund */
+  --oe-paper-2: #ece7d9;        /* Flächen: Sidebar, flache Karten */
+  --oe-paper-3: #e1dccf;        /* Flächen gedrückt / Trennung */
+  --oe-surface: #fbfaf5;        /* helle Karte auf Papier */
+  --oe-ink: #0c0f0d;            /* Primärtext */
+  --oe-ink-2: #151a17;
+  --oe-ink-3: #1e2420;
+  --oe-mute: #6b7068;
+  --oe-mute-2: #a8ad9f;
+
+  /* ---------- Grün ---------- */
+  --oe-green: oklch(0.78 0.18 145);       /* Signal, auf dunklem Grund */
+  --oe-green-2: oklch(0.72 0.19 145);
+  --oe-green-ink: oklch(0.32 0.12 145);   /* Text/Icon/Füllung auf hellem Grund */
+  --oe-green-soft: #d8f3d3;               /* aktive Flächen */
+  --oe-green-soft-2: #d1ebc9;             /* aktive Flächen hover */
+  --oe-on-accent: #ffffff;                /* Kontrast auf --oe-green-ink-Füllungen */
+  --oe-on-signal: #0a0d0b;                /* Kontrast auf --oe-green (immer hell) */
+
+  /* ---------- Primäraktion ----------
+     Eigene Tokens statt --oe-ink, damit der Dark-Mode nicht
+     versehentlich weiße Flächen auf dunklem Grund erzeugt. */
+  --oe-primary: var(--oe-ink);
+  --oe-on-primary: var(--oe-paper);
+  --oe-primary-hover: var(--oe-green-ink);
+  --oe-on-primary-hover: #eafff0;
+
+  /* ---------- Kontrastflächen ----------
+     Invertierte Flächen (Ink-Karten, KPI, POS-Kacheln, Toast,
+     Terminal, Tooltip). Im Dark-Mode werden sie angehoben statt
+     invertiert — sonst leuchten weiße Blöcke auf dunklem Grund. */
+  --oe-contrast: var(--oe-ink);
+  --oe-contrast-2: var(--oe-ink-2);
+  --oe-contrast-3: var(--oe-ink-3);
+  --oe-on-contrast: var(--oe-paper);
+  --oe-on-contrast-mute: var(--oe-mute-2);
+  --oe-contrast-accent: var(--oe-green);
+  --oe-contrast-line: color-mix(in oklab, var(--oe-paper) 12%, transparent);
+
+  /* ---------- Status ---------- */
+  --oe-warn: #c8871a;      --oe-warn-soft: #f7ead0;
+  --oe-danger: #c0392b;    --oe-danger-soft: #f7dedb;
+  --oe-info: #2f6d8c;      --oe-info-soft: #dceaf1;
+  --oe-on-danger: #ffffff;
+  /* Status auf dunklem Grund (Wallboard, Kasse, KDS) */
+  --oe-warn-bright: #f0b64a;
+  --oe-danger-bright: #f07a68;
+  --oe-info-bright: #7fc3e0;
+
+  /* ---------- Linien ---------- */
+  --oe-line: color-mix(in oklab, var(--oe-ink) 10%, transparent);
+  --oe-line-2: color-mix(in oklab, var(--oe-ink) 16%, transparent);
+  --oe-line-dark: var(--oe-contrast-line);
+
+  /* ---------- Radius ---------- */
+  --oe-r-xs: 4px;
+  --oe-r-sm: 6px;
+  --oe-r: 10px;
+  --oe-r-lg: 14px;
+  --oe-r-xl: 18px;
+  --oe-r-full: 999px;
+
+  /* ---------- Schatten ---------- */
+  --oe-sh-1: 0 1px 2px rgba(12, 15, 13, 0.04);
+  --oe-sh-2: 0 4px 14px -6px rgba(12, 15, 13, 0.14);
+  --oe-sh-3: 0 18px 44px -18px rgba(12, 15, 13, 0.28);
+
+  /* ---------- Raster ---------- */
+  --oe-s1: 4px;  --oe-s2: 8px;  --oe-s3: 12px; --oe-s4: 16px;
+  --oe-s5: 20px; --oe-s6: 24px; --oe-s7: 32px; --oe-s8: 44px;
+
+  /* ---------- Typografie ---------- */
+  --oe-f-sans: var(--font-oe-sans, "Geist"), system-ui, sans-serif;
+  --oe-f-display: var(--font-oe-display, "Bricolage Grotesque"), var(--oe-f-sans);
+  --oe-f-mono: var(--font-oe-mono, "JetBrains Mono"), ui-monospace, monospace;
+
+  /* ---------- Bedienelemente ---------- */
+  --oe-knob: #ffffff;       /* Switch-Knopf, Zustand aus */
+  --oe-knob-on: #ffffff;    /* Switch-Knopf, Zustand an */
+  --oe-term-bg: #0a0c0b;    /* Terminal — bewusst immer dunkel */
+
+  /* ---------- Bewegung ---------- */
+  --oe-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --oe-dur-1: 0.12s;
+  --oe-dur-2: 0.18s;
+  --oe-dur-3: 0.35s;
+}

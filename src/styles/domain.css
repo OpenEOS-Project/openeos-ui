@@ -1,0 +1,75 @@
+/* ==========================================================
+   11 · DOMÄNE: POS, Küche, Tische, Beleg, Terminal, Audit
+   ========================================================== */
+
+/* Produktkacheln */
+.oe-tile{display:grid;gap:5px;align-content:space-between;min-height:84px;padding:11px 12px;border-radius:var(--oe-r-sm);background:var(--oe-contrast-3);border:1px solid var(--oe-contrast-line);color:var(--oe-on-contrast);text-align:start;cursor:pointer;transition:transform var(--oe-dur-1),background var(--oe-dur-2),border-color var(--oe-dur-2)}
+.oe-tile:hover{transform:translateY(-2px);background:color-mix(in oklab, var(--oe-green) 12%, var(--oe-contrast-3))}
+.oe-tile b{font:600 14px var(--oe-f-sans)}
+.oe-tile span{font:500 12px var(--oe-f-mono);color:var(--oe-on-contrast-mute)}
+.oe-tile.is-picked{background:var(--oe-green);border-color:var(--oe-green);color:var(--oe-on-signal)}
+.oe-tile.is-picked span{color:color-mix(in oklab, var(--oe-on-signal) 65%, transparent)}
+.oe-tile--light{background:var(--oe-surface);border-color:var(--oe-line-2);color:var(--oe-ink)}
+.oe-tile--light span{color:var(--oe-mute)}
+.oe-tile--light:hover{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 25%, transparent)}
+.oe-tilegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:var(--oe-s2)}
+
+/* Ziffernblock */
+.oe-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.oe-keypad button{padding:14px;border-radius:var(--oe-r-sm);border:1px solid var(--oe-line-2);background:var(--oe-surface);font:600 17px var(--oe-f-mono);cursor:pointer;color:var(--oe-ink)}
+.oe-keypad button:hover{background:var(--oe-paper-2)}
+.oe-keypad button.is-accent{background:var(--oe-green-soft);border-color:transparent;color:var(--oe-green-ink)}
+
+/* Küchenbon / KDS */
+.oe-ticket{background:var(--oe-surface);border:1px solid var(--oe-line);border-inline-start:3px solid var(--oe-mute-2);border-radius:var(--oe-r-sm);padding:12px 14px;display:grid;gap:8px}
+.oe-ticket__hd{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--oe-f-mono);font-size:12px;color:var(--oe-mute)}
+.oe-ticket__hd b{font:700 15px var(--oe-f-sans);color:var(--oe-ink);letter-spacing:-.01em}
+.oe-ticket ul{display:grid;gap:3px;font-size:14px;margin:0;padding:0;list-style:none}
+.oe-ticket li{display:flex;gap:8px}
+.oe-ticket li i{font-style:normal;font-family:var(--oe-f-mono);color:var(--oe-mute)}
+.oe-ticket__ft{border-top:1px dashed var(--oe-line-2);padding-top:7px;font:500 11px var(--oe-f-mono);color:var(--oe-mute);display:flex;justify-content:space-between}
+.oe-ticket--new{border-inline-start-color:var(--oe-info)}
+.oe-ticket--work{border-inline-start-color:var(--oe-green-2)}
+.oe-ticket--warn{border-inline-start-color:var(--oe-warn);background:color-mix(in oklab, var(--oe-warn) 7%, var(--oe-surface))}
+.oe-ticket--late{border-inline-start-color:var(--oe-danger);background:color-mix(in oklab, var(--oe-danger) 7%, var(--oe-surface))}
+
+/* Tische */
+.oe-tables{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:var(--oe-s2)}
+.oe-tablechip{aspect-ratio:1;border-radius:var(--oe-r-sm);border:1px solid var(--oe-line-2);background:var(--oe-surface);display:grid;place-content:center;gap:2px;text-align:center;cursor:pointer;font:700 15px var(--oe-f-sans);color:var(--oe-ink)}
+.oe-tablechip small{font:500 10px var(--oe-f-mono);color:var(--oe-mute);letter-spacing:.06em;text-transform:uppercase}
+.oe-tablechip--busy{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 22%, transparent);color:var(--oe-green-ink)}
+.oe-tablechip--busy small{color:color-mix(in oklab, var(--oe-green-ink) 70%, transparent)}
+.oe-tablechip--wait{background:var(--oe-warn-soft);border-color:color-mix(in oklab, var(--oe-warn) 25%, transparent);color:var(--oe-warn)}
+.oe-tablechip--wait small{color:var(--oe-warn)}
+
+/* Kassenbon — bewusst themenunabhängig, Papier bleibt Papier */
+.oe-receipt{background:#fbfaf5;color:#1a1a1a;font-family:var(--oe-f-mono);font-size:12px;padding:16px 16px 20px;box-shadow:var(--oe-sh-3);width:260px;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),95% 100%,90% calc(100% - 7px),85% 100%,80% calc(100% - 7px),75% 100%,70% calc(100% - 7px),65% 100%,60% calc(100% - 7px),55% 100%,50% calc(100% - 7px),45% 100%,40% calc(100% - 7px),35% 100%,30% calc(100% - 7px),25% 100%,20% calc(100% - 7px),15% 100%,10% calc(100% - 7px),5% 100%,0 calc(100% - 7px))}
+.oe-receipt__hd{display:flex;justify-content:space-between;align-items:baseline}
+.oe-receipt__hd b{font-family:var(--oe-f-sans);font-size:14px}
+.oe-receipt__items{border-top:1px dashed #c8c8c8;border-bottom:1px dashed #c8c8c8;padding:9px 0;margin:9px 0;display:grid;gap:2px;list-style:none}
+.oe-receipt__items li{display:grid;grid-template-columns:auto 1fr auto;gap:8px}
+.oe-receipt__sum{display:flex;justify-content:space-between;font-family:var(--oe-f-sans);font-weight:700;font-size:14px}
+.oe-receipt__ft{margin-top:9px;text-align:center;color:#999;font-size:10px}
+
+/* Terminal — ebenfalls immer dunkel */
+.oe-term{background:var(--oe-term-bg);border:1px solid var(--oe-contrast-line);border-radius:var(--oe-r);overflow:hidden}
+.oe-term__bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:var(--oe-contrast-2);font:500 11px var(--oe-f-mono);color:var(--oe-on-contrast-mute)}
+.oe-term__bar i{width:9px;height:9px;border-radius:var(--oe-r-full);background:#ff5e56}
+.oe-term__bar i:nth-child(2){background:#ffbd2e}
+.oe-term__bar i:nth-child(3){background:#27c93f}
+.oe-term__bar span{margin-inline-start:8px;opacity:.7}
+.oe-term__body{margin:0;padding:14px 16px;font:500 12.5px/1.6 var(--oe-f-mono);color:#f0ede3}
+.oe-term__body .c{color:#949a8d}
+.oe-term__body .p{color:oklch(0.78 0.18 145)}
+.oe-term__body .ok{color:#7de08a}
+.oe-term__body .v{color:#ffd782}
+
+/* Audit-Stream */
+.oe-stream{display:grid;gap:1px;font-family:var(--oe-f-mono);font-size:12.5px}
+.oe-stream__row{display:grid;grid-template-columns:60px 84px 1fr;gap:10px;padding:6px 12px;align-items:center;color:var(--oe-ink)}
+.oe-stream__row:nth-child(odd){background:color-mix(in oklab, var(--oe-ink) 3%, transparent)}
+.oe-stream__t{color:var(--oe-mute)}
+.oe-stream__tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:var(--oe-r-xs);background:var(--oe-paper-3);color:var(--oe-mute);text-align:center}
+.oe-stream__tag--ok{background:var(--oe-green-soft);color:var(--oe-green-ink)}
+.oe-stream__tag--err{background:var(--oe-danger-soft);color:var(--oe-danger)}
+.oe-stream__tag--tse{background:var(--oe-info-soft);color:var(--oe-info)}

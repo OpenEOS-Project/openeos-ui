@@ -1,0 +1,47 @@
+/* ==========================================================
+   3 · BUTTONS
+   ========================================================== */
+.oe-btn{--oe-btn-py:8px;--oe-btn-px:13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:var(--oe-btn-py) var(--oe-btn-px);border-radius:var(--oe-r-sm);border:1px solid transparent;font:600 14px/1.1 var(--oe-f-sans);letter-spacing:-.005em;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background var(--oe-dur-2),color var(--oe-dur-2),border-color var(--oe-dur-2),box-shadow var(--oe-dur-2),transform var(--oe-dur-1)}
+.oe-btn svg{width:15px;height:15px;flex:none}
+.oe-btn:active{transform:translateY(1px)}
+.oe-btn:focus-visible{outline:0;box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green-ink) 30%, transparent)}
+.oe-btn:disabled,.oe-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Größen */
+.oe-btn--xs{--oe-btn-py:4px;--oe-btn-px:9px;font-size:12px;border-radius:var(--oe-r-xs)}
+.oe-btn--xs svg{width:13px;height:13px}
+.oe-btn--sm{--oe-btn-py:6px;--oe-btn-px:11px;font-size:13px}
+.oe-btn--lg{--oe-btn-py:11px;--oe-btn-px:17px;font-size:15px;border-radius:var(--oe-r)}
+.oe-btn--block{width:100%}
+.oe-btn--icon{--oe-btn-px:8px;--oe-btn-py:8px}
+.oe-btn--icon.oe-btn--sm{--oe-btn-px:6px;--oe-btn-py:6px}
+
+/* Varianten – auf Papier */
+.oe-btn--primary{background:var(--oe-primary);color:var(--oe-on-primary);border-color:var(--oe-primary)}
+.oe-btn--primary:hover{background:var(--oe-primary-hover);border-color:var(--oe-primary-hover);color:var(--oe-on-primary-hover)}
+.oe-btn--secondary{background:var(--oe-paper-2);color:var(--oe-ink);border-color:var(--oe-line-2)}
+.oe-btn--secondary:hover{background:var(--oe-paper-3)}
+.oe-btn--ghost{background:transparent;color:var(--oe-ink);border-color:var(--oe-line-2)}
+.oe-btn--ghost:hover{background:color-mix(in oklab, var(--oe-ink) 5%, transparent)}
+.oe-btn--quiet{background:transparent;color:var(--oe-mute);border-color:transparent}
+.oe-btn--quiet:hover{background:color-mix(in oklab, var(--oe-ink) 5%, transparent);color:var(--oe-ink)}
+.oe-btn--accent{background:var(--oe-green-soft);color:var(--oe-green-ink);border-color:color-mix(in oklab, var(--oe-green-ink) 22%, transparent)}
+.oe-btn--accent:hover{background:var(--oe-green-soft-2)}
+.oe-btn--danger{background:var(--oe-danger);color:var(--oe-on-danger);border-color:var(--oe-danger)}
+.oe-btn--danger:hover{background:color-mix(in oklab, var(--oe-danger) 85%, var(--oe-on-danger))}
+.oe-btn--danger-quiet{background:var(--oe-danger-soft);color:var(--oe-danger);border-color:color-mix(in oklab, var(--oe-danger) 20%, transparent)}
+.oe-btn--danger-quiet:hover{background:color-mix(in oklab, var(--oe-danger) 18%, var(--oe-paper))}
+
+/* Varianten – auf Kontrastflächen */
+.oe-btn--signal{background:var(--oe-green);color:var(--oe-on-signal);border-color:var(--oe-green)}
+.oe-btn--signal:hover{background:var(--oe-green-2)}
+.oe-btn--outline-light{background:transparent;color:var(--oe-on-contrast);border-color:color-mix(in oklab, var(--oe-on-contrast) 28%, transparent)}
+.oe-btn--outline-light:hover{background:color-mix(in oklab, var(--oe-on-contrast) 10%, transparent)}
+
+/* Gruppe */
+.oe-btn-group{display:inline-flex;gap:0}
+.oe-btn-group .oe-btn{border-radius:0}
+.oe-btn-group .oe-btn:first-child{border-start-start-radius:var(--oe-r-sm);border-end-start-radius:var(--oe-r-sm)}
+.oe-btn-group .oe-btn:last-child{border-start-end-radius:var(--oe-r-sm);border-end-end-radius:var(--oe-r-sm)}
+.oe-btn-group .oe-btn+.oe-btn{margin-inline-start:-1px}
+.oe-actions{display:flex;gap:var(--oe-s2);flex-wrap:wrap;align-items:center}

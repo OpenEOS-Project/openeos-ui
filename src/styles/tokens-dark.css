@@ -1,0 +1,78 @@
+/* ==========================================================
+   OpenEOS Designsystem — Tokens (dunkel)
+   Aus der hellen Palette abgeleitet: warme Neutraltöne statt
+   Neutralgrau, damit der Papier-Charakter erhalten bleibt.
+
+   Aktiv über eine der drei üblichen Konventionen:
+     .dark-mode      (openeos-web / Untitled UI)
+     .dark           (Tailwind-Standard)
+     [data-theme]    (next-themes ohne Klasse)
+   ========================================================== */
+
+.dark-mode,
+.dark,
+[data-theme="dark"],
+[data-oe-theme="dark"] {
+  color-scheme: dark;
+
+  /* ---------- Papier & Tinte (invertiert) ---------- */
+  --oe-paper: #0c0f0d;
+  --oe-paper-2: #151a17;
+  --oe-paper-3: #232a26;
+  --oe-surface: #121715;
+  --oe-ink: #f0ede3;
+  --oe-ink-2: #e2dece;
+  --oe-ink-3: #d2cdbb;
+  --oe-mute: #949a8d;
+  --oe-mute-2: #6b7268;
+
+  /* ---------- Grün ----------
+     --oe-green-ink ist im Hellen das dunkle Grün für Text und
+     Füllungen. Auf dunklem Grund muss es hell werden, sonst
+     verschwindet jeder Akzent. */
+  --oe-green: oklch(0.8 0.17 145);
+  --oe-green-2: oklch(0.74 0.18 145);
+  --oe-green-ink: oklch(0.84 0.15 145);
+  --oe-green-soft: oklch(0.3 0.07 145);
+  --oe-green-soft-2: oklch(0.35 0.08 145);
+  --oe-on-accent: #0a0d0b;
+  --oe-on-signal: #0a0d0b;
+
+  /* ---------- Primäraktion ---------- */
+  --oe-primary: #f0ede3;
+  --oe-on-primary: #0c0f0d;
+  --oe-primary-hover: oklch(0.86 0.15 145);
+  --oe-on-primary-hover: #0a0d0b;
+
+  /* ---------- Kontrastflächen ----------
+     Angehoben statt invertiert: eine weiße Karte auf dunklem
+     Grund würde blenden. */
+  --oe-contrast: #1c2320;
+  --oe-contrast-2: #232b27;
+  --oe-contrast-3: #2b342f;
+  --oe-on-contrast: #f0ede3;
+  --oe-on-contrast-mute: #949a8d;
+  --oe-contrast-accent: oklch(0.8 0.17 145);
+  --oe-contrast-line: color-mix(in oklab, #f0ede3 12%, transparent);
+
+  /* ---------- Bedienelemente ---------- */
+  --oe-knob: #d2cdbb;
+  --oe-knob-on: #0a0d0b;
+  --oe-term-bg: #050807;
+
+  /* ---------- Status ---------- */
+  --oe-warn: #f0b64a;      --oe-warn-soft: oklch(0.31 0.06 75);
+  --oe-danger: #f07a68;    --oe-danger-soft: oklch(0.31 0.07 25);
+  --oe-info: #7fc3e0;      --oe-info-soft: oklch(0.31 0.05 235);
+  --oe-on-danger: #170a08;
+
+  /* ---------- Linien ---------- */
+  --oe-line: color-mix(in oklab, var(--oe-ink) 12%, transparent);
+  --oe-line-2: color-mix(in oklab, var(--oe-ink) 20%, transparent);
+
+  /* ---------- Schatten ----------
+     Auf dunklem Grund trägt Schatten kaum; dafür kräftiger. */
+  --oe-sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --oe-sh-2: 0 4px 14px -6px rgba(0, 0, 0, 0.6);
+  --oe-sh-3: 0 18px 44px -18px rgba(0, 0, 0, 0.8);
+}

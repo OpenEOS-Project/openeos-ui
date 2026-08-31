@@ -1,0 +1,20 @@
+/* ==========================================================
+   2 · TYPOGRAFIE
+   ========================================================== */
+.oe-display{font-family:var(--oe-f-display);font-weight:700;letter-spacing:-.03em;line-height:.98;font-variation-settings:"opsz" 96;margin:0}
+.oe-h1{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin:0}
+.oe-h2{font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:0}
+.oe-h3{font-size:16px;font-weight:700;letter-spacing:-.01em;margin:0}
+.oe-body{font-size:15px;line-height:1.55;color:var(--oe-ink);margin:0}
+.oe-sub{font-size:15px;color:var(--oe-mute);margin:0}
+.oe-small{font-size:13px;color:var(--oe-mute);margin:0}
+.oe-label{font-family:var(--oe-f-mono);font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--oe-mute)}
+.oe-mono{font-family:var(--oe-f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+.oe-num{font-family:var(--oe-f-sans);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.oe-italic{font-family:var(--oe-f-display);font-style:italic;font-weight:700;letter-spacing:-.025em}
+.oe-accent{color:var(--oe-green-ink)}
+
+/* Auf Kontrastflächen (Ink-Karten, Login-Panel, Wallboard) */
+.oe-on-dark,.oe-on-dark .oe-body{color:var(--oe-on-contrast)}
+.oe-on-dark .oe-sub,.oe-on-dark .oe-small,.oe-on-dark .oe-label{color:var(--oe-on-contrast-mute)}
+.oe-on-dark .oe-accent{color:var(--oe-contrast-accent)}

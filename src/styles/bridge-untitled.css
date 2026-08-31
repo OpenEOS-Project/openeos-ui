@@ -1,0 +1,88 @@
+/* ==========================================================
+   BRIDGE: Untitled UI → OpenEOS
+   ==========================================================
+   Untitled UI leitet praktisch alle semantischen Tokens
+   (--color-text-*, --color-bg-*, --color-border-*, --color-fg-*)
+   aus genau zwei Primitiv-Ramps ab: --color-neutral-* und
+   --color-brand-*. Wir färben nur diese beiden um — dann
+   übernehmen alle bestehenden Untitled-Komponenten die
+   OpenEOS-Optik, ohne dass eine einzige angefasst werden muss.
+
+   Der Dark-Mode bleibt dabei erhalten: Untitled remappt im
+   .dark-mode-Block dieselbe Ramp auf andere Stufen. Eine warme
+   Ramp bedient deshalb beide Modi.
+
+   EINBINDUNG — nach dem Tailwind-Import, damit die @theme-Blöcke
+   in Quellreihenfolge zusammengeführt werden und diese Werte
+   gewinnen:
+
+     @import "tailwindcss";
+     @import "./theme.css";
+     @import "@openeos/ui/css/bridge-untitled.css";
+   ========================================================== */
+
+@theme {
+  /* ---------- Neutral: kühles Grau → warmes Papier ----------
+     50–200 sind die Papierflächen aus dem Designsystem,
+     900/950 die Tintentöne. Die Zwischenstufen sind auf
+     gleichmäßige Helligkeitsabstände interpoliert. */
+  --color-neutral-50: #f5f2ea;   /* --oe-paper */
+  --color-neutral-100: #ece7d9;  /* --oe-paper-2 */
+  --color-neutral-200: #e1dccf;  /* --oe-paper-3 */
+  --color-neutral-300: #cdc7b7;
+  --color-neutral-400: #a8ad9f;  /* --oe-mute-2 */
+  --color-neutral-500: #878c80;
+  --color-neutral-600: #6b7068;  /* --oe-mute */
+  --color-neutral-700: #4d5249;
+  --color-neutral-800: #333831;
+  --color-neutral-900: #1e2420;  /* --oe-ink-3 */
+  --color-neutral-950: #0c0f0d;  /* --oe-ink */
+
+  /* ---------- Brand: OpenEOS-Grün, OKLCH Hue 145 ----------
+     600 ist die Stufe, die Untitled für gefüllte Buttons und
+     Links nutzt — deshalb bewusst dunkel genug (L 0.47) für
+     AA-Kontrast gegen weißen Text. 900 entspricht exakt
+     --oe-green-ink, 400/500 den Signalgrüns --oe-green(-2). */
+  --color-brand-50: oklch(0.965 0.028 145);
+  --color-brand-100: oklch(0.925 0.055 145);  /* ≈ --oe-green-soft */
+  --color-brand-200: oklch(0.88 0.085 145);
+  --color-brand-300: oklch(0.82 0.12 145);
+  --color-brand-400: oklch(0.78 0.18 145);    /* --oe-green */
+  --color-brand-500: oklch(0.72 0.19 145);    /* --oe-green-2 */
+  --color-brand-600: oklch(0.47 0.14 145);
+  --color-brand-700: oklch(0.4 0.13 145);
+  --color-brand-800: oklch(0.355 0.125 145);
+  --color-brand-900: oklch(0.32 0.12 145);    /* --oe-green-ink */
+  --color-brand-950: oklch(0.24 0.09 145);
+
+  /* ---------- Flächen ----------
+     Untitled setzt bg-primary im Hellen auf reines Weiß. Auf
+     warmem Papier wirkt das kalt und ausgestanzt — daher der
+     Papierton --oe-surface. Im Dark-Mode zeigt bg-primary
+     ohnehin auf neutral-950 und bleibt unberührt. */
+  --color-bg-primary: #fbfaf5;      /* --oe-surface */
+  --color-bg-primary_alt: #fbfaf5;
+
+  /* ---------- Radien ----------
+     Das Designsystem ist enger radiiert als Untitled. */
+  --radius-xs: 4px;   /* --oe-r-xs */
+  --radius-sm: 6px;   /* --oe-r-sm */
+  --radius-md: 6px;
+  --radius-lg: 10px;  /* --oe-r */
+  --radius-xl: 14px;  /* --oe-r-lg */
+  --radius-2xl: 18px; /* --oe-r-xl */
+
+  /* ---------- Schrift ---------- */
+  --font-body: var(--oe-f-sans);
+  --font-display: var(--oe-f-display);
+  --font-mono: var(--oe-f-mono);
+
+  /* ---------- Schatten ----------
+     Warm getönt statt neutralschwarz, damit sie auf Papier
+     nicht grau ausblühen. */
+  --shadow-xs: 0 1px 2px rgba(12, 15, 13, 0.04);
+  --shadow-sm: 0 1px 3px rgba(12, 15, 13, 0.08), 0 1px 2px -1px rgba(12, 15, 13, 0.08);
+  --shadow-md: 0 4px 14px -6px rgba(12, 15, 13, 0.14);
+  --shadow-lg: 0 12px 24px -10px rgba(12, 15, 13, 0.18);
+  --shadow-xl: 0 18px 44px -18px rgba(12, 15, 13, 0.28);
+}
