@@ -81,6 +81,14 @@
   --oe-f-display: var(--font-oe-display, "Bricolage Grotesque"), var(--oe-f-sans);
   --oe-f-mono: var(--font-oe-mono, "JetBrains Mono"), ui-monospace, monospace;
 
+  /* ---------- Bedienelemente ----------
+     Eine gemeinsame Hoehe fuer kleine Bedienelemente. Buttons,
+     Segmentgruppen und Dropdown-Ausloeser stehen im Seitenkopf
+     nebeneinander; ohne festen Wert richtet sich ihre Hoehe nach dem
+     Inhalt — ein Knopf mit Icon wird hoeher als einer ohne, und die
+     Reihe franst aus. */
+  --oe-control-h-sm: 30px;
+
   /* ---------- Bedienelemente ---------- */
   --oe-knob: #ffffff;       /* Switch-Knopf, Zustand aus */
   --oe-knob-on: #ffffff;    /* Switch-Knopf, Zustand an */

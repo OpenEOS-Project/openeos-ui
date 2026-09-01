@@ -45,8 +45,10 @@
 .oe-switch input:focus-visible+.oe-switch__track{box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green) 25%, transparent)}
 
 /* Segmented */
-.oe-segment{display:inline-flex;padding:2px;background:var(--oe-paper-2);border:1px solid var(--oe-line);border-radius:var(--oe-r-sm);gap:2px}
-.oe-segment button{border:0;background:transparent;padding:6px 12px;border-radius:var(--oe-r-xs);font:600 13px var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:background .15s,color .15s}
+.oe-segment{display:inline-flex;align-items:stretch;min-height:var(--oe-control-h-sm);padding:2px;background:var(--oe-paper-2);border:1px solid var(--oe-line);border-radius:var(--oe-r-sm);gap:2px}
+/* Die Knoepfe fuellen die Gruppenhoehe, statt sie zu bestimmen —
+   deshalb align-items:center statt vertikaler Polsterung. */
+.oe-segment button{display:inline-flex;align-items:center;border:0;background:transparent;padding:0 12px;border-radius:var(--oe-r-xs);font:600 13px/1.1 var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:background .15s,color .15s}
 .oe-segment button:hover{color:var(--oe-ink)}
 .oe-segment button.is-active{background:var(--oe-surface);color:var(--oe-ink);box-shadow:var(--oe-sh-1)}
 

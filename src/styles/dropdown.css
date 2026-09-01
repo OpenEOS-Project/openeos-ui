@@ -52,7 +52,7 @@
   background: color-mix(in oklab, var(--oe-ink) 5%, transparent);
   border-color: transparent;
 }
-.oe-dd__trigger--sm { padding: 6px 9px; font-size: 13px; }
+.oe-dd__trigger--sm { padding: 6px 9px; font-size: 13px; min-height: var(--oe-control-h-sm); }
 .oe-dd__trigger--block { display: flex; width: 100%; }
 
 .oe-dd__panel {

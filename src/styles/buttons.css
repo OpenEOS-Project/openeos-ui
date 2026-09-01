@@ -10,7 +10,7 @@
 /* Größen */
 .oe-btn--xs{--oe-btn-py:4px;--oe-btn-px:9px;font-size:12px;border-radius:var(--oe-r-xs)}
 .oe-btn--xs svg{width:13px;height:13px}
-.oe-btn--sm{--oe-btn-py:6px;--oe-btn-px:11px;font-size:13px}
+.oe-btn--sm{--oe-btn-py:6px;--oe-btn-px:11px;font-size:13px;min-height:var(--oe-control-h-sm)}
 .oe-btn--lg{--oe-btn-py:11px;--oe-btn-px:17px;font-size:15px;border-radius:var(--oe-r)}
 .oe-btn--block{width:100%}
 .oe-btn--icon{--oe-btn-px:8px;--oe-btn-py:8px}
