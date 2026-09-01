@@ -99,3 +99,16 @@
 /* Untergeordnete Felder ruecken unter eine Trennlinie, damit erkennbar
    bleibt, dass sie zu dieser Einstellung gehoeren. */
 .oe-setting__body{margin-top:10px;padding-top:10px;border-top:1px solid var(--oe-line);display:flex;flex-direction:column;gap:12px}
+
+/* ---------- An/Aus-Einstellungen als Liste ----------
+   Einzeln umrandet ist eine Einstellung gut aufgehoben, wenn sie fuer
+   sich steht. Stehen fuenf davon untereinander in einer Karte, ergibt
+   das einen Stapel Kaesten in einem Kasten. Dann traegt die Liste die
+   Trennlinien und die Zeile selbst nichts. */
+.oe-setting--flush{border:0;border-radius:0;background:transparent;padding:14px 0}
+.oe-setting-list{display:flex;flex-direction:column}
+.oe-setting-list > .oe-setting--flush + .oe-setting--flush{border-top:1px solid var(--oe-line)}
+/* In einer Karte reicht die Liste bis an deren Innenkante; die Polsterung
+   kommt dann von der Karte, nicht von der Zeile. */
+.oe-card__body > .oe-setting-list > .oe-setting--flush:first-child{padding-top:0}
+.oe-card__body > .oe-setting-list > .oe-setting--flush:last-child{padding-bottom:0}

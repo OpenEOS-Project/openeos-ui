@@ -156,6 +156,11 @@ export interface SettingToggleProps {
   onChange: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
+  /**
+   * Ohne eigenen Rahmen und Hintergrund — fuer Zeilen, die in einer
+   * .oe-setting-list stehen und ihre Trennlinien von dort bekommen.
+   */
+  flush?: boolean;
   /** Felder, die zu dieser Einstellung gehoeren — nur sichtbar, wenn sie an ist. */
   children?: ReactNode;
 }
@@ -174,12 +179,13 @@ export function SettingToggle({
   onChange,
   disabled,
   className,
+  flush,
   children,
 }: SettingToggleProps) {
   const id = useId();
 
   return (
-    <div className={cx('oe-setting', className)}>
+    <div className={cx('oe-setting', flush && 'oe-setting--flush', className)}>
       <div className="oe-setting__row">
         <div className="oe-setting__copy">
           <label className="oe-setting__label" htmlFor={id}>
