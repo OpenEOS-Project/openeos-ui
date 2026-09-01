@@ -91,6 +91,7 @@ export {
   Checkbox,
   Radio,
   Switch,
+  SettingToggle,
   Segment,
   Chips,
   Chip,
@@ -102,6 +103,7 @@ export {
   type SegmentOption,
   type SegmentProps,
   type ChipProps,
+  type SettingToggleProps,
 } from './react/forms';
 
 export {

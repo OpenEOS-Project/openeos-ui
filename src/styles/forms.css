@@ -12,7 +12,30 @@
 .oe-textarea{min-height:72px;resize:vertical;line-height:1.5}
 /* Der Pfeil sitzt als CSS-Chevron im Wrapper statt als SVG mit
    fester Füllfarbe im background-image — so folgt er dem Theme. */
-.oe-select{appearance:none;padding-inline-end:32px}
+/* Ohne .oe-select-wrap gibt es kein ::after, an dem der Chevron haengen
+   koennte — ein <select> traegt keine Pseudoelemente. Damit ein blankes
+   .oe-select trotzdem als Auswahlfeld erkennbar ist, zeichnet es den
+   Winkel selbst, aus zwei schmalen Baendern. Verlaeufe duerfen var()
+   lesen, ein eingebettetes SVG haette eine feste Farbe und verschwaende
+   im Dunkelmodus.
+
+   Der Winkel dreht sich beim Fokus bewusst nicht: :focus heisst nicht
+   "aufgeklappt", ein Auswahlfeld nimmt den Fokus auch per Tabulatortaste
+   an. Ein gedrehter Pfeil behauptete sonst einen Zustand, den es nicht
+   gibt. */
+.oe-select{appearance:none;padding-inline-end:30px;background-repeat:no-repeat;
+  background-image:
+    linear-gradient(45deg,transparent 42%,var(--oe-mute) 42%,var(--oe-mute) 58%,transparent 58%),
+    linear-gradient(135deg,transparent 42%,var(--oe-mute) 42%,var(--oe-mute) 58%,transparent 58%);
+  background-size:6px 6px,6px 6px;
+  background-position:right 15px center,right 11px center}
+.oe-select:focus{
+  background-image:
+    linear-gradient(45deg,transparent 42%,var(--oe-green-ink) 42%,var(--oe-green-ink) 58%,transparent 58%),
+    linear-gradient(135deg,transparent 42%,var(--oe-green-ink) 42%,var(--oe-green-ink) 58%,transparent 58%)}
+/* Steckt das Feld doch in einem Wrapper, zeichnet der den Pfeil — dann
+   muss der eigene weichen, sonst stehen zwei uebereinander. */
+.oe-select-wrap .oe-select{background-image:none;padding-inline-end:32px}
 .oe-select-wrap{position:relative;display:block}
 .oe-select-wrap::after{content:"";position:absolute;inset-inline-end:12px;top:50%;width:7px;height:7px;border-inline-end:1.6px solid var(--oe-mute);border-bottom:1.6px solid var(--oe-mute);transform:translateY(-70%) rotate(45deg);pointer-events:none}
 .oe-field.is-invalid .oe-input,.oe-field.is-invalid .oe-select,.oe-field.is-invalid .oe-textarea{border-color:var(--oe-danger);background:color-mix(in oklab, var(--oe-danger) 5%, var(--oe-surface))}
@@ -58,3 +81,21 @@
 .oe-chip:hover{color:var(--oe-ink);border-color:var(--oe-ink)}
 .oe-chip.is-active{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 25%, transparent);color:var(--oe-green-ink);font-weight:600}
 .oe-chip__x{font-family:var(--oe-f-mono);opacity:.6}
+
+/* ---------- An/Aus-Einstellung ----------
+   Beschriftung links, Schalter rechts, optional erklaerender Satz und
+   untergeordnete Felder. Die Masse sind knapp gehalten: solche Zeilen
+   stehen oft zu dritt oder viert untereinander in einem Dialog, und jede
+   ueberfluessige Polsterung schiebt die Schaltflaechen aus dem Bild.
+
+   Der Schalter statt eines Ankreuzfelds ist nicht nur Geschmack: ein
+   Haekchen sagt "ausgewaehlt" und wirkt, als muesse man noch speichern —
+   ein Schalter sagt "an". */
+.oe-setting{border:1px solid var(--oe-line);border-radius:var(--oe-r-sm);background:var(--oe-paper-2);padding:10px 12px}
+.oe-setting__row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.oe-setting__copy{min-width:0}
+.oe-setting__label{font:600 13px var(--oe-f-sans);color:var(--oe-ink)}
+.oe-setting__hint{margin-top:2px;font-size:12px;line-height:1.4;color:var(--oe-mute)}
+/* Untergeordnete Felder ruecken unter eine Trennlinie, damit erkennbar
+   bleibt, dass sie zu dieser Einstellung gehoeren. */
+.oe-setting__body{margin-top:10px;padding-top:10px;border-top:1px solid var(--oe-line);display:flex;flex-direction:column;gap:12px}

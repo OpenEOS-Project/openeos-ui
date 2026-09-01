@@ -148,6 +148,57 @@ export function Switch({ className, children, ...rest }: CheckboxProps) {
   );
 }
 
+export interface SettingToggleProps {
+  label: ReactNode;
+  /** Erklaerender Satz unter der Beschriftung. */
+  hint?: ReactNode;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  disabled?: boolean;
+  className?: string;
+  /** Felder, die zu dieser Einstellung gehoeren — nur sichtbar, wenn sie an ist. */
+  children?: ReactNode;
+}
+
+/**
+ * Eine An/Aus-Einstellung als Zeile: Beschriftung links, Schalter rechts.
+ *
+ * Die Beschriftung ist mit dem Schalter verknuepft, damit ein Klick darauf
+ * ihn umlegt und Screenreader den Namen vorlesen — ein Schalter ohne
+ * zugeordnete Beschriftung wird sonst nur als "Schalter" angesagt.
+ */
+export function SettingToggle({
+  label,
+  hint,
+  checked,
+  onChange,
+  disabled,
+  className,
+  children,
+}: SettingToggleProps) {
+  const id = useId();
+
+  return (
+    <div className={cx('oe-setting', className)}>
+      <div className="oe-setting__row">
+        <div className="oe-setting__copy">
+          <label className="oe-setting__label" htmlFor={id}>
+            {label}
+          </label>
+          {hint && <div className="oe-setting__hint">{hint}</div>}
+        </div>
+        <Switch
+          id={id}
+          checked={checked}
+          disabled={disabled}
+          onChange={(event) => onChange(event.target.checked)}
+        />
+      </div>
+      {checked && children && <div className="oe-setting__body">{children}</div>}
+    </div>
+  );
+}
+
 /* ---------- Segment & Chips ---------- */
 
 export interface SegmentOption<T extends string = string> {
