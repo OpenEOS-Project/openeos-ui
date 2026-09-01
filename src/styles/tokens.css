@@ -88,6 +88,10 @@
      Inhalt — ein Knopf mit Icon wird hoeher als einer ohne, und die
      Reihe franst aus. */
   --oe-control-h-sm: 30px;
+  /* Hoehe fuer Eingabefelder: Text-, Auswahl- und Datumsfelder stehen oft
+     nebeneinander, und ihre natuerliche Hoehe unterscheidet sich je nach
+     Inhalt — ein Datumsfeld bringt sein eigenes Bedienelement mit. */
+  --oe-control-h-md: 34px;
 
   /* ---------- Bedienelemente ---------- */
   --oe-knob: #ffffff;       /* Switch-Knopf, Zustand aus */
