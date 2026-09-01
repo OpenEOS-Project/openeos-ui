@@ -1,6 +1,6 @@
 {
   "name": "@openeos/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "OpenEOS Designsystem — Tokens, Klassenbibliothek und React-Komponenten für Admin, POS, Shop und Displays",
   "license": "AGPL-3.0-only",
   "type": "module",

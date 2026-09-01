@@ -1,0 +1,158 @@
+/* ==========================================================
+   13 · DROPDOWN (Auslöser + Panel)
+   ========================================================== */
+.oe-dd { position: relative; display: inline-block; }
+
+.oe-dd__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 11px;
+  border-radius: var(--oe-r-sm);
+  border: 1.5px solid var(--oe-line-2);
+  background: var(--oe-surface);
+  font: 500 14px var(--oe-f-sans);
+  color: var(--oe-ink);
+  cursor: pointer;
+  text-align: start;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.oe-dd__trigger:hover { border-color: var(--oe-ink); }
+.oe-dd__trigger:focus-visible {
+  outline: 0;
+  border-color: var(--oe-green-ink);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--oe-green) 18%, transparent);
+}
+.oe-dd__trigger svg {
+  width: 13px; height: 13px; flex: none;
+  color: var(--oe-mute);
+  transition: transform .18s;
+}
+/* Der Wert füllt, das Präfix bleibt schmal. */
+.oe-dd__trigger .oe-dd__val {
+  flex: 1; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.oe-dd__trigger .oe-dd__pre {
+  font: 500 11px var(--oe-f-mono);
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--oe-mute); flex: none;
+}
+
+.oe-dd.is-open > .oe-dd__trigger {
+  border-color: var(--oe-green-ink);
+  /* Kartenfläche statt festem Weiß — im Dunkeln wäre ein weißer
+     Auslöser ein Loch in der Oberfläche. */
+  background: color-mix(in oklab, var(--oe-surface) 70%, var(--oe-paper));
+}
+.oe-dd.is-open > .oe-dd__trigger svg { transform: rotate(180deg); }
+
+.oe-dd__trigger--quiet { border-color: transparent; background: transparent; }
+.oe-dd__trigger--quiet:hover {
+  background: color-mix(in oklab, var(--oe-ink) 5%, transparent);
+  border-color: transparent;
+}
+.oe-dd__trigger--sm { padding: 6px 9px; font-size: 13px; }
+.oe-dd__trigger--block { display: flex; width: 100%; }
+
+.oe-dd__panel {
+  position: absolute;
+  top: calc(100% + 5px);
+  inset-inline-start: 0;
+  z-index: 60;
+  min-width: 100%;
+  width: max-content;
+  max-width: 300px;
+  max-height: 280px;
+  overflow-y: auto;
+  background: var(--oe-surface);
+  border: 1px solid var(--oe-line-2);
+  border-radius: var(--oe-r);
+  box-shadow: var(--oe-sh-3);
+  padding: 5px;
+  display: none;
+}
+.oe-dd.is-open > .oe-dd__panel { display: block; animation: oe-dd-in .14s ease; }
+
+/* Rechtsbündig, wenn der Auslöser am rechten Rand sitzt. */
+.oe-dd__panel--end { inset-inline-start: auto; inset-inline-end: 0; }
+/* Nach oben, wenn darunter kein Platz ist — etwa im Fuß einer
+   Seitenleiste. */
+.oe-dd__panel--top { top: auto; bottom: calc(100% + 5px); }
+.oe-dd.is-open > .oe-dd__panel--top { animation: oe-dd-in-up .14s ease; }
+
+@keyframes oe-dd-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes oe-dd-in-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.oe-dd__opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: none;
+  border-radius: var(--oe-r-xs);
+  font: 500 14px var(--oe-f-sans);
+  color: var(--oe-ink);
+  cursor: pointer;
+  text-align: start;
+  text-decoration: none;
+}
+.oe-dd__opt:hover { background: var(--oe-paper-2); }
+.oe-dd__opt svg { width: 15px; height: 15px; flex: none; opacity: .7; }
+/* Zweitwert rechts, etwa eine Anzahl. */
+.oe-dd__opt small {
+  margin-inline-start: auto;
+  font: 500 11px var(--oe-f-mono);
+  color: var(--oe-mute-2);
+}
+.oe-dd__opt.is-sel {
+  background: var(--oe-green-soft);
+  color: var(--oe-green-ink);
+  font-weight: 600;
+}
+.oe-dd__opt.is-sel small { color: color-mix(in oklab, var(--oe-green-ink) 65%, transparent); }
+/* Häkchen aus zwei Kanten statt als Zeichen — folgt der Textfarbe. */
+.oe-dd__opt.is-sel::after {
+  content: "";
+  width: 7px; height: 4px;
+  border-inline-start: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-2px);
+  margin-inline-start: auto;
+  flex: none;
+}
+.oe-dd__opt.is-sel small + ::after { margin-inline-start: 0; }
+.oe-dd__opt--danger { color: var(--oe-danger); }
+
+.oe-dd__cap {
+  font: 500 10px var(--oe-f-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--oe-mute-2);
+  padding: 7px 10px 4px;
+}
+.oe-dd__sep { height: 1px; background: var(--oe-line); margin: 5px 0; }
+
+.oe-dd__search {
+  padding: 4px 4px 6px;
+  position: sticky;
+  top: -5px;
+  background: var(--oe-surface);
+}
+.oe-dd__search input {
+  width: 100%;
+  font: 500 13px var(--oe-f-sans);
+  padding: 7px 10px;
+  border: 1px solid var(--oe-line-2);
+  border-radius: var(--oe-r-xs);
+  background: var(--oe-paper);
+  color: var(--oe-ink);
+}

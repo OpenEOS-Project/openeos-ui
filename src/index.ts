@@ -145,3 +145,16 @@ export {
   type ReceiptLine,
   type StreamRow,
 } from './react/domain';
+
+export {
+  Dropdown,
+  DropdownOption,
+  DropdownLink,
+  DropdownCaption,
+  DropdownSeparator,
+  DropdownSearch,
+  type DropdownProps,
+  type DropdownOptionProps,
+  type DropdownLinkProps,
+  type DropdownSearchProps,
+} from './react/dropdown';
