@@ -39,6 +39,13 @@ Setzt `--font-oe-sans` (Geist), `--font-oe-display` (Bricolage Grotesque)
 und `--font-oe-mono` (JetBrains Mono) — genau die Variablen, die
 `tokens.css` erwartet.
 
+Die Schriften liegen seit 0.3.2 als WOFF2 im Paket und werden über
+`next/font/local` eingebunden — weder `next build` noch der Browser
+greifen auf Google Fonts zu (vorher `next/font/google`). Variable Fonts
+aus Fontsource, Teilmengen latin und latin-ext (Umlaute, ß, ẞ, €);
+Lizenz jeweils SIL OFL 1.1, siehe `src/fonts/files/OFL-*.txt`.
+Verbraucher müssen nichts ändern.
+
 ### 3. Untitled-UI-Bridge (nur Tailwind-Projekte)
 
 Projekte mit Untitled UI binden statt `styles.css` die Bridge in ihre
