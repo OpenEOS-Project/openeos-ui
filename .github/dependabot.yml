@@ -1,0 +1,33 @@
+# Keeps dependencies current without anyone having to remember.
+#
+# Weekly and grouped: one PR per package creates so much noise that nobody
+# looks anymore — and that is exactly when security updates get stuck.
+# Security updates run outside these groups and show up immediately.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 5
+    groups:
+      # Patch and minor updates bundled — they rarely break anything.
+      routine:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    # Major updates come one by one: those deserve a read.
+    labels: ["dependencies"]
+
+  # The actions age too — and the publish workflow runs with id-token: write.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: ["dependencies", "ci"]

@@ -3,6 +3,14 @@
   "version": "0.3.1",
   "description": "OpenEOS Designsystem — Tokens, Klassenbibliothek und React-Komponenten für Admin, POS, Shop und Displays",
   "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenEOS-Project/openeos-ui.git"
+  },
+  "homepage": "https://github.com/OpenEOS-Project/openeos-ui#readme",
+  "bugs": {
+    "url": "https://github.com/OpenEOS-Project/openeos-ui/issues"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"
@@ -58,5 +66,6 @@
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "packageManager": "pnpm@10.34.6"
 }

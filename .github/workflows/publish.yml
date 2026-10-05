@@ -1,0 +1,96 @@
+name: Publish to npm
+
+# Publishes @openeos/ui when a GitHub release is published.
+#
+# Authentication is npm Trusted Publishing (OIDC): npm trusts this exact
+# workflow file in this repository, so there is no NPM_TOKEN secret. The
+# file name "publish.yml" is registered on npmjs.com — renaming it breaks
+# publishing. Provenance is attached automatically.
+#
+# Manual runs (workflow_dispatch) must be started from the release tag
+# ("Use workflow from" → Tags → vX.Y.Z), otherwise the tag check fails.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # required for OIDC (Trusted Publishing + provenance)
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest # Trusted Publishing needs GitHub-hosted runners
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Version comes from "packageManager" in package.json.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      # Trusted Publishing needs Node >= 22.14 and npm >= 11.5.1.
+      # No dependency cache here: a poisoned cache could reach the OIDC token.
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+
+      - name: Ensure npm >= 11.5.1
+        run: |
+          current="$(npm --version)"
+          if [ "$(printf '%s\n' 11.5.1 "$current" | sort -V | head -n1)" != 11.5.1 ]; then
+            echo "npm $current is too old for Trusted Publishing, upgrading"
+            npm install -g npm@latest
+          fi
+          node --version
+          npm --version
+
+      - name: Check tag matches package.json version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          tag="$RELEASE_TAG"
+          if [ -z "$tag" ]; then
+            if [ "$REF_TYPE" != tag ]; then
+              echo "::error::Manual runs must be started from a release tag (vX.Y.Z), not from '$REF_NAME'."
+              exit 1
+            fi
+            tag="$REF_NAME"
+          fi
+          version="$(node -p "require('./package.json').version")"
+          if [ "$tag" != "v$version" ]; then
+            echo "::error::Tag '$tag' does not match package.json version '$version' (expected 'v$version')."
+            exit 1
+          fi
+          echo "Publishing @openeos/ui@$version from tag $tag"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      # Prereleases (1.2.0-rc.1) go to the "next" dist-tag so they never
+      # become "latest" by accident.
+      - name: Publish
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          case "$version" in
+            *-*) dist_tag=next ;;
+            *) dist_tag=latest ;;
+          esac
+          npm publish --access public --provenance --tag "$dist_tag"
