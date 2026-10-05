@@ -75,7 +75,8 @@ export const spacing = {
 
 export const fonts = {
   sans: '"Geist", system-ui, sans-serif',
-  display: '"Bricolage Grotesque", "Geist", system-ui, sans-serif',
+  /** Seit 0.3.3 Geist (Gewicht 800) — gleiche Familie wie sans. */
+  display: '"Geist", system-ui, sans-serif',
   mono: '"JetBrains Mono", ui-monospace, monospace',
 } as const;
 

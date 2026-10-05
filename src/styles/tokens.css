@@ -78,7 +78,12 @@
 
   /* ---------- Typografie ---------- */
   --oe-f-sans: var(--font-oe-sans, "Geist"), system-ui, sans-serif;
-  --oe-f-display: var(--font-oe-display, "Bricolage Grotesque"), var(--oe-f-sans);
+  /* Display-Schrift ist seit 0.3.3 Geist (Gewicht 800, siehe
+     .oe-display) — dieselbe Datei wie die Grundschrift, nichts wird
+     doppelt geladen. --font-oe-display bleibt als Alias für
+     Verbraucher bestehen, die die Variable direkt verwenden. */
+  --font-oe-display: var(--font-oe-sans, "Geist");
+  --oe-f-display: var(--oe-f-sans);
   --oe-f-mono: var(--font-oe-mono, "JetBrains Mono"), ui-monospace, monospace;
 
   /* ---------- Bedienelemente ----------

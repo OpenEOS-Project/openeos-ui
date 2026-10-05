@@ -2,7 +2,7 @@
  * Schrift-Setup für Next.js.
  *
  * Liefert die CSS-Variablen, die tokens.css erwartet
- * (--font-oe-sans, --font-oe-display, --font-oe-mono). Die
+ * (--font-oe-sans, --font-oe-mono). Die
  * Klassennamen gehören an ein möglichst hohes Element, üblicherweise
  * <html> oder <body>:
  *
@@ -15,8 +15,16 @@
  * Die Schriften liegen als WOFF2 im Paket (src/fonts/files/) und werden
  * über next/font/local eingebunden: weder der Build noch der Browser
  * fragt bei Google an. Herkunft sind die Fontsource-Pakete
- * @fontsource-variable/{geist,bricolage-grotesque,jetbrains-mono} 5.3.0,
- * alle drei unter der SIL Open Font License 1.1 (OFL-*.txt daneben).
+ * @fontsource-variable/{geist,jetbrains-mono} 5.3.0, beide unter der
+ * SIL Open Font License 1.1 (OFL-*.txt daneben).
+ *
+ * Display-Schrift: Seit 0.3.3 ist das Geist im Gewicht 800 (vorher
+ * Bricolage Grotesque). Ein zweiter localFont-Aufruf mit derselben
+ * Datei würde zwar dieselbe URL erzeugen (Next benennt nach
+ * Inhalts-Hash), aber eine zweite @font-face-Familie samt
+ * Fallback-Face und Preload anlegen. Stattdessen setzt tokens.css
+ * --font-oe-display als Alias auf --font-oe-sans. Wer tokens.css nicht
+ * einbindet, verwendet für Überschriften direkt --font-oe-sans.
  *
  * Je Schrift gibt es zwei Dateien, Teilmenge latin (Deutsch inkl.
  * Umlaute, ß und €) und latin-ext (u. a. ẞ, ŁŐŠ …). next/font/local
@@ -40,28 +48,6 @@ export const geistSans = localFont({
   fallback: ['system-ui', 'sans-serif'],
 });
 
-/* Bricolage Grotesque als Variable Font mit opsz- und wght-Achse
-   (Fontsource-Variante „opsz“, ohne wdth). .oe-display setzt
-   font-variation-settings: "opsz" 96. */
-export const bricolageDisplay = localFont({
-  variable: '--font-oe-display',
-  src: [
-    {
-      path: './fonts/files/bricolage-grotesque-latin-ext-opsz-normal.woff2',
-      weight: '200 800',
-      style: 'normal',
-    },
-    {
-      path: './fonts/files/bricolage-grotesque-latin-opsz-normal.woff2',
-      weight: '200 800',
-      style: 'normal',
-    },
-  ],
-  display: 'swap',
-  adjustFontFallback: 'Arial',
-  fallback: ['system-ui', 'sans-serif'],
-});
-
 /* Für eine Monospace-Schrift ergibt ein auf Arial skalierter Platzhalter
    keinen Sinn — hier springt die System-Monospace ein. */
 export const jetbrainsMono = localFont({
@@ -75,10 +61,18 @@ export const jetbrainsMono = localFont({
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
 
-/** Alle drei Schrift-Variablen in einem className. */
+/**
+ * @deprecated Seit 0.3.3 ist die Display-Schrift Geist. Bleibt als
+ * Alias auf `geistSans` erhalten, damit bestehende Importe weiter
+ * funktionieren.
+ */
+export const bricolageDisplay = geistSans;
+
+/** Beide Schrift-Variablen in einem className. */
 export const openEosFonts = {
-  className: [geistSans.variable, bricolageDisplay.variable, jetbrainsMono.variable].join(' '),
+  className: [geistSans.variable, jetbrainsMono.variable].join(' '),
   sans: geistSans,
-  display: bricolageDisplay,
+  /** Display = Geist (Gewicht 800 setzt .oe-display). */
+  display: geistSans,
   mono: jetbrainsMono,
 } as const;

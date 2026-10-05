@@ -35,9 +35,21 @@ export default function RootLayout({ children }) {
 }
 ```
 
-Setzt `--font-oe-sans` (Geist), `--font-oe-display` (Bricolage Grotesque)
-und `--font-oe-mono` (JetBrains Mono) — genau die Variablen, die
-`tokens.css` erwartet.
+Setzt `--font-oe-sans` (Geist) und `--font-oe-mono` (JetBrains Mono) —
+genau die Variablen, die `tokens.css` erwartet.
+
+**Display-Schrift ist seit 0.3.3 Geist Extra Bold (800)**, vorher
+Bricolage Grotesque. Es gibt nur noch zwei Familien: Geist und
+JetBrains Mono. `.oe-display` setzt Gewicht 800, Laufweite `-0.04em`
+und Zeilenhöhe `0.98`; für sehr große Headlines (ab ca. 80px) darf es
+`-0.045em` sein. `font-variation-settings: "opsz" …` hat bei Geist
+keine Wirkung und kann in eigenem CSS entfallen. `.oe-italic` wird
+synthetisch geneigt (Geist hat keinen Kursivschnitt).
+
+`--font-oe-display` setzt `tokens.css` als Alias auf `--font-oe-sans` —
+dieselbe Datei, kein zweiter Download. Wer `tokens.css` nicht einbindet,
+verwendet für Überschriften direkt `var(--font-oe-sans)`. Der Export
+`bricolageDisplay` bleibt als veralteter Alias auf `geistSans` bestehen.
 
 Die Schriften liegen seit 0.3.2 als WOFF2 im Paket und werden über
 `next/font/local` eingebunden — weder `next build` noch der Browser
