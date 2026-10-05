@@ -11,33 +11,68 @@
  *   <html className={openEosFonts.className}>
  *
  * Nur in Next.js verwendbar — next ist eine optionale Peer-Dependency.
+ *
+ * Die Schriften liegen als WOFF2 im Paket (src/fonts/files/) und werden
+ * über next/font/local eingebunden: weder der Build noch der Browser
+ * fragt bei Google an. Herkunft sind die Fontsource-Pakete
+ * @fontsource-variable/{geist,bricolage-grotesque,jetbrains-mono} 5.3.0,
+ * alle drei unter der SIL Open Font License 1.1 (OFL-*.txt daneben).
+ *
+ * Je Schrift gibt es zwei Dateien, Teilmenge latin (Deutsch inkl.
+ * Umlaute, ß und €) und latin-ext (u. a. ẞ, ŁŐŠ …). next/font/local
+ * kennt kein unicode-range pro Datei; beide landen daher als
+ * @font-face derselben Familie. Der Browser prüft die zuletzt
+ * deklarierte Datei zuerst und greift für fehlende Zeichen auf die
+ * nächste zurück — deshalb steht latin-ext vorne und latin hinten.
+ * Reiner deutscher Text kommt so mit der latin-Datei aus.
  */
-import { Bricolage_Grotesque, Geist, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
-export const geistSans = Geist({
+export const geistSans = localFont({
   variable: '--font-oe-sans',
-  subsets: ['latin'],
+  src: [
+    { path: './fonts/files/geist-latin-ext-wght-normal.woff2', weight: '100 900', style: 'normal' },
+    { path: './fonts/files/geist-latin-wght-normal.woff2', weight: '100 900', style: 'normal' },
+  ],
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  // Metrisch an Arial angeglichener Platzhalter, bis Geist geladen ist.
+  adjustFontFallback: 'Arial',
+  fallback: ['system-ui', 'sans-serif'],
 });
 
-/* Bricolage Grotesque ist eine Variable Font. Sobald die opsz-Achse
-   angefordert wird, darf keine feste Gewichtsliste danebenstehen —
-   ohne weight lädt Next die volle variable Instanz, womit alle
-   Schnitte und die optische Größe verfügbar sind (.oe-display setzt
-   font-variation-settings: "opsz" 96). */
-export const bricolageDisplay = Bricolage_Grotesque({
+/* Bricolage Grotesque als Variable Font mit opsz- und wght-Achse
+   (Fontsource-Variante „opsz“, ohne wdth). .oe-display setzt
+   font-variation-settings: "opsz" 96. */
+export const bricolageDisplay = localFont({
   variable: '--font-oe-display',
-  subsets: ['latin'],
+  src: [
+    {
+      path: './fonts/files/bricolage-grotesque-latin-ext-opsz-normal.woff2',
+      weight: '200 800',
+      style: 'normal',
+    },
+    {
+      path: './fonts/files/bricolage-grotesque-latin-opsz-normal.woff2',
+      weight: '200 800',
+      style: 'normal',
+    },
+  ],
   display: 'swap',
-  axes: ['opsz'],
+  adjustFontFallback: 'Arial',
+  fallback: ['system-ui', 'sans-serif'],
 });
 
-export const jetbrainsMono = JetBrains_Mono({
+/* Für eine Monospace-Schrift ergibt ein auf Arial skalierter Platzhalter
+   keinen Sinn — hier springt die System-Monospace ein. */
+export const jetbrainsMono = localFont({
   variable: '--font-oe-mono',
-  subsets: ['latin'],
+  src: [
+    { path: './fonts/files/jetbrains-mono-latin-ext-wght-normal.woff2', weight: '100 800', style: 'normal' },
+    { path: './fonts/files/jetbrains-mono-latin-wght-normal.woff2', weight: '100 800', style: 'normal' },
+  ],
   display: 'swap',
-  weight: ['400', '500', '600'],
+  adjustFontFallback: false,
+  fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
 });
 
 /** Alle drei Schrift-Variablen in einem className. */

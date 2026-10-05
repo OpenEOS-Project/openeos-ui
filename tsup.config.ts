@@ -26,7 +26,7 @@ export default defineConfig({
   dts: true,
   clean: true,
   treeshake: true,
-  external: ['react', 'react/jsx-runtime', 'next', 'next/font/google'],
+  external: ['react', 'react/jsx-runtime', 'next', 'next/font/local'],
   async onSuccess() {
     writeFileSync('dist/styles.css', bundleCss(join(STYLE_ROOT, 'index.css')));
   },
