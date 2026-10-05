@@ -118,6 +118,41 @@ Die Styles liegen als einzelne Module unter `src/styles/` und werden beim
 Build zu einer flachen `dist/styles.css` zusammengezogen. Konsumenten
 können auch einzelne Module ziehen: `@openeos/ui/css/buttons.css`.
 
+## Release
+
+Veröffentlicht wird automatisch aus GitHub Actions
+(`.github/workflows/publish.yml`) per npm Trusted Publishing — es gibt
+kein npm-Token im Repo.
+
+1. Version in einem PR anheben (`version` in `package.json`, z. B. mit
+   `npm version 0.3.2 --no-git-tag-version`) und mergen.
+2. Release anlegen — der Tag muss `v` + die Version aus `package.json` sein:
+
+   ```bash
+   gh release create v0.3.2 --target main --generate-notes
+   ```
+
+3. Der Workflow „Publish to npm“ prüft Tag gegen Version, baut und
+   veröffentlicht mit Provenance. Passen Tag und Version nicht zusammen,
+   bricht er ab. Prerelease-Versionen (`1.0.0-rc.1`) landen unter dem
+   dist-tag `next`, nicht `latest`.
+
+### Einmalige Einrichtung auf npmjs.com
+
+npmjs.com → Paket `@openeos/ui` → **Settings** → **Trusted Publisher** →
+**GitHub Actions**:
+
+| Feld | Wert |
+|---|---|
+| Organization or user | `OpenEOS-Project` |
+| Repository | `openeos-ui` |
+| Workflow filename | `publish.yml` |
+| Environment name | *(leer lassen)* |
+
+Danach kann unter **Settings** → **Publishing access** „Require two-factor
+authentication and disallow tokens“ gesetzt werden: Trusted Publishing
+funktioniert weiter, klassische Tokens nicht mehr.
+
 ## Lizenz
 
 AGPL-3.0-only
