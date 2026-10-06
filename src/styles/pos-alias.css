@@ -31,11 +31,15 @@
   --ff-mono: var(--oe-f-mono);
 }
 
-/* Die POS-Prototypen erwarten diese Klassen. */
-.pos-root { font-family: var(--ff-ui); color: var(--pos-ink); background: var(--pos-bg); }
-.pos-root *, .pos-root *::before, .pos-root *::after { box-sizing: border-box; }
-.pos-root button { font-family: inherit; color: inherit; }
-.pos-root :focus-visible { outline: 2px solid var(--pos-accent); outline-offset: 2px; }
+/* Die POS-Prototypen erwarten diese Klassen.
+   Seit 0.4.1 komplett in :where() (Spezifität 0): Komponenten-Klassen wie
+   .oe-btn--primary und eigene .pos-root-Regeln der App gewinnen immer —
+   vorher machte `.pos-root button { color: inherit }` den Text von
+   Primär-Knöpfen in .pos-root unsichtbar. */
+:where(.pos-root) { font-family: var(--ff-ui); color: var(--pos-ink); background: var(--pos-bg); }
+:where(.pos-root *), :where(.pos-root *)::before, :where(.pos-root *)::after { box-sizing: border-box; }
+:where(.pos-root button) { font-family: inherit; color: inherit; }
+:where(.pos-root :focus-visible) { outline: 2px solid var(--pos-accent); outline-offset: 2px; }
 .pos-mono { font-family: var(--ff-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
 .pos-scroll { scrollbar-width: thin; scrollbar-color: var(--pos-line-strong) transparent; }
 .pos-scroll::-webkit-scrollbar { width: 8px; height: 8px; }

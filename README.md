@@ -185,6 +185,25 @@ Pfeile, Kreuze, Haken und Rücktaste kommen aus dem Icon-Set, leere Werte
 zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
+## Changelog
+
+### 0.4.1
+
+- **Silbentrennung in Produktkachel und Warenkorbzeile:** `.oe-tile--product`
+  (Name) und `.oe-cartline__name` trennen lange Wörter jetzt nach Silben
+  (`hyphens: auto; overflow-wrap: break-word`) statt mitten im Wort
+  (`overflow-wrap: anywhere`): „Apfel-|schorle“ statt „Apfelsch|orle“.
+  Voraussetzung ist ein `lang`-Attribut am Dokument (`<html lang="de">`);
+  ohne `lang` bricht der Browser nur an Wortgrenzen bzw. als letzte
+  Rettung im Wort.
+- **`pos-alias.css` entschärft:** Die Grundregeln für `.pos-root`
+  (Schrift, Farbe, `box-sizing`, Knopf-Reset, Fokusring) stehen jetzt in
+  `:where()` und haben Spezifität 0. Vorher setzte `.pos-root button
+  { color: inherit }` die Textfarbe von `.oe-btn--primary` & Co. außer Kraft
+  — Primärknöpfe in `.pos-root` hatten unsichtbaren Text. Kein Breaking
+  Change; eigene `.pos-root`-Regeln der App gewinnen jetzt immer. Die Datei
+  bleibt veraltet und entfällt in 0.5.0 (statt `.pos-root` → `.oe-root`).
+
 ## Migration 0.3 → 0.4
 
 | Änderung | Was tun |

@@ -16,7 +16,10 @@
 
 /* Produktkachel der Kasse (variant="product"). Alle Regeln hängen an
    .oe-tile--product, damit die allgemeinen .oe-tile b/span-Regeln der
-   dunklen Kachel nicht durchschlagen. */
+   dunklen Kachel nicht durchschlagen.
+   Lange Namen trennt der Browser nach Silben (hyphens:auto braucht
+   lang am Dokument, z. B. <html lang="de">); break-word greift erst,
+   wenn ein Wort auch getrennt nicht in die Zeile passt. */
 .oe-tile--product{position:relative;box-sizing:border-box;grid-template-rows:1fr auto;gap:10px;min-height:108px;padding:12px 12px 11px;background:var(--oe-surface);border-color:var(--oe-line-2);color:var(--oe-ink);box-shadow:var(--oe-sh-1);font:inherit}
 .oe-tile--product:hover{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 25%, transparent)}
 .oe-tile--product:active{transform:scale(.98)}
@@ -25,7 +28,7 @@
 .oe-tile--product:disabled{opacity:.5;cursor:not-allowed;transform:none;background:var(--oe-surface);border-color:var(--oe-line-2)}
 .oe-tile--product .oe-tile__top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;min-width:0}
 .oe-tile--product .oe-tile__txt{display:grid;gap:2px;min-width:0;color:var(--oe-ink)}
-.oe-tile--product .oe-tile__txt b{font:600 15px/1.2 var(--oe-f-sans);letter-spacing:-.01em;color:var(--oe-ink);overflow-wrap:anywhere}
+.oe-tile--product .oe-tile__txt b{font:600 15px/1.2 var(--oe-f-sans);letter-spacing:-.01em;color:var(--oe-ink);hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
 .oe-tile--product .oe-tile__txt em{font:500 12px var(--oe-f-mono);font-style:normal;color:var(--oe-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .oe-tile--product .oe-tile__ico{position:relative;box-sizing:border-box;width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:var(--oe-r-sm);background:var(--oe-green-soft);color:var(--oe-green-ink);--oe-ico:28px}
 .oe-tile--product .oe-tile__ico>img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
@@ -150,7 +153,7 @@
 .oe-cartline__main{display:grid;gap:2px;min-width:0;margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:start}
 button.oe-cartline__main{cursor:pointer;border-radius:var(--oe-r-xs)}
 button.oe-cartline__main:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:3px}
-.oe-cartline__name{font:600 14px var(--oe-f-sans);letter-spacing:-.005em}
+.oe-cartline__name{font:600 14px var(--oe-f-sans);letter-spacing:-.005em;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
 .oe-cartline__name small{margin-inline-start:4px;font:500 12px var(--oe-f-mono);color:var(--oe-mute)}
 .oe-cartline__meta{font:500 12px var(--oe-f-mono);color:var(--oe-mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oe-cartline__sent{display:inline-flex;align-items:center;gap:5px;font:500 12px var(--oe-f-mono);color:var(--oe-green-ink);--oe-ico:13px}

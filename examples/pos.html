@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>@openeos/ui 0.4.0 · Kassen-Bausteine</title>
+<title>@openeos/ui 0.4.1 · Kassen-Bausteine</title>
 <!--
   Statische Testseite für die Kassen-Bausteine aus 0.4.0.
   Voraussetzung: `pnpm build` (nutzt ../dist/styles.css und iconSvg aus
@@ -90,8 +90,8 @@
       <div class="ex-grid oe-grow">
         <button type="button" class="oe-tile oe-tile--product is-in"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Pils</b><em>0,5 l</em></span><span class="oe-tile__ico"><i data-icon="beer"></i><span class="oe-tile__qty">2</span></span></span><span class="oe-tile__ft"><span class="oe-tile__price">4,50 €</span><span class="oe-tile__hint"><i data-icon="deposit"></i></span></span></button>
         <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Weizen</b><em>0,5 l</em></span><span class="oe-tile__ico"><i data-icon="beer"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">4,80 €</span><span class="oe-tile__hint"><i data-icon="deposit"></i></span></span></button>
-        <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Apfelschorle</b><em>0,5 l</em></span><span class="oe-tile__ico"><i data-icon="bottle"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">3,80 €</span><span class="oe-tile__hint"><i data-icon="deposit"></i></span></span></button>
-        <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Bratwurst</b><em>im Brötchen</em></span><span class="oe-tile__ico"><i data-icon="sausage"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">5,00 €</span><span class="oe-tile__hint"><i data-icon="sliders"></i></span></span></button>
+        <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Apfelschorle 0,5l</b><em>Glas</em></span><span class="oe-tile__ico"><i data-icon="bottle"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">3,80 €</span><span class="oe-tile__hint"><i data-icon="deposit"></i></span></span></button>
+        <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Bratwurst im Weck</b><em>mit Senf</em></span><span class="oe-tile__ico"><i data-icon="sausage"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">5,00 €</span><span class="oe-tile__hint"><i data-icon="sliders"></i></span></span></button>
         <button type="button" class="oe-tile oe-tile--product"><span class="oe-tile__top"><span class="oe-tile__txt"><b>Pommes</b><em>Portion</em></span><span class="oe-tile__ico"><i data-icon="fries"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">4,00 €</span><span class="oe-tile__flag"><span class="oe-badge oe-badge--warn">noch 3</span></span><span class="oe-tile__hint"><i data-icon="sliders"></i></span></span></button>
         <button type="button" class="oe-tile oe-tile--product" disabled><span class="oe-tile__top"><span class="oe-tile__txt"><b>Steak</b><em>vom Grill</em></span><span class="oe-tile__ico"><i data-icon="flame"></i></span></span><span class="oe-tile__ft"><span class="oe-tile__price">7,50 €</span><span class="oe-tile__flag"><span class="oe-badge">Ausverkauft</span></span></span></button>
       </div>
@@ -246,6 +246,14 @@
   </section>
 
   <!-- Icon-Set -->
+  <section class="ex-sec" id="pos-root">
+    <h2 class="oe-h3">Veraltetes .pos-root (Koppeln/Registrieren)</h2>
+    <div class="pos-root oe-root ex-row" style="padding:16px;border-radius:var(--oe-r-sm)">
+      <button type="button" class="oe-btn oe-btn--primary oe-btn--lg"><i data-icon="check"></i>Gerät koppeln</button>
+      <button type="button" class="oe-btn oe-btn--secondary">Abbrechen</button>
+    </div>
+  </section>
+
   <section class="ex-sec" id="icons">
     <h2 class="oe-h3">Icon-Set</h2>
     <div class="ex-row" id="iconset"></div>
