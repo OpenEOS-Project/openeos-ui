@@ -59,6 +59,8 @@ export type IconName =
   | 'mail'
   | 'map'
   | 'minus'
+  | 'monitor'
+  | 'moon'
   | 'more'
   | 'note'
   | 'orders'
@@ -81,6 +83,7 @@ export type IconName =
   | 'split'
   | 'stage'
   | 'star'
+  | 'sun'
   | 'table'
   | 'table-round'
   | 'tag'
@@ -151,6 +154,8 @@ export const ICON_NAMES: readonly IconName[] = [
   'mail',
   'map',
   'minus',
+  'monitor',
+  'moon',
   'more',
   'note',
   'orders',
@@ -173,6 +178,7 @@ export const ICON_NAMES: readonly IconName[] = [
   'split',
   'stage',
   'star',
+  'sun',
   'table',
   'table-round',
   'tag',
@@ -244,6 +250,8 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   mail: 'mail',
   map: 'map',
   minus: 'minus',
+  monitor: 'monitor',
+  moon: 'moon',
   more: 'ellipsis',
   note: 'sticky-note',
   orders: 'clipboard-list',
@@ -266,6 +274,7 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   split: 'split',
   stage: 'theater',
   star: 'star',
+  sun: 'sun',
   table: 'rectangle-horizontal',
   'table-round': 'circle',
   tag: 'tag',
@@ -337,6 +346,8 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   mail: [['path', { d: 'm22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7' }], ['rect', { x: '2', y: '4', width: '20', height: '16', rx: '2' }]],
   map: [['path', { d: 'M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z' }], ['path', { d: 'M15 5.764v15' }], ['path', { d: 'M9 3.236v15' }]],
   minus: [['path', { d: 'M5 12h14' }]],
+  monitor: [['rect', { width: '20', height: '14', x: '2', y: '3', rx: '2' }], ['line', { 'x1': '8', 'x2': '16', 'y1': '21', 'y2': '21' }], ['line', { 'x1': '12', 'x2': '12', 'y1': '17', 'y2': '21' }]],
+  moon: [['path', { d: 'M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401' }]],
   more: [['circle', { cx: '12', cy: '12', r: '1' }], ['circle', { cx: '19', cy: '12', r: '1' }], ['circle', { cx: '5', cy: '12', r: '1' }]],
   note: [['path', { d: 'M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z' }], ['path', { d: 'M15 3v5a1 1 0 0 0 1 1h5' }]],
   orders: [['rect', { width: '8', height: '4', x: '8', y: '2', rx: '1', ry: '1' }], ['path', { d: 'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2' }], ['path', { d: 'M12 11h4' }], ['path', { d: 'M12 16h4' }], ['path', { d: 'M8 11h.01' }], ['path', { d: 'M8 16h.01' }]],
@@ -359,6 +370,7 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   split: [['path', { d: 'M16 3h5v5' }], ['path', { d: 'M8 3H3v5' }], ['path', { d: 'M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3' }], ['path', { d: 'm15 9 6-6' }]],
   stage: [['path', { d: 'M2 10s3-3 3-8' }], ['path', { d: 'M22 10s-3-3-3-8' }], ['path', { d: 'M10 2c0 4.4-3.6 8-8 8' }], ['path', { d: 'M14 2c0 4.4 3.6 8 8 8' }], ['path', { d: 'M2 10s2 2 2 5' }], ['path', { d: 'M22 10s-2 2-2 5' }], ['path', { d: 'M8 15h8' }], ['path', { d: 'M2 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1' }], ['path', { d: 'M14 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1' }]],
   star: [['path', { d: 'M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z' }]],
+  sun: [['circle', { cx: '12', cy: '12', r: '4' }], ['path', { d: 'M12 2v2' }], ['path', { d: 'M12 20v2' }], ['path', { d: 'm4.93 4.93 1.41 1.41' }], ['path', { d: 'm17.66 17.66 1.41 1.41' }], ['path', { d: 'M2 12h2' }], ['path', { d: 'M20 12h2' }], ['path', { d: 'm6.34 17.66-1.41 1.41' }], ['path', { d: 'm19.07 4.93-1.41 1.41' }]],
   table: [['rect', { width: '20', height: '12', x: '2', y: '6', rx: '2' }]],
   'table-round': [['circle', { cx: '12', cy: '12', r: '10' }]],
   tag: [['path', { d: 'M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z' }], ['circle', { cx: '7.5', cy: '7.5', r: '.5', fill: 'currentColor' }]],

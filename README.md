@@ -165,7 +165,7 @@ import { iconNames, iconGroups, iconKeywords, iconSources, iconSvg, isIconName, 
 iconSvg('beer', 20)                     // SVG-String ohne React (Doku, Landing, statische Seiten)
 ```
 
-89 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
+92 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
 `operations`, `status`); Größe über `--oe-ico` (Default 18 px), Farbe über
 `currentColor`. **Alle Icons stammen aus [Lucide](https://lucide.dev)**
 (ISC) und werden zur Buildzeit ins Paket übernommen — keine
@@ -193,6 +193,14 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### 0.5.2
+
+- **Sheet: Herunterziehen schließt** am Griff, am Kopf und im Inhalt,
+  wenn er oben steht (Schwelle oder schneller Wisch, sonst federt das
+  Blatt zurück). Die Geste steht als `useSwipeToClose` auch eigenen
+  Bottom-Sheets zur Verfügung; `data-oe-nodrag` nimmt Elemente aus.
+- **Icons** `sun`, `moon`, `monitor` (Darstellung hell/dunkel/System).
 
 ### 0.5.0
 
