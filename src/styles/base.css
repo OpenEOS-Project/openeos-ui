@@ -17,7 +17,9 @@
 .oe-root *,
 .oe-root *::before,
 .oe-root *::after { box-sizing: border-box; }
-.oe-root button { font: inherit; color: inherit; }
+/* :where() hält die Spezifität bei 0,0,1 — sonst schlägt der Reset die
+   Farben der Komponenten (.oe-btn--primary, .oe-cartbar …). */
+:where(.oe-root) button { font: inherit; color: inherit; }
 .oe-root img { max-width: 100%; display: block; }
 
 .oe-root :focus-visible {

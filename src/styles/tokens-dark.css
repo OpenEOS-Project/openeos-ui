@@ -65,6 +65,16 @@
   --oe-danger: #f07a68;    --oe-danger-soft: oklch(0.31 0.07 25);
   --oe-info: #7fc3e0;      --oe-info-soft: oklch(0.31 0.05 235);
   --oe-on-danger: #170a08;
+  --oe-warn-ink: #f0b64a;
+  --oe-danger-ink: #f28c7c;
+
+  /* ---------- Tischplan ----------
+     --oe-floor-decor/-wall folgen --oe-paper-3/--oe-mute von selbst;
+     der Kassenbon (--oe-receipt-*) bleibt bewusst hell. */
+  --oe-floor-bg: #101512;
+  --oe-floor-grid-line: rgba(240, 237, 227, 0.06);
+  --oe-floor-decor: var(--oe-paper-3);
+  --oe-floor-wall: var(--oe-mute);
 
   /* ---------- Linien ---------- */
   --oe-line: color-mix(in oklab, var(--oe-ink) 12%, transparent);
