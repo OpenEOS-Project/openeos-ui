@@ -1,0 +1,7 @@
+/* ==========================================================
+   ICONS — <Icon> aus @openeos/ui bzw. iconSvg()
+   Größe über --oe-ico (Default 18px), Farbe über currentColor.
+   ========================================================== */
+.oe-icon{display:inline-block;width:var(--oe-ico,18px);height:var(--oe-ico,18px);flex:none;vertical-align:-.125em}
+/* Gefüllt, z. B. Stern für Favoriten. CSS schlägt das fill-Attribut. */
+.oe-icon--filled{fill:currentColor}

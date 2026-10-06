@@ -1,7 +1,9 @@
 name: CI
 
 # Checks every pull request and every push to main: the package installs from
-# the lockfile, typechecks, builds, and ships the files we expect.
+# the lockfile, the icon sources follow the set's style and match
+# generated.ts, it typechecks, builds, passes the node:test suite against
+# dist/, and ships the files we expect.
 on:
   pull_request:
   push:
@@ -36,11 +38,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Every src/icons/svg/*.svg must follow the set's style attributes, and
+      # src/icons/generated.ts must be regenerated after changes.
+      - name: Icons up to date
+        run: pnpm icons --check
+
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Build
         run: pnpm build
+
+      # node:test without extra dependencies, against the built dist/.
+      - name: Test
+        run: pnpm test
 
       # Lists exactly what `npm publish` would upload, so a missing or stray
       # file shows up in the PR rather than on npm.

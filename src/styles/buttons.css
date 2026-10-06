@@ -2,14 +2,16 @@
    3 · BUTTONS
    ========================================================== */
 .oe-btn{--oe-btn-py:8px;--oe-btn-px:13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:var(--oe-btn-py) var(--oe-btn-px);border-radius:var(--oe-r-sm);border:1px solid transparent;font:600 14px/1.1 var(--oe-f-sans);letter-spacing:-.005em;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background var(--oe-dur-2),color var(--oe-dur-2),border-color var(--oe-dur-2),box-shadow var(--oe-dur-2),transform var(--oe-dur-1)}
-.oe-btn svg{width:15px;height:15px;flex:none}
+.oe-btn{--oe-ico:15px}
+.oe-btn svg:not(.oe-icon){width:15px;height:15px;flex:none}
 .oe-btn:active{transform:translateY(1px)}
 .oe-btn:focus-visible{outline:0;box-shadow:0 0 0 3px color-mix(in oklab, var(--oe-green-ink) 30%, transparent)}
 .oe-btn:disabled,.oe-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed;transform:none}
 
 /* Größen */
 .oe-btn--xs{--oe-btn-py:4px;--oe-btn-px:9px;font-size:12px;border-radius:var(--oe-r-xs)}
-.oe-btn--xs svg{width:13px;height:13px}
+.oe-btn--xs{--oe-ico:13px}
+.oe-btn--xs svg:not(.oe-icon){width:13px;height:13px}
 .oe-btn--sm{--oe-btn-py:6px;--oe-btn-px:11px;font-size:13px;min-height:var(--oe-control-h-sm)}
 .oe-btn--lg{--oe-btn-py:11px;--oe-btn-px:17px;font-size:15px;border-radius:var(--oe-r)}
 .oe-btn--block{width:100%}

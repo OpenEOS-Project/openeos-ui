@@ -23,7 +23,7 @@ import '@openeos/ui/styles.css';
 ```
 
 Das bringt Tokens (hell und dunkel), die `.oe-*`-Klassenbibliothek und
-die `--pos-*`-Aliase mit.
+die (veralteten) `--pos-*`-Aliase mit.
 
 ### 2. Schriften (Next.js)
 
@@ -107,10 +107,96 @@ import { Button, Card, CardHead, CardBody, Kpi, Kpis } from '@openeos/ui';
 </Card>
 ```
 
-Die Komponenten sind bewusst dünn: sie setzen Klassen und Struktur, kein
-Zustand und kein Overlay-Verhalten. Fokusfalle, Portale und Tastatur-
-navigation bleiben Sache der Anwendung (in `openeos-web` macht das
-react-aria-components).
+Die Komponenten sind bewusst dünn: sie setzen Klassen und Struktur und
+halten keinen fachlichen Zustand. Ausnahmen mit eigenem Verhalten sind
+`Sheet` (Portal, Fokusfalle, Escape, Scroll-Sperre, Wischen) und
+`FloorPlan` im Bearbeitungsmodus (Ziehen, Eckgriff, Tastatur). Alle Texte
+sind Props mit deutschem Default (du-Form); Anwendungen übergeben
+übersetzte Texte.
+
+### Kasse (seit 0.4.0)
+
+| Komponente | Zweck | Klassen |
+|---|---|---|
+| `Icon` | Linien-Icon aus dem OpenEOS-Set (`name`, `size`, `label`, `filled`) | `.oe-icon` |
+| `IconBox` | Icon oder Bild auf getönter Fläche, optional Mengenkreis | `.oe-icobox*` |
+| `Tile variant="product"` | Produktkachel: Name, Zeile 2, Icon-Box, Menge, Preis, Hinweise | `.oe-tile--product`, `.oe-tile__*` |
+| `TableChip`, `TableGrid` | Tisch-Kachel (`state`, `current`, `size="lg"`) und Raster (`min`) | `.oe-tablechip*`, `.oe-tables` |
+| `Legend` | Legende der Tischfarben | `.oe-legend*` |
+| `Keypad` | Ziffernblock mit Icon-Tasten, `size="lg"`, `captureKeyboard` | `.oe-keypad*` |
+| `Segment` | jetzt mit `icon`, `disabled`, `size="lg"` | `.oe-segment*` |
+| `Stepper` | Menge −/+, `removeAtMin` zeigt Papierkorb | `.oe-stepper*` |
+| `ChoiceGroup` | Zahlarten-Auswahl (radiogroup, Pfeiltasten) | `.oe-choices`, `.oe-choice` |
+| `Sheet` | Dialog-Blatt: md 480 · wide 720 · pay 820 · done 400 px, ≤ 820 px Bottom-Sheet | `.oe-sheet*`, `.oe-sheet-layer` |
+| `CartLine`, `CartBar` | Warenkorbzeile (`<li>` in `.oe-cartlines`) und Warenkorb-Leiste | `.oe-cartline*`, `.oe-cartbar*`, `.oe-bump` |
+| `CategoryNav`, `CategoryButton` | Kategorienleiste, `responsive` folgt den Kassen-Breakpoints | `.oe-catnav*`, `.oe-cat*` |
+| `Prompt` | gestrichelte Hinweisfläche mit großem Icon (Kartenterminal) | `.oe-prompt*` |
+| `UserChip` | Benutzer mit Schloss-Knopf | `.oe-userchip*` |
+| `StatusPill` | Kopf-Status (Online, TSE, Drucker, Uhr) | `.oe-statuspill*` |
+| `FloorPlan` | Tischplan, `mode="view"` (Kasse) bzw. `"edit"` (Verwaltung) | `.oe-floor*` |
+| `Receipt` | jetzt mit Einzelpreis-Spalte, `info`- und `note`-Zeile | `.oe-receipt*` |
+
+Ohne React-Komponente, als Klassen: `.oe-due` / `.oe-due__amount`
+(zu zahlender Betrag), `.oe-given` (Gegeben; leer zeigt einen CSS-Strich),
+`.oe-change` / `.oe-change--neg` (Rückgeld bzw. fehlender Betrag).
+
+`FloorPlan` setzt Lage und Größe ausschließlich als CSS-Variablen in
+Prozent (`--x`, `--y`, `--w`, `--h`, `--r`); die Fläche skaliert über
+`aspect-ratio`. Die Rechenfunktionen (`snapToGrid`, `clampToArea`,
+`pxToUnits`, `rotateBy`, `moveRect`, `resizeRect`, `toPercent`) sind
+einzeln exportiert. Eine statische Übersicht aller Bausteine in hell und
+dunkel liegt in `examples/pos.html` (nach `pnpm build` über einen lokalen
+Server öffnen).
+
+**Kassen-Breakpoints:** kompakt ≤ 820 px, mittel ≤ 1180 px, darüber breit —
+als `breakpoints.posCompact` / `breakpoints.posMedium` in
+`@openeos/ui/tokens`. `.oe-catnav--responsive`, `.oe-sheet`,
+`.oe-tablechip--lg` und `.oe-keypad` schalten an diesen Grenzen um.
+
+## Icons
+
+```tsx
+import { Icon } from '@openeos/ui';                       // nur die Komponente
+import { iconNames, iconGroups, iconKeywords, iconSvg, isIconName, legacyIcon } from '@openeos/ui/icons';
+
+<Icon name="beer" />                    // dekorativ: aria-hidden
+<Icon name="lock" label="Sperren" />    // mit Bedeutung: role="img" + aria-label
+<Icon name="star" filled size={20} />   // gefüllt, 20 px
+iconSvg('beer', 20)                     // SVG-String ohne React (Doku, Landing, statische Seiten)
+```
+
+89 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
+`operations`, `status`); Größe über `--oe-ico` (Default 18 px), Farbe über
+`currentColor`. `iconKeywords` liefert deutsche und englische Suchwörter
+für einen Icon-Picker. Die SVG-Quellen liegen im Paket unter
+`src/icons/svg/` — Herkunft, Stilregeln und Lizenzhinweise in
+[`src/icons/README.md`](src/icons/README.md).
+
+`legacyIcon(value)` bildet Altwerte aus Produkt- und Kategoriedaten
+(`pos-icon:<id>` aus `@openeos/pos-icons`, Emojis) auf ein OpenEOS-Icon
+ab; die Tabelle steht als `legacyIconMap` zur Verfügung, ohne Treffer
+gilt `LEGACY_FALLBACK_ICON` (`utensils`).
+
+### Icons statt Zeichen
+
+Im Markup stehen keine Emojis und keine Unicode-Symbole (`⌫ ✕ ✓ ▾ → ⋯ ×`)
+— weder in den Komponenten noch in Anwendungen, die sie verwenden.
+Pfeile, Kreuze, Haken und Rücktaste kommen aus dem Icon-Set, leere Werte
+zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
+`Keypad`, `Chip` und `Toast` daran.
+
+## Migration 0.3 → 0.4
+
+| Änderung | Was tun |
+|---|---|
+| **`Keypad`-Tasten (Breaking):** Default jetzt `1–9, backspace, 0, enter` statt `1–9, '.', 0, '⌫'`. `'backspace'` und `'enter'` sind Spezialtasten mit Icon; `onKey` liefert diese Namen. | Wer die Defaults nutzte und `'⌫'`/`'.'` auswertete, auf `'backspace'` umstellen bzw. `keys` explizit übergeben (`'.'` geht weiter als Text-Taste). Zugängliche Namen über `labels`. |
+| **`Keypad`-Größe:** Tasten haben jetzt eine Mindesthöhe von 52 px (Touch). | Bei Bedarf über eigene Klasse überschreiben. |
+| `TableMap` heißt jetzt `TableGrid` | `TableMap` bleibt als veralteter Alias bis 0.5.0. |
+| `pos-alias.css` (`--pos-*`) ist veraltet | Auf `--oe-*`-Tokens umstellen; die Aliase entfallen in 0.5.0. |
+| `react-dom` ist Peer-Abhängigkeit (Portal von `Sheet`) | In React-Projekten ohnehin vorhanden. |
+| `.oe-root button` setzt Schrift/Farbe nur noch mit Spezifität 0,0,1 | Vorher überschrieb der Reset die Textfarbe von `.oe-btn--primary` & Co. innerhalb von `.oe-root`; keine Aktion nötig. |
+| Text in Warn-/Fehlerfarbe nutzt `--oe-warn-ink` / `--oe-danger-ink` | `.oe-badge--warn/--danger`, `.oe-banner--warn/--danger` und die Tisch-Zustände erreichen damit 4,5:1. Eigene Klassen mit `color: var(--oe-warn)` auf hellem Grund ebenso umstellen. |
+| `.oe-tile b/span`-Regeln greifen nur noch auf direkte Kinder der einfachen Kachel | Nur relevant für eigenes, tiefer verschachteltes Markup in `.oe-tile`. |
 
 ## Tokens in JavaScript
 
@@ -131,6 +217,8 @@ pnpm install
 pnpm build      # dist/ + gebündeltes styles.css
 pnpm dev        # Watch-Modus
 pnpm typecheck
+pnpm icons      # src/icons/generated.ts aus src/icons/svg/*.svg erzeugen
+pnpm test       # node:test gegen dist/ (vorher pnpm build)
 ```
 
 Die Styles liegen als einzelne Module unter `src/styles/` und werden beim
@@ -148,7 +236,7 @@ kein npm-Token im Repo.
 2. Release anlegen — der Tag muss `v` + die Version aus `package.json` sein:
 
    ```bash
-   gh release create v0.3.2 --target main --generate-notes
+   gh release create v0.4.0 --target main --generate-notes
    ```
 
 3. Der Workflow „Publish to npm“ prüft Tag gegen Version, baut und
@@ -174,4 +262,7 @@ funktioniert weiter, klassische Tokens nicht mehr.
 
 ## Lizenz
 
-AGPL-3.0-only
+AGPL-3.0-only. Schriften: SIL OFL 1.1 (`src/fonts/files/OFL-*.txt`).
+Icons: eigene Zeichnungen unter AGPL-3.0-only; einzelne mit Lucide bzw.
+Tabler geometrisch gleiche Icons mit beiliegenden ISC-/MIT-Hinweisen
+(`src/icons/LICENSE-*.txt`, Details in `src/icons/README.md`).

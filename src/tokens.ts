@@ -94,6 +94,14 @@ export const chartSeries = [
   'oklch(0.58 0.09 190)',
 ] as const;
 
+/**
+ * Kassen-Breakpoints in px (max-width): bis `posCompact` kompakt
+ * (Handy, Tablet hochkant), bis `posMedium` mittel (Tablet quer),
+ * darüber breit. Dieselben Werte stehen in den CSS-Regeln von
+ * .oe-catnav--responsive, .oe-sheet und .oe-tablechip--lg.
+ */
+export const breakpoints = { posCompact: 820, posMedium: 1180 } as const;
+
 export const theme = {
   light: { ...paperLight, green, status },
   dark: { ...paperDark, green, status },
@@ -101,6 +109,7 @@ export const theme = {
   spacing,
   fonts,
   chartSeries,
+  breakpoints,
 } as const;
 
 export type OpenEosTheme = typeof theme;

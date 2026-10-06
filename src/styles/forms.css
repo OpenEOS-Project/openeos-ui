@@ -71,16 +71,48 @@
 .oe-segment{display:inline-flex;align-items:stretch;min-height:var(--oe-control-h-sm);padding:2px;background:var(--oe-paper-2);border:1px solid var(--oe-line);border-radius:var(--oe-r-sm);gap:2px}
 /* Die Knoepfe fuellen die Gruppenhoehe, statt sie zu bestimmen —
    deshalb align-items:center statt vertikaler Polsterung. */
-.oe-segment button{display:inline-flex;align-items:center;border:0;background:transparent;padding:0 12px;border-radius:var(--oe-r-xs);font:600 13px/1.1 var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:background .15s,color .15s}
-.oe-segment button:hover{color:var(--oe-ink)}
+.oe-segment button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;background:transparent;padding:0 12px;border-radius:var(--oe-r-xs);font:600 13px/1.1 var(--oe-f-sans);color:color-mix(in oklab, var(--oe-mute) 75%, var(--oe-ink));cursor:pointer;transition:background .15s,color .15s;--oe-ico:14px}
+.oe-segment button:hover:not(:disabled){color:var(--oe-ink)}
 .oe-segment button.is-active{background:var(--oe-surface);color:var(--oe-ink);box-shadow:var(--oe-sh-1)}
+.oe-segment button:disabled{opacity:.45;cursor:not-allowed}
+.oe-segment button:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:1px}
+/* Groß für Touch (Kasse): mindestens 40 px hoch */
+.oe-segment--lg{min-height:40px}
+.oe-segment--lg button{padding:0 13px;font-size:14px;--oe-ico:15px}
 
 /* Chips / Filter */
 .oe-chips{display:flex;flex-wrap:wrap;gap:6px}
 .oe-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:var(--oe-r-full);border:1px solid var(--oe-line-2);background:transparent;font:500 13px var(--oe-f-sans);color:var(--oe-mute);cursor:pointer;transition:all .15s}
 .oe-chip:hover{color:var(--oe-ink);border-color:var(--oe-ink)}
 .oe-chip.is-active{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 25%, transparent);color:var(--oe-green-ink);font-weight:600}
-.oe-chip__x{font-family:var(--oe-f-mono);opacity:.6}
+.oe-chip__x{display:inline-flex;opacity:.6;--oe-ico:12px}
+.oe-chip{--oe-ico:13px}
+.oe-chip:disabled{opacity:.45;cursor:not-allowed}
+
+/* Stepper: Menge −/+ (Warenkorb, Optionen, Pfand). md 40 × 44 px,
+   lg 46 × 46 px — beides Touch-tauglich. */
+.oe-stepper{display:inline-flex;align-items:center;flex:none;border:1px solid var(--oe-line-2);border-radius:var(--oe-r-sm);background:var(--oe-paper);overflow:hidden;color:var(--oe-ink)}
+.oe-stepper button{display:grid;place-items:center;width:40px;height:44px;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;--oe-ico:15px}
+.oe-stepper button:hover:not(:disabled){background:var(--oe-paper-2)}
+.oe-stepper button:disabled{opacity:.35;cursor:not-allowed}
+.oe-stepper button:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:-2px}
+.oe-stepper__val{min-width:24px;text-align:center;font:700 14px var(--oe-f-mono);font-variant-numeric:tabular-nums}
+.oe-stepper--lg button{width:46px;height:46px;--oe-ico:17px}
+.oe-stepper--lg .oe-stepper__val{min-width:34px;font-size:16px}
+
+/* Auswahl großer Optionen (Zahlarten): Icon + Text, aktiv grün.
+   --row: nebeneinander, Icon über Text (kompakte Kasse). */
+.oe-choices{display:grid;gap:6px}
+.oe-choices--row{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.oe-choice{box-sizing:border-box;display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:1.5px solid var(--oe-line-2);border-radius:var(--oe-r-sm);background:var(--oe-surface);color:var(--oe-ink);font:600 15px var(--oe-f-sans);text-align:start;cursor:pointer;transition:background .15s,border-color .15s,color .15s;--oe-ico:20px}
+.oe-choice:hover:not(:disabled){border-color:var(--oe-ink)}
+.oe-choice:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:2px}
+.oe-choice.is-active{background:var(--oe-green-soft);border-color:var(--oe-green-ink);color:var(--oe-green-ink)}
+.oe-choice:disabled{opacity:.45;cursor:not-allowed}
+.oe-choice__hint{margin-inline-start:auto;font:500 11px var(--oe-f-mono);color:var(--oe-mute)}
+.oe-choice.is-active .oe-choice__hint{color:inherit}
+.oe-choices--row .oe-choice{flex-direction:column;justify-content:center;gap:4px;padding:8px;font-size:13px;text-align:center}
+.oe-choices--row .oe-choice__hint{margin:0}
 
 /* ---------- An/Aus-Einstellung ----------
    Beschriftung links, Schalter rechts, optional erklaerender Satz und

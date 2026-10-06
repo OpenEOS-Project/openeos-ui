@@ -21,12 +21,12 @@ export default defineConfig({
   // const im Quelltext ankommen, Bundling macht daraus var und das
   // Font-Plugin von Next bricht ab. Das Modul wird als Quelle
   // ausgeliefert (siehe exports['./fonts']).
-  entry: ['src/index.ts', 'src/tokens.ts'],
+  entry: { index: 'src/index.ts', tokens: 'src/tokens.ts', 'icons/index': 'src/icons/index.ts' },
   format: ['esm'],
   dts: true,
   clean: true,
   treeshake: true,
-  external: ['react', 'react/jsx-runtime', 'next', 'next/font/local'],
+  external: ['react', 'react/jsx-runtime', 'react-dom', 'next', 'next/font/local'],
   async onSuccess() {
     writeFileSync('dist/styles.css', bundleCss(join(STYLE_ROOT, 'index.css')));
   },

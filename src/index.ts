@@ -15,6 +15,9 @@
 
 export { cx, bem } from './react/utils';
 
+export { Icon, type IconProps } from './react/icon';
+export type { IconName } from './icons/generated';
+
 export {
   Button,
   ButtonLink,
@@ -59,6 +62,8 @@ export {
   Spinner,
   Skeleton,
   Rank,
+  StatusPill,
+  type StatusPillProps,
   type BadgeProps,
   type BadgeTone,
   type DotTone,
@@ -74,6 +79,8 @@ export {
   Modal,
   Scrim,
   Tooltip,
+  Prompt,
+  type PromptProps,
   type BannerProps,
   type BannerTone,
   type ToastProps,
@@ -95,6 +102,11 @@ export {
   Segment,
   Chips,
   Chip,
+  Stepper,
+  ChoiceGroup,
+  type StepperProps,
+  type ChoiceOption,
+  type ChoiceGroupProps,
   type FieldProps,
   type InputProps,
   type TextareaProps,
@@ -132,6 +144,7 @@ export {
   TileGrid,
   Ticket,
   TableChip,
+  TableGrid,
   TableMap,
   Keypad,
   Receipt,
@@ -142,7 +155,9 @@ export {
   type TicketState,
   type TicketLine,
   type TableChipProps,
+  type TableGridProps,
   type KeypadProps,
+  type KeypadKey,
   type ReceiptProps,
   type ReceiptLine,
   type StreamRow,
@@ -160,3 +175,44 @@ export {
   type DropdownLinkProps,
   type DropdownSearchProps,
 } from './react/dropdown';
+
+export {
+  IconBox,
+  Legend,
+  CartLine,
+  CartBar,
+  CategoryNav,
+  CategoryButton,
+  UserChip,
+  type IconBoxProps,
+  type LegendItem,
+  type CartLineProps,
+  type CartBarProps,
+  type CategoryNavProps,
+  type CategoryButtonProps,
+  type UserChipProps,
+} from './react/pos';
+
+export { Sheet, type SheetProps } from './react/sheet';
+
+export {
+  FloorPlan,
+  type FloorPlanProps,
+  type FloorTable,
+  type FloorDecor,
+  type FloorChange,
+  type FloorItemKind,
+} from './react/floor-plan';
+
+export {
+  snapToGrid,
+  clampToArea,
+  pxToUnits,
+  rotateBy,
+  toPercent,
+  moveRect,
+  resizeRect,
+  FLOOR_MIN_SIZE,
+  type FloorRect,
+  type FloorArea,
+} from './react/floor-plan-math';

@@ -49,6 +49,10 @@
   --oe-danger: #c0392b;    --oe-danger-soft: #f7dedb;
   --oe-info: #2f6d8c;      --oe-info-soft: #dceaf1;
   --oe-on-danger: #ffffff;
+  /* Text in Status-Farbe auf hellem Grund und auf --oe-*-soft.
+     --oe-warn/--oe-danger selbst erreichen dort keine 4,5:1. */
+  --oe-warn-ink: #855508;
+  --oe-danger-ink: #a83224;
   /* Status auf dunklem Grund (Wallboard, Kasse, KDS) */
   --oe-warn-bright: #f0b64a;
   --oe-danger-bright: #f07a68;
@@ -102,6 +106,22 @@
   --oe-knob: #ffffff;       /* Switch-Knopf, Zustand aus */
   --oe-knob-on: #ffffff;    /* Switch-Knopf, Zustand an */
   --oe-term-bg: #0a0c0b;    /* Terminal — bewusst immer dunkel */
+
+  /* ---------- Icons ---------- */
+  --oe-ico: 18px;           /* Kantenlänge von .oe-icon */
+
+  /* ---------- Kassenbon ----------
+     In beiden Themes gleich: Papier bleibt Papier. */
+  --oe-receipt-bg: #fbfaf5;
+  --oe-receipt-ink: #1a1a1a;
+  --oe-receipt-line: #c8c8c8;
+  --oe-receipt-mute: #6b6b6b;
+
+  /* ---------- Tischplan ---------- */
+  --oe-floor-bg: var(--oe-paper-2);
+  --oe-floor-grid-line: rgba(10, 13, 11, 0.06);
+  --oe-floor-decor: var(--oe-paper-3);
+  --oe-floor-wall: var(--oe-mute);
 
   /* ---------- Bewegung ---------- */
   --oe-ease: cubic-bezier(0.22, 0.61, 0.36, 1);

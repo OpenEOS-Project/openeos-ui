@@ -3,8 +3,8 @@
    ========================================================== */
 .oe-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:var(--oe-r-xs);font:600 11px/1.4 var(--oe-f-mono);letter-spacing:.05em;text-transform:uppercase;background:var(--oe-paper-3);color:var(--oe-mute);border:1px solid transparent}
 .oe-badge--success{background:var(--oe-green-soft);color:var(--oe-green-ink)}
-.oe-badge--warn{background:var(--oe-warn-soft);color:var(--oe-warn)}
-.oe-badge--danger{background:var(--oe-danger-soft);color:var(--oe-danger)}
+.oe-badge--warn{background:var(--oe-warn-soft);color:var(--oe-warn-ink)}
+.oe-badge--danger{background:var(--oe-danger-soft);color:var(--oe-danger-ink)}
 .oe-badge--info{background:var(--oe-info-soft);color:var(--oe-info)}
 .oe-badge--ink{background:var(--oe-contrast);color:var(--oe-contrast-accent)}
 .oe-badge--outline{background:transparent;border-color:var(--oe-line-2);color:var(--oe-mute)}
@@ -28,3 +28,10 @@
 .oe-avatar-stack{display:flex}
 .oe-avatar-stack .oe-avatar{border:2px solid var(--oe-paper);margin-inline-start:-8px}
 .oe-avatar-stack .oe-avatar:first-child{margin-inline-start:0}
+
+/* Status-Pille im Kassenkopf: Online, TSE, Drucker, Uhr.
+   Icon grün; der Ton färbt Icon und Text. */
+.oe-statuspill{display:inline-flex;align-items:center;gap:7px;font:500 12px var(--oe-f-mono);color:var(--oe-mute);white-space:nowrap;--oe-ico:15px}
+.oe-statuspill>.oe-icon{color:var(--oe-green-ink)}
+.oe-statuspill--warn,.oe-statuspill--warn>.oe-icon{color:var(--oe-warn-ink)}
+.oe-statuspill--danger,.oe-statuspill--danger>.oe-icon{color:var(--oe-danger-ink)}

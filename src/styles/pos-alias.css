@@ -1,5 +1,7 @@
 /* ==========================================================
-   POS-ALIASE
+   POS-ALIASE — VERALTET, entfällt in 0.5.0
+   openeos-web stellt die Kasse in 0.4.x auf .oe-*-Klassen und
+   --oe-*-Tokens um; danach nutzt kein Repo mehr --pos-*.
    Die POS-Prototypen nutzten einen eigenen Tokensatz (--pos-*).
    Statt eines dritten parallelen Systems zeigen sie hier auf
    die OpenEOS-Tokens — bestehendes POS-Markup läuft unverändert

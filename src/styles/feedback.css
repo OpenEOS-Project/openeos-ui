@@ -2,22 +2,22 @@
    10 · FEEDBACK: Banner, Toast, Modal, Leerzustand, Skeleton
    ========================================================== */
 .oe-banner{display:flex;gap:11px;align-items:flex-start;padding:12px 14px;border-radius:var(--oe-r-sm);border:1px solid var(--oe-line-2);background:var(--oe-paper-2);font-size:14px}
-.oe-banner__ico{width:18px;height:18px;flex:none;margin-top:1px}
+.oe-banner__ico{width:18px;height:18px;flex:none;margin-top:1px;display:inline-flex;--oe-ico:18px}
 .oe-banner b{display:block;font-weight:700;margin-bottom:2px}
 .oe-banner p{margin:0;color:var(--oe-mute);font-size:13px}
 .oe-banner--success{background:var(--oe-green-soft);border-color:color-mix(in oklab, var(--oe-green-ink) 22%, transparent);color:var(--oe-green-ink)}
 .oe-banner--success p{color:color-mix(in oklab, var(--oe-green-ink) 80%, transparent)}
-.oe-banner--warn{background:var(--oe-warn-soft);border-color:color-mix(in oklab, var(--oe-warn) 25%, transparent);color:var(--oe-warn)}
-.oe-banner--warn p{color:color-mix(in oklab, var(--oe-warn) 85%, var(--oe-ink))}
-.oe-banner--danger{background:var(--oe-danger-soft);border-color:color-mix(in oklab, var(--oe-danger) 25%, transparent);color:var(--oe-danger)}
-.oe-banner--danger p{color:color-mix(in oklab, var(--oe-danger) 85%, var(--oe-ink))}
+.oe-banner--warn{background:var(--oe-warn-soft);border-color:color-mix(in oklab, var(--oe-warn) 25%, transparent);color:var(--oe-warn-ink)}
+.oe-banner--warn p{color:color-mix(in oklab, var(--oe-warn-ink) 85%, var(--oe-ink))}
+.oe-banner--danger{background:var(--oe-danger-soft);border-color:color-mix(in oklab, var(--oe-danger) 25%, transparent);color:var(--oe-danger-ink)}
+.oe-banner--danger p{color:color-mix(in oklab, var(--oe-danger-ink) 85%, var(--oe-ink))}
 .oe-banner--info{background:var(--oe-info-soft);border-color:color-mix(in oklab, var(--oe-info) 22%, transparent);color:var(--oe-info)}
 .oe-banner--info p{color:color-mix(in oklab, var(--oe-info) 85%, var(--oe-ink))}
 
 .oe-toast{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:var(--oe-r-sm);background:var(--oe-contrast);color:var(--oe-on-contrast);box-shadow:var(--oe-sh-3);font-size:14px;max-width:380px}
 .oe-toast b{font-weight:600}
 .oe-toast span{color:var(--oe-on-contrast-mute);font-size:13px}
-.oe-toast__x{margin-inline-start:auto;background:none;border:0;color:var(--oe-on-contrast-mute);cursor:pointer;font-family:var(--oe-f-mono)}
+.oe-toast__x{display:inline-flex;margin-inline-start:auto;padding:4px;background:none;border:0;color:var(--oe-on-contrast-mute);cursor:pointer;--oe-ico:14px}
 .oe-toast--success{border-inline-start:3px solid var(--oe-green)}
 .oe-toast--danger{border-inline-start:3px solid var(--oe-danger)}
 
@@ -30,7 +30,7 @@
 .oe-scrim{position:fixed;inset:0;background:color-mix(in oklab, #000 45%, transparent);backdrop-filter:blur(2px);display:grid;place-items:center;padding:var(--oe-s5);z-index:200}
 
 .oe-empty{display:grid;place-items:center;gap:var(--oe-s3);padding:var(--oe-s8) var(--oe-s5);text-align:center}
-.oe-empty__ico{width:40px;height:40px;border-radius:var(--oe-r);background:var(--oe-paper-2);display:grid;place-items:center;color:var(--oe-mute)}
+.oe-empty__ico{--oe-ico:20px;width:40px;height:40px;border-radius:var(--oe-r);background:var(--oe-paper-2);display:grid;place-items:center;color:var(--oe-mute)}
 .oe-empty b{font:700 15px var(--oe-f-sans)}
 .oe-empty p{margin:0;color:var(--oe-mute);font-size:14px;max-width:320px}
 .oe-nodata{padding:var(--oe-s7);text-align:center;color:var(--oe-mute);font-size:14px}

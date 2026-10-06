@@ -1,0 +1,49 @@
+/* ==========================================================
+   TISCHPLAN — <FloorPlan> (Ansicht in der Kasse, Bearbeiten in
+   der Verwaltung). Koordinaten kommen ausschließlich als
+   CSS-Variablen in Prozent (--x, --y, --w, --h) und Grad (--r);
+   die Fläche skaliert über aspect-ratio mit, die Schrift über
+   Container-Einheiten.
+   ========================================================== */
+/* contain: inline-size — die Mindestbreite der Karte (min-width) darf die
+   umgebende Spalte nicht aufdrücken; die Hülle scrollt stattdessen. */
+.oe-floor-wrap{contain:inline-size;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;border-radius:var(--oe-r)}
+.oe-floor{position:relative;box-sizing:border-box;width:100%;min-width:var(--oe-floor-min-w,0px);aspect-ratio:var(--oe-floor-w,3)/var(--oe-floor-h,2);container-type:inline-size;background-color:var(--oe-floor-bg);border:1px solid var(--oe-line);border-radius:var(--oe-r);user-select:none;-webkit-user-select:none}
+/* Raster: zwei lineare Verläufe, Kachelgröße = ein Rasterschritt in % */
+.oe-floor--grid{background-image:linear-gradient(to right,var(--oe-floor-grid-line) 1px,transparent 1px),linear-gradient(to bottom,var(--oe-floor-grid-line) 1px,transparent 1px);background-size:var(--oe-floor-grid,5% 5%)}
+
+/* Tische */
+.oe-floor__table{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);transform:rotate(var(--r,0deg));box-sizing:border-box;display:grid;place-content:center;justify-items:center;gap:1px;padding:2px;margin:0;border:1.5px solid var(--oe-line-2);border-radius:var(--oe-r-sm);background:var(--oe-surface);color:var(--oe-ink);font:700 clamp(10px,1.4cqi,18px)/1.1 var(--oe-f-sans);letter-spacing:-.01em;text-align:center;cursor:pointer;transition:border-color var(--oe-dur-2),box-shadow var(--oe-dur-2),background var(--oe-dur-2)}
+.oe-floor__table:hover{border-color:color-mix(in oklab,var(--oe-ink) 45%,transparent)}
+.oe-floor__table:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:2px}
+.oe-floor__table--round{border-radius:50%}
+.oe-floor__table--busy{background:var(--oe-green-soft);border-color:color-mix(in oklab,var(--oe-green-ink) 22%,transparent);color:var(--oe-green-ink)}
+.oe-floor__table--wait{background:var(--oe-warn-soft);border-color:color-mix(in oklab,var(--oe-warn) 35%,transparent);color:var(--oe-warn-ink)}
+.oe-floor__table.is-current{border-color:var(--oe-ink);box-shadow:inset 0 0 0 1px var(--oe-ink)}
+.oe-floor__table.is-selected{outline:2px solid var(--oe-green-ink);outline-offset:2px;z-index:2}
+.oe-floor__table:disabled,.oe-floor__table[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
+.oe-floor__label{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.oe-floor__hint,.oe-floor__seats{font:500 clamp(8px,1cqi,12px)/1.1 var(--oe-f-mono);letter-spacing:.02em;color:var(--oe-mute);white-space:nowrap}
+.oe-floor__seats{display:inline-flex;align-items:center;gap:.25em}
+.oe-floor__seats .oe-icon{--oe-ico:1em}
+.oe-floor__table--busy .oe-floor__hint,.oe-floor__table--wait .oe-floor__hint,.oe-floor__table--busy .oe-floor__seats,.oe-floor__table--wait .oe-floor__seats{color:inherit}
+
+/* Deko: Theke, Wand, Bühne, Beschriftung */
+.oe-floor__decor{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);transform:rotate(var(--r,0deg));box-sizing:border-box;display:grid;place-items:center;padding:0;margin:0;border:0;border-radius:var(--oe-r-xs);background:var(--oe-floor-decor);color:color-mix(in oklab, var(--oe-mute) 65%, var(--oe-ink));font:500 clamp(8px,1.1cqi,13px)/1.1 var(--oe-f-mono);letter-spacing:.06em;text-transform:uppercase;overflow:hidden;pointer-events:none}
+.oe-floor__decor--bar{background:var(--oe-floor-decor);border:1px solid var(--oe-line-2)}
+.oe-floor__decor--wall{background:var(--oe-floor-wall);border-radius:2px}
+.oe-floor__decor--stage{background:repeating-linear-gradient(-45deg,var(--oe-floor-decor) 0 8px,color-mix(in oklab,var(--oe-floor-decor) 70%,var(--oe-floor-bg)) 8px 16px);border:1px solid var(--oe-line-2)}
+.oe-floor__decor--label{background:none;color:color-mix(in oklab, var(--oe-mute) 65%, var(--oe-ink));font:600 clamp(9px,1.3cqi,16px)/1.1 var(--oe-f-sans);letter-spacing:0;text-transform:none}
+
+/* Bearbeiten */
+.oe-floor--edit .oe-floor__table,.oe-floor--edit .oe-floor__decor{cursor:grab;touch-action:none;pointer-events:auto}
+.oe-floor--edit .oe-floor__decor:focus-visible{outline:2px solid var(--oe-green-ink);outline-offset:2px}
+.oe-floor--edit .oe-floor__decor.is-selected{outline:2px solid var(--oe-green-ink);outline-offset:2px;z-index:2}
+.oe-floor--edit .is-dragging{cursor:grabbing;box-shadow:var(--oe-sh-2);z-index:3;transition:none}
+/* Eckgriff: sichtbar 14 px, Trefferfläche 32 px */
+.oe-floor__handle{position:absolute;right:-8px;bottom:-8px;box-sizing:border-box;width:14px;height:14px;border-radius:3px;background:var(--oe-green-ink);border:2px solid var(--oe-surface);cursor:nwse-resize;touch-action:none}
+.oe-floor__handle::after{content:"";position:absolute;inset:-9px}
+
+@media (prefers-reduced-motion:reduce){
+  .oe-floor__table{transition:none}
+}
