@@ -35,6 +35,13 @@
   --oe-green-ink: oklch(0.84 0.15 145);
   --oe-green-soft: oklch(0.3 0.07 145);
   --oe-green-soft-2: oklch(0.35 0.08 145);
+
+  /* Eigene Akzentfarbe (.oe-icobox--tint): Anteil der Farbe an der
+     Fläche und Helligkeitsband (OKLCH-L) der Icon-Farbe, damit sie
+     auf der Fläche mindestens 3:1 erreicht. */
+  --oe-tint-bg-mix: 26%;
+  --oe-tint-ink-lo: 0.76;
+  --oe-tint-ink-hi: 1;
   --oe-on-accent: #0a0d0b;
   --oe-on-signal: #0a0d0b;
 

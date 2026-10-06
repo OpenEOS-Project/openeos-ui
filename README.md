@@ -119,7 +119,7 @@ sind Props mit deutschem Default (du-Form); Anwendungen übergeben
 | Komponente | Zweck | Klassen |
 |---|---|---|
 | `Icon` | Linien-Icon aus dem OpenEOS-Set (Lucide) (`name`, `size`, `label`, `filled`) | `.oe-icon` |
-| `IconBox` | Icon oder Bild auf getönter Fläche, optional Mengenkreis | `.oe-icobox*` |
+| `IconBox` | Icon oder Bild auf getönter Fläche, optional Mengenkreis; `accent` (seit 0.5.1) färbt Fläche und Icon in einer eigenen Farbe, z. B. der Kategoriefarbe, mit mindestens 3:1 Kontrast in Hell und Dunkel | `.oe-icobox*`, `.oe-icobox--tint` + `--oe-icobox-accent` |
 | `Tile variant="product"` | Produktkachel: Name, Zeile 2, Icon-Box, Menge, Preis, Hinweise | `.oe-tile--product`, `.oe-tile__*` |
 | `TableChip`, `TableGrid` | Tisch-Kachel (`state`, `current`, `size="lg"`) und Raster (`min`) | `.oe-tablechip*`, `.oe-tables` |
 | `Legend` | Legende der Tischfarben | `.oe-legend*` |

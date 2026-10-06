@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 
 import { bem, cx } from './utils';
 
@@ -25,6 +26,97 @@ function Chevron() {
   );
 }
 
+/* ---------- Kollisionslogik ---------- */
+
+/** Mindestabstand des Panels zum sichtbaren Rand. */
+const EDGE = 8;
+
+/* Auf dem Server gibt es kein Layout; useLayoutEffect würde dort warnen. */
+const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+interface Bounds {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
+/**
+ * Sichtbarer Bereich für das Panel: Viewport, geschnitten mit allen
+ * Vorfahren, die waagerecht abschneiden (overflow ≠ visible). Ein
+ * scrollender Inhaltsbereich etwa schneidet links an der Seitenleiste ab.
+ */
+function visibleBounds(from: HTMLElement): Bounds {
+  const vv = window.visualViewport;
+  const b: Bounds = {
+    left: vv?.offsetLeft ?? 0,
+    top: vv?.offsetTop ?? 0,
+    right: (vv?.offsetLeft ?? 0) + (vv?.width ?? document.documentElement.clientWidth),
+    bottom: (vv?.offsetTop ?? 0) + (vv?.height ?? window.innerHeight),
+  };
+  for (let el = from.parentElement; el && el !== document.body; el = el.parentElement) {
+    const cs = getComputedStyle(el);
+    if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+    const r = el.getBoundingClientRect();
+    if (cs.overflowX !== 'visible') {
+      b.left = Math.max(b.left, r.left);
+      b.right = Math.min(b.right, r.right);
+    }
+  }
+  return b;
+}
+
+interface PanelPos {
+  align: 'start' | 'end';
+  placement: 'bottom' | 'top';
+  /** Feste waagerechte Lage (px relativ zum Auslöser-Wrapper), wenn keine Bündigkeit passt. */
+  left?: number;
+}
+
+/**
+ * Wählt Bündigkeit und Richtung so, dass das Panel sichtbar bleibt:
+ * erst die gewünschte, dann die gespiegelte, sonst an den Rand
+ * geschoben. Nach oben nur, wenn unten kein Platz ist und oben schon.
+ */
+function resolvePanelPos(
+  wrap: HTMLElement,
+  panel: HTMLElement,
+  want: PanelPos,
+): PanelPos {
+  const w = wrap.getBoundingClientRect();
+  const width = panel.offsetWidth;
+  const height = panel.offsetHeight;
+  const b = visibleBounds(wrap);
+  const rtl = getComputedStyle(wrap).direction === 'rtl';
+  const minL = b.left + EDGE;
+  const maxR = b.right - EDGE;
+
+  /* Linke Kante je Bündigkeit; "start" ist in RTL rechts. */
+  const leftFor = (a: 'start' | 'end') =>
+    (a === 'start') !== rtl ? w.left : w.right - width;
+  const fits = (l: number) => l >= minL && l + width <= maxR;
+
+  const other = want.align === 'start' ? 'end' : 'start';
+  let align = want.align;
+  let left: number | undefined;
+  if (!fits(leftFor(want.align))) {
+    if (fits(leftFor(other))) align = other;
+    else {
+      const clamped = Math.max(minL, Math.min(leftFor(want.align), maxR - width));
+      left = Math.round(clamped - w.left);
+    }
+  }
+
+  const gap = 5;
+  const below = b.bottom - EDGE - (w.bottom + gap);
+  const above = w.top - gap - (b.top + EDGE);
+  let placement = want.placement;
+  if (want.placement === 'bottom' && height > below && above >= height) placement = 'top';
+  else if (want.placement === 'top' && height > above && below >= height) placement = 'bottom';
+
+  return { align, placement, left };
+}
+
 /* ---------- Dropdown ---------- */
 
 export interface DropdownProps {
@@ -35,9 +127,13 @@ export interface DropdownProps {
   triggerVariant?: 'quiet';
   triggerSize?: 'sm';
   block?: boolean;
-  /** Panel rechtsbündig statt links. */
+  /**
+   * Bevorzugte Bündigkeit des Panels am Auslöser (`end` = rechtsbündig).
+   * Passt das Panel so nicht in den sichtbaren Bereich (Viewport bzw.
+   * abschneidender Container), wird gespiegelt oder an den Rand geschoben.
+   */
   align?: 'start' | 'end';
-  /** Panel nach oben öffnen — für Auslöser am unteren Rand. */
+  /** Bevorzugt nach oben öffnen; kippt nach unten, wenn oben kein Platz ist. */
   placement?: 'bottom' | 'top';
   className?: string;
   children?: ReactNode;
@@ -63,8 +159,32 @@ export function Dropdown({
   children,
 }: DropdownProps) {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<PanelPos | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
   const panelId = useId();
+
+  /* Vor dem Zeichnen messen: das Panel steht zuerst in der gewünschten
+     Lage, wird gemessen und ggf. umgesetzt — ohne sichtbares Springen. */
+  useIsoLayoutEffect(() => {
+    if (!open) {
+      setPos(null);
+      return;
+    }
+    const measure = () => {
+      if (wrapRef.current && panelRef.current) {
+        setPos(resolvePanelPos(wrapRef.current, panelRef.current, { align, placement }));
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [open, align, placement]);
+
+  const eff = pos ?? { align, placement };
+  const panelStyle: CSSProperties | undefined =
+    /* Inline schlägt die logischen Insets der Klasse in beiden Richtungen. */
+    eff.left !== undefined ? { left: eff.left, right: 'auto' } : undefined;
 
   useEffect(() => {
     if (!open) return;
@@ -106,13 +226,15 @@ export function Dropdown({
       </button>
 
       <div
+        ref={panelRef}
         id={panelId}
         role="menu"
         className={cx(
           'oe-dd__panel',
-          align === 'end' && 'oe-dd__panel--end',
-          placement === 'top' && 'oe-dd__panel--top',
+          eff.align === 'end' && 'oe-dd__panel--end',
+          eff.placement === 'top' && 'oe-dd__panel--top',
         )}
+        style={panelStyle}
         onClick={onPanelClick}
       >
         {children}

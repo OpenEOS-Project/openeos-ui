@@ -86,6 +86,11 @@ test('Segment mit Icon, ChoiceGroup als radiogroup', () => {
 test('IconBox, CartLine, StatusPill, UserChip', () => {
   assert.match(render(h(IconBox, { icon: 'cart', tone: 'accent', badge: 3 })), /oe-icobox oe-icobox--accent[\s\S]*oe-icobox__badge">3</);
   assert.doesNotMatch(render(h(IconBox, { icon: 'cart', badge: 0 })), /badge/);
+  /* Eigene Akzentfarbe geht vor tone und kommt als CSS-Variable. */
+  const tinted = render(h(IconBox, { icon: 'tag', tone: 'accent', accent: '#ec4899' }));
+  assert.match(tinted, /class="oe-icobox oe-icobox--tint"/);
+  assert.match(tinted, /--oe-icobox-accent:#ec4899/);
+  assert.doesNotMatch(render(h(IconBox, { icon: 'tag', accent: null })), /tint|style=/);
   assert.match(render(h(CartLine, { name: 'Pils', total: '9,00 €', qtyText: '2 Stk.', sent: 'gesendet' })), /^<li class="oe-cartline is-sent">/);
   assert.match(render(h(StatusPill, { dot: 'live', label: 'Online', hideLabel: true })), /class="oe-sr-only">Online</);
   const chip = render(h(UserChip, { name: 'Anna B.', onLock() {} }));

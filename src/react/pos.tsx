@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { IconName } from '../icons/generated';
 import { Avatar } from './data-display';
@@ -15,6 +15,14 @@ export interface IconBoxProps {
   icon?: IconName | ReactNode;
   /** `accent`: Grün-zart. `ink`: Kontrastfläche mit Signalgrün. */
   tone?: 'default' | 'accent' | 'ink';
+  /**
+   * Eigene Akzentfarbe (jede CSS-Farbe, z. B. eine Kategoriefarbe
+   * `#ec4899`). Färbt die Fläche zart und das Icon kräftig; die
+   * Icon-Farbe wird je Theme abgedunkelt bzw. aufgehellt, damit sie
+   * mindestens 3:1 zur Fläche hat. Geht vor `tone`.
+   * Ohne React: `.oe-icobox--tint` plus `--oe-icobox-accent`.
+   */
+  accent?: string | null;
   /** sm 32 px · md 36 px · lg 46 px */
   size?: 'sm' | 'md' | 'lg';
   /** Mengenkreis oben rechts; 0, '' oder null blendet ihn aus. */
@@ -24,10 +32,14 @@ export interface IconBoxProps {
   className?: string;
 }
 
-export function IconBox({ icon, tone = 'default', size = 'md', badge, children, className }: IconBoxProps) {
+export function IconBox({ icon, tone = 'default', size = 'md', accent, badge, children, className }: IconBoxProps) {
   const showBadge = badge !== undefined && badge !== null && badge !== '' && badge !== 0 && badge !== false;
+  const style = accent ? ({ '--oe-icobox-accent': accent } as CSSProperties) : undefined;
   return (
-    <span className={bem('oe-icobox', [tone !== 'default' && tone, size !== 'md' && size], className)}>
+    <span
+      className={bem('oe-icobox', [accent ? 'tint' : tone !== 'default' && tone, size !== 'md' && size], className)}
+      style={style}
+    >
       {icon ? renderIcon(icon) : null}
       {children}
       {showBadge ? <i className="oe-icobox__badge">{badge}</i> : null}
