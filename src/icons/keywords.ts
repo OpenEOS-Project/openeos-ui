@@ -41,7 +41,7 @@ export const iconKeywords: Readonly<Record<IconName, { readonly de: readonly str
   filter: { de: ['filter', 'trichter', 'eingrenzen'], en: ['funnel', 'narrow'] },
   edit: { de: ['bearbeiten', 'stift', 'ändern'], en: ['pencil', 'change', 'modify'] },
   trash: { de: ['papierkorb', 'löschen', 'mülleimer', 'entfernen'], en: ['delete', 'bin', 'remove', 'garbage'] },
-  more: { de: ['mehr', 'menü', 'weitere aktionen', 'punkte'], en: ['menu', 'more actions', 'ellipsis', 'dots'] },
+  more: { de: ['mehr', 'weitere aktionen', 'punkte', 'zeilenmenü'], en: ['more actions', 'ellipsis', 'dots', 'row menu'] },
   send: { de: ['senden', 'abschicken', 'to-go', 'mitnehmen', 'papierflieger'], en: ['submit', 'takeaway', 'paper plane'] },
   print: { de: ['drucken', 'bon drucken', 'ausdrucken'], en: ['printout', 'receipt'] },
   download: { de: ['herunterladen', 'export', 'speichern'], en: ['export', 'save'] },
@@ -98,6 +98,7 @@ export const iconKeywords: Readonly<Record<IconName, { readonly de: readonly str
   sun: { de: ['sonne', 'hell', 'tag', 'heller modus', 'darstellung'], en: ['light', 'day', 'light mode', 'appearance'] },
   moon: { de: ['mond', 'dunkel', 'nacht', 'dunkler modus', 'darstellung'], en: ['dark', 'night', 'dark mode', 'appearance'] },
   monitor: { de: ['bildschirm', 'system', 'anzeige', 'darstellung'], en: ['screen', 'system', 'display', 'appearance'] },
+  menu: { de: ['menü', 'hauptmenü', 'burger', 'navigation', 'striche'], en: ['menu', 'main menu', 'hamburger', 'burger', 'navigation'] },
 
   /* ---------- Status ---------- */
   'check-circle': { de: ['erfolg', 'bezahlt', 'erledigt', 'abgeschlossen'], en: ['success', 'paid', 'done', 'complete'] },
