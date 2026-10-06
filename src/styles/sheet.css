@@ -38,7 +38,8 @@
   .oe-sheet__handle{position:relative;flex:none;display:flex;justify-content:center;align-items:center;height:20px;margin-bottom:-8px;touch-action:none;cursor:grab}
   .oe-sheet__handle::before{content:"";width:40px;height:4px;border-radius:var(--oe-r-full);background:var(--oe-line-2)}
   .oe-sheet__handle::after{content:"";position:absolute;inset:-12px 0}
-  .oe-sheet__hd{padding:12px 14px}
+  /* Kopf zieht das Blatt (Herunterziehen schließt), scrollt nicht */
+  .oe-sheet__hd{padding:12px 14px;touch-action:none}
   .oe-sheet__toolbar{padding:10px 14px}
   .oe-sheet__body{padding:14px;gap:14px}
   .oe-sheet__pinned{padding:0 14px 14px}
