@@ -1,0 +1,6 @@
+<!-- Lucide "menu" (lucide-static 1.52.0, ISC, siehe LICENSE-lucide.txt). Erzeugt von scripts/build-icons.mjs, nicht von Hand ändern. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 5h16" />
+  <path d="M4 12h16" />
+  <path d="M4 19h16" />
+</svg>

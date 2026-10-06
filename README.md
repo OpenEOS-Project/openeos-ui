@@ -165,7 +165,7 @@ import { iconNames, iconGroups, iconKeywords, iconSources, iconSvg, isIconName, 
 iconSvg('beer', 20)                     // SVG-String ohne React (Doku, Landing, statische Seiten)
 ```
 
-92 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
+93 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
 `operations`, `status`); Größe über `--oe-ico` (Default 18 px), Farbe über
 `currentColor`. **Alle Icons stammen aus [Lucide](https://lucide.dev)**
 (ISC) und werden zur Buildzeit ins Paket übernommen — keine
@@ -193,6 +193,12 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### 0.5.3
+
+- **Icon** `menu` (Lucide `menu`, drei waagerechte Striche) für Haupt-Menüs,
+  etwa den Menü-Knopf im Kassen-Kopf. `more` (`···`) bleibt für
+  Zeilen- und Kontextaktionen.
 
 ### 0.5.2
 
