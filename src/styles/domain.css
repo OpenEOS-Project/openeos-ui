@@ -53,6 +53,13 @@
 .oe-icobox--lg{width:46px;height:46px;--oe-ico:26px}
 .oe-icobox--accent{background:var(--oe-green-soft);color:var(--oe-green-ink)}
 .oe-icobox--ink{background:var(--oe-contrast);color:var(--oe-contrast-accent)}
+/* Eigene Akzentfarbe (Kategoriefarbe): zarte Fläche, kräftiges Icon.
+   Die Icon-Farbe bleibt im Farbton, ihre Helligkeit wird je Theme
+   begrenzt (--oe-tint-ink-lo/-hi), damit sie ≥ 3:1 zur Fläche hat —
+   Gelb wird im Hellen dunkler, Dunkelblau im Dunkeln heller.
+   Rückfall ohne Relative-Color-Syntax: Mischung mit der Textfarbe. */
+.oe-icobox--tint{background:color-mix(in oklab,var(--oe-icobox-accent,var(--oe-green)) var(--oe-tint-bg-mix,16%),var(--oe-surface));color:color-mix(in oklab,var(--oe-icobox-accent,var(--oe-green)) 60%,var(--oe-ink))}
+@supports (color:oklch(from red l c h)){.oe-icobox--tint{color:oklch(from var(--oe-icobox-accent,var(--oe-green)) clamp(var(--oe-tint-ink-lo,0),l,var(--oe-tint-ink-hi,.55)) c h)}}
 .oe-icobox>img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 .oe-icobox__badge{position:absolute;top:-6px;inset-inline-end:-6px;box-sizing:border-box;min-width:20px;height:20px;padding:0 5px;border-radius:var(--oe-r-full);border:2px solid var(--oe-surface);background:var(--oe-green-ink);color:var(--oe-on-accent);font:700 11px/16px var(--oe-f-mono);font-style:normal;text-align:center}
 
