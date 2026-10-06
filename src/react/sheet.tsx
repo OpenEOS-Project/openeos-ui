@@ -1,9 +1,10 @@
-import type { PointerEvent as ReactPointerEvent, ReactNode, RefObject } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { IconName } from '../icons/generated';
 import { Icon } from './icon';
 import { IconBox } from './pos';
+import { useSwipeToClose } from './swipe';
 import { bem, cx } from './utils';
 
 /**
@@ -14,8 +15,10 @@ import { bem, cx } from './utils';
  * Portal an `document.body` bzw. `container`, Escape schließt, Tab
  * bleibt im Blatt, beim Schließen kehrt der Fokus zum auslösenden
  * Element zurück, die Seite dahinter scrollt nicht. Liegen mehrere
- * Blätter übereinander, reagiert nur das oberste. Auf dem Telefon
- * schließt Wischen am Griff nach unten.
+ * Blätter übereinander, reagiert nur das oberste. Bis 820 px schließt
+ * Herunterziehen am Griff oder Kopf — im Inhalt, wenn er oben steht
+ * (Schwelle oder schneller Wisch, sonst federt das Blatt zurück).
+ * Elemente mit eigener Ziehgeste tragen `data-oe-nodrag`.
  */
 export interface SheetProps {
   open: boolean;
@@ -72,9 +75,6 @@ function unlockScroll() {
   }
 }
 
-/** Ab diesem Wischweg (px) schließt das Blatt beim Loslassen. */
-const SWIPE_CLOSE = 80;
-
 export function Sheet(props: SheetProps) {
   const { open, container } = props;
   const [mounted, setMounted] = useState(false);
@@ -105,9 +105,8 @@ function SheetLayer({
   const panelRef = useRef<HTMLDivElement>(null);
   const latest = useRef({ onClose, dismissible });
   latest.current = { onClose, dismissible };
-  const [dragging, setDragging] = useState(false);
-  const drag = useRef<{ startY: number; dy: number; pointerId: number } | null>(null);
   const pressedOnScrim = useRef(false);
+  useSwipeToClose(panelRef, { enabled: dismissible, onClose });
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -171,29 +170,6 @@ function SheetLayer({
     // Nur beim Öffnen: initialFocusRef ist ein Ref, onClose kommt über latest.
   }, []);
 
-  /* Wischen am Griff (nur sichtbar ≤ 820 px). Der Versatz läuft über die
-     CSS-Variable --oe-sheet-drag, ohne bei jeder Bewegung neu zu rendern. */
-  const onHandleDown = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!dismissible) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    drag.current = { startY: event.clientY, dy: 0, pointerId: event.pointerId };
-    setDragging(true);
-  };
-  const onHandleMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const state = drag.current;
-    if (!state || state.pointerId !== event.pointerId) return;
-    state.dy = Math.max(0, event.clientY - state.startY);
-    panelRef.current?.style.setProperty('--oe-sheet-drag', `${state.dy}px`);
-  };
-  const onHandleUp = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const state = drag.current;
-    if (!state || state.pointerId !== event.pointerId) return;
-    drag.current = null;
-    setDragging(false);
-    panelRef.current?.style.setProperty('--oe-sheet-drag', '0px');
-    if (state.dy > SWIPE_CLOSE) onClose();
-  };
-
   return (
     <div
       className="oe-scrim oe-sheet-layer"
@@ -214,16 +190,9 @@ function SheetLayer({
         aria-labelledby={titleId}
         aria-describedby={subtitle ? subId : undefined}
         tabIndex={-1}
-        className={cx(bem('oe-sheet', [size !== 'md' && size]), dragging && 'is-dragging', className)}
+        className={cx(bem('oe-sheet', [size !== 'md' && size]), className)}
       >
-        <div
-          className="oe-sheet__handle"
-          aria-hidden
-          onPointerDown={onHandleDown}
-          onPointerMove={onHandleMove}
-          onPointerUp={onHandleUp}
-          onPointerCancel={onHandleUp}
-        />
+        <div className="oe-sheet__handle" aria-hidden />
         <div className={hideHeader ? 'oe-sr-only' : 'oe-sheet__hd'}>
           {icon ? <IconBox icon={icon} tone={iconTone} /> : null}
           <div className="oe-sheet__titles">

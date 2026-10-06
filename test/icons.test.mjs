@@ -22,8 +22,8 @@ const svgDir = new URL('../src/icons/svg/', import.meta.url);
 const files = readdirSync(svgDir).map((f) => f.replace(/\.svg$/, ''));
 const mapping = JSON.parse(readFileSync(new URL('../src/icons/lucide.json', import.meta.url), 'utf8'));
 
-test('89 Icons mit den Namen aus 0.4, Namen eindeutig', () => {
-  assert.equal(iconNames.length, 89);
+test('92 Icons (die 89 aus 0.4 plus sun, moon, monitor), Namen eindeutig', () => {
+  assert.equal(iconNames.length, 92);
   assert.equal(new Set(iconNames).size, iconNames.length);
   assert.deepEqual([...iconNames].sort(), [...files].sort());
   for (const name of ['cart', 'table', 'table-round', 'map', 'beer', 'wine', 'coffee', 'cake', 'icecream', 'utensils', 'soda', 'water']) {

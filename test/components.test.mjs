@@ -124,3 +124,16 @@ test('FloorPlan: Lage nur über CSS-Variablen, Zustände als Klassen', () => {
   assert.match(edit, /oe-floor__handle/);
   noSymbols(view + edit);
 });
+
+test('Sheet: Wischen schließt ab Schwelle oder schnellem Wisch, sonst Rückfedern', async () => {
+  const { swipeShouldClose } = await import('../dist/index.js');
+  // Weg: ab 120 px bzw. 35 % eines niedrigen Blatts
+  assert.equal(swipeShouldClose(130, 0, 800), true);
+  assert.equal(swipeShouldClose(100, 0, 800), false);
+  assert.equal(swipeShouldClose(75, 0, 200), true);
+  // Schneller Wisch mit etwas Weg
+  assert.equal(swipeShouldClose(40, 0.8, 800), true);
+  assert.equal(swipeShouldClose(10, 2, 800), false);
+  // Nach oben oder gar nicht gezogen
+  assert.equal(swipeShouldClose(0, 3, 800), false);
+});

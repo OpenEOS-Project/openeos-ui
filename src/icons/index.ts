@@ -52,7 +52,7 @@ export const iconGroups: Readonly<Record<IconGroup, readonly IconName[]>> = {
   operations: [
     'table', 'table-round', 'users', 'user', 'clock', 'calendar', 'dashboard', 'orders',
     'box', 'device', 'printer', 'pin', 'chart', 'sliders', 'home', 'grid', 'list', 'note',
-    'bell', 'mail', 'map', 'stage', 'wall', 'text',
+    'bell', 'mail', 'map', 'stage', 'wall', 'text', 'sun', 'moon', 'monitor',
   ],
   status: ['check-circle', 'x-circle', 'alert', 'info', 'wifi', 'wifi-off', 'shield'],
 };

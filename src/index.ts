@@ -194,6 +194,7 @@ export {
 } from './react/pos';
 
 export { Sheet, type SheetProps } from './react/sheet';
+export { useSwipeToClose, swipeShouldClose, type SwipeToCloseOptions } from './react/swipe';
 
 export {
   FloorPlan,

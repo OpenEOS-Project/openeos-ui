@@ -95,6 +95,9 @@ export const iconKeywords: Readonly<Record<IconName, { readonly de: readonly str
   stage: { de: ['bühne', 'vorhang', 'musik', 'band'], en: ['curtain', 'music', 'band'] },
   wall: { de: ['wand', 'mauer', 'trennwand', 'ziegel'], en: ['brick', 'partition', 'barrier'] },
   text: { de: ['text', 'beschriftung', 'schrift', 'bezeichnung'], en: ['label', 'type', 'caption'] },
+  sun: { de: ['sonne', 'hell', 'tag', 'heller modus', 'darstellung'], en: ['light', 'day', 'light mode', 'appearance'] },
+  moon: { de: ['mond', 'dunkel', 'nacht', 'dunkler modus', 'darstellung'], en: ['dark', 'night', 'dark mode', 'appearance'] },
+  monitor: { de: ['bildschirm', 'system', 'anzeige', 'darstellung'], en: ['screen', 'system', 'display', 'appearance'] },
 
   /* ---------- Status ---------- */
   'check-circle': { de: ['erfolg', 'bezahlt', 'erledigt', 'abgeschlossen'], en: ['success', 'paid', 'done', 'complete'] },
