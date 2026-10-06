@@ -58,3 +58,21 @@ test('keine Hex-Farben in den neuen Klassen (außer Kassenbon-Tokens)', () => {
     assert.doesNotMatch(source, /#[0-9a-f]{3,8}\b/i, file);
   }
 });
+
+test('0.4.1: Silbentrennung statt Umbruch mitten im Wort', () => {
+  assert.doesNotMatch(css, /overflow-wrap:\s*anywhere/);
+  for (const sel of ['.oe-tile--product .oe-tile__txt b{', '.oe-cartline__name{']) {
+    const rule = css.slice(css.indexOf(sel), css.indexOf('}', css.indexOf(sel)));
+    assert.match(rule, /hyphens:\s*auto/, sel);
+    assert.match(rule, /overflow-wrap:\s*break-word/, sel);
+  }
+});
+
+test('0.4.1: .pos-root-Reset hat Spezifität 0 (überschreibt .oe-btn nicht)', () => {
+  const bare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+  const selectors = [...bare.matchAll(/(^|})\s*([^{}]*\.pos-root[^{}]*)\{/g)].map((m) => m[2].trim());
+  assert.ok(selectors.length > 0);
+  for (const sel of selectors) {
+    for (const part of sel.split(/,(?![^(]*\))/)) assert.match(part.trim(), /^:where\(/, part);
+  }
+});
