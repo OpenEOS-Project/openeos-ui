@@ -1,8 +1,8 @@
 name: CI
 
 # Checks every pull request and every push to main: the package installs from
-# the lockfile, the icon sources follow the set's style and match
-# generated.ts, it typechecks, builds, passes the node:test suite against
+# the lockfile, the vendored Lucide icons match
+# src/icons/lucide.json, it typechecks, builds, passes the node:test suite against
 # dist/, and ships the files we expect.
 on:
   pull_request:
@@ -38,8 +38,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Every src/icons/svg/*.svg must follow the set's style attributes, and
-      # src/icons/generated.ts must be regenerated after changes.
+      # src/icons/svg/*.svg, generated.ts and LICENSE-lucide.txt must match
+      # src/icons/lucide.json and the pinned lucide-static devDependency.
       - name: Icons up to date
         run: pnpm icons --check
 

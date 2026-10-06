@@ -14,6 +14,9 @@ importers:
       '@types/react-dom':
         specifier: ~19.2.3
         version: 19.2.7(@types/react@19.2.18)
+      lucide-static:
+        specifier: 1.52.0
+        version: 1.52.0
       next:
         specifier: ^15.3.2
         version: 15.5.24(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -672,6 +675,9 @@ packages:
     resolution: {integrity: sha512-IXO6OCs9yg8tMKzfPZ1YmheJbZCiEsnBdcB03l0OcfK9prKnJb96siuHCr5Fl37/yo9DnKU+TLpxzTUspw9shg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
+  lucide-static@1.52.0:
+    resolution: {integrity: sha512-0zZYihAze4ZmUCcyNa9OkWYqn/Y5f9AdTh02AZIxMtP5ravcTTfoSIAnUPBH6ZvKxt+ZW28JB0ldzLRyD82fcw==}
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -1276,6 +1282,8 @@ snapshots:
   lines-and-columns@1.2.4: {}
 
   load-tsconfig@0.2.5: {}
+
+  lucide-static@1.52.0: {}
 
   magic-string@0.30.21:
     dependencies:

@@ -118,7 +118,7 @@ sind Props mit deutschem Default (du-Form); Anwendungen übergeben
 
 | Komponente | Zweck | Klassen |
 |---|---|---|
-| `Icon` | Linien-Icon aus dem OpenEOS-Set (`name`, `size`, `label`, `filled`) | `.oe-icon` |
+| `Icon` | Linien-Icon aus dem OpenEOS-Set (Lucide) (`name`, `size`, `label`, `filled`) | `.oe-icon` |
 | `IconBox` | Icon oder Bild auf getönter Fläche, optional Mengenkreis | `.oe-icobox*` |
 | `Tile variant="product"` | Produktkachel: Name, Zeile 2, Icon-Box, Menge, Preis, Hinweise | `.oe-tile--product`, `.oe-tile__*` |
 | `TableChip`, `TableGrid` | Tisch-Kachel (`state`, `current`, `size="lg"`) und Raster (`min`) | `.oe-tablechip*`, `.oe-tables` |
@@ -157,7 +157,7 @@ als `breakpoints.posCompact` / `breakpoints.posMedium` in
 
 ```tsx
 import { Icon } from '@openeos/ui';                       // nur die Komponente
-import { iconNames, iconGroups, iconKeywords, iconSvg, isIconName, legacyIcon } from '@openeos/ui/icons';
+import { iconNames, iconGroups, iconKeywords, iconSources, iconSvg, isIconName, legacyIcon } from '@openeos/ui/icons';
 
 <Icon name="beer" />                    // dekorativ: aria-hidden
 <Icon name="lock" label="Sperren" />    // mit Bedeutung: role="img" + aria-label
@@ -167,15 +167,22 @@ iconSvg('beer', 20)                     // SVG-String ohne React (Doku, Landing,
 
 89 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
 `operations`, `status`); Größe über `--oe-ico` (Default 18 px), Farbe über
-`currentColor`. `iconKeywords` liefert deutsche und englische Suchwörter
-für einen Icon-Picker. Die SVG-Quellen liegen im Paket unter
-`src/icons/svg/` — Herkunft, Stilregeln und Lizenzhinweise in
+`currentColor`. **Alle Icons stammen aus [Lucide](https://lucide.dev)**
+(ISC) und werden zur Buildzeit ins Paket übernommen — keine
+Laufzeit-Abhängigkeit. Die OpenEOS-Namen bleiben stabil; welches
+Lucide-Icon dahintersteht, liefert `iconSources` (z. B. `cart` →
+`shopping-cart`). `iconKeywords` liefert deutsche und englische Suchwörter
+für einen Icon-Picker. Die SVG-Dateien liegen im Paket unter
+`src/icons/svg/` — Zuordnung, Stil und Lizenz in
 [`src/icons/README.md`](src/icons/README.md).
 
-`legacyIcon(value)` bildet Altwerte aus Produkt- und Kategoriedaten
-(`pos-icon:<id>` aus `@openeos/pos-icons`, Emojis) auf ein OpenEOS-Icon
-ab; die Tabelle steht als `legacyIconMap` zur Verfügung, ohne Treffer
-gilt `LEGACY_FALLBACK_ICON` (`utensils`).
+**Produkt-Icons sind keine Linien-Icons:** Produktbilder (Pils,
+Apfelschorle, Grillwurst …) kommen als Bild aus `@openeos/pos-icons`
+(`pos-icon:<id>`); dieses Paket bildet sie seit 0.5.0 nicht mehr ab.
+
+`legacyIcon(value)` bildet Emojis aus alten Kategoriedaten auf ein
+OpenEOS-Icon ab; die Tabelle steht als `legacyIconMap` zur Verfügung, ohne
+Treffer gilt `LEGACY_FALLBACK_ICON` (`utensils`).
 
 ### Icons statt Zeichen
 
@@ -186,6 +193,25 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### 0.5.0
+
+- **Icons aus Lucide:** Alle 89 Icons sind jetzt Lucide-Icons (1.52.0, ISC)
+  unter den bisherigen Namen; die eigenen Zeichnungen sind entfallen.
+  `scripts/build-icons.mjs` übernimmt die Geometrie aus `lucide-static`
+  (devDependency) nach `src/icons/lucide.json`. Strich bleibt 1,8,
+  `currentColor`, runde Enden. Wo Lucide kein eigenes Motiv hat (z. B.
+  `table`, `sausage`, `fries`), steht das nächstliegende — Liste in
+  [`src/icons/README.md`](src/icons/README.md).
+- **Neu:** `iconSources` (Name → Lucide-Icon), `LUCIDE_VERSION`,
+  `ICON_STROKE_WIDTH`.
+- **Breaking:** `legacyIconMap` enthält keine `pos-icon:<id>`-Einträge mehr,
+  `legacyIcon('pos-icon:…')` liefert `undefined`. `IconNodeTag` umfasst
+  jetzt auch `'line'`. Details unter „Migration 0.4 → 0.5“.
+- **Lizenz:** `src/icons/LICENSE-lucide.txt` (ISC/MIT) liegt bei,
+  `LICENSE-tabler.txt` ist entfallen.
+- `pos-alias.css` und der Alias `TableMap` bleiben vorerst (veraltet) im
+  Paket; sie entfallen in einer späteren Version.
 
 ### 0.4.1
 
@@ -203,6 +229,17 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
   — Primärknöpfe in `.pos-root` hatten unsichtbaren Text. Kein Breaking
   Change; eigene `.pos-root`-Regeln der App gewinnen jetzt immer. Die Datei
   bleibt veraltet und entfällt in 0.5.0 (statt `.pos-root` → `.oe-root`).
+
+## Migration 0.4 → 0.5
+
+| Änderung | Was tun |
+|---|---|
+| **Icon-Geometrie (sichtbar):** Jedes Icon sieht jetzt aus wie sein Lucide-Gegenstück; Namen, Größe, Strich und Farbe bleiben. | Nichts — außer Screenshots/visuelle Tests neu aufnehmen. Wer ein bestimmtes Motiv erwartet, in `iconSources` bzw. `src/icons/README.md` nachsehen. |
+| **Produkt-Icons (Breaking):** `legacyIconMap` enthält keine `pos-icon:<id>`-Einträge mehr; `legacyIcon('pos-icon:pils')` liefert `undefined` statt `'beer'`. | Produkte mit `pos-icon:<id>` als Bild aus `@openeos/pos-icons` zeigen (Paket als eigene Abhängigkeit), nicht als Linien-Icon. Ohne Bild auf das Icon der Kategorie bzw. `LEGACY_FALLBACK_ICON` zurückfallen. |
+| Emojis aus Kategoriedaten | Unverändert: `legacyIcon('\u{1F37A}')` → `'beer'`. |
+| **`IconNodeTag`** umfasst jetzt `'line'` (Lucide zeichnet einige Icons mit `<line>`). | Nur relevant, wer `ICON_NODES` selbst rendert und nach Tag verzweigt: `line` (Attribute `x1`, `y1`, `x2`, `y2`) unterstützen. `Icon` und `iconSvg` tun das bereits. |
+| `src/icons/svg/*.svg` haben einen Kopfkommentar mit dem Lucide-Namen | Wer die Dateien direkt einliest, Kommentare überspringen. |
+| `src/icons/LICENSE-tabler.txt` entfällt | Verweise darauf entfernen; maßgeblich ist `LICENSE-lucide.txt`. |
 
 ## Migration 0.3 → 0.4
 
@@ -236,7 +273,7 @@ pnpm install
 pnpm build      # dist/ + gebündeltes styles.css
 pnpm dev        # Watch-Modus
 pnpm typecheck
-pnpm icons      # src/icons/generated.ts aus src/icons/svg/*.svg erzeugen
+pnpm icons      # src/icons/svg/, generated.ts, LICENSE-lucide.txt aus Lucide (src/icons/lucide.json)
 pnpm test       # node:test gegen dist/ (vorher pnpm build)
 ```
 
@@ -282,6 +319,6 @@ funktioniert weiter, klassische Tokens nicht mehr.
 ## Lizenz
 
 AGPL-3.0-only. Schriften: SIL OFL 1.1 (`src/fonts/files/OFL-*.txt`).
-Icons: eigene Zeichnungen unter AGPL-3.0-only; einzelne mit Lucide bzw.
-Tabler geometrisch gleiche Icons mit beiliegenden ISC-/MIT-Hinweisen
-(`src/icons/LICENSE-*.txt`, Details in `src/icons/README.md`).
+Icons: ausschließlich [Lucide](https://lucide.dev), ISC (Teile MIT von
+Feather) — `src/icons/LICENSE-lucide.txt`, Details in
+`src/icons/README.md`.

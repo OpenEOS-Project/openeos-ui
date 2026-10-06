@@ -1,5 +1,6 @@
 /**
- * OpenEOS-Icons: Linien-Icons auf 24er Raster, Strich 1,8, runde Enden,
+ * OpenEOS-Icons: Linien-Icons aus Lucide (https://lucide.dev, ISC) unter
+ * stabilen OpenEOS-Namen — 24er Raster, Strich 1,8, runde Enden,
  * Farbe = currentColor.
  *
  *   import { Icon, iconSvg, type IconName } from '@openeos/ui/icons';
@@ -8,18 +9,29 @@
  *   <Icon name="lock" label="Sperren" /> // React, mit Bedeutung (role="img")
  *   iconSvg('beer', 20)                  // SVG-String für Nicht-React-Kontexte
  *
- * Die Quellen liegen als einzelne Dateien in `src/icons/svg/` (im Paket
- * enthalten); `generated.ts` wird daraus von `pnpm icons` erzeugt.
+ * Die Zuordnung Name → Lucide-Icon steht in `lucide.json`; `pnpm icons`
+ * übernimmt daraus die Geometrie (`svg/`, `generated.ts`). Zur Laufzeit
+ * hängt das Paket nicht von Lucide ab.
  */
-import { ICON_NAMES, ICON_NODES, type IconName } from './generated';
+import { ICON_NAMES, ICON_NODES, ICON_SOURCES, ICON_STROKE_WIDTH, type IconName } from './generated';
 
-export { ICON_NODES, type IconName, type IconNode, type IconNodeTag } from './generated';
+export {
+  ICON_NODES,
+  ICON_STROKE_WIDTH,
+  LUCIDE_VERSION,
+  type IconName,
+  type IconNode,
+  type IconNodeTag,
+} from './generated';
 export { iconKeywords } from './keywords';
 export { legacyIconMap, legacyIcon, LEGACY_FALLBACK_ICON } from './legacy';
 export { Icon, type IconProps } from '../react/icon';
 
 /** Alle Icon-Namen, alphabetisch. */
 export const iconNames: readonly IconName[] = ICON_NAMES;
+
+/** Lucide-Icon hinter jedem Namen, z. B. `cart` → `shopping-cart`. */
+export const iconSources: Readonly<Record<IconName, string>> = ICON_SOURCES;
 
 export type IconGroup = 'food' | 'actions' | 'payment' | 'operations' | 'status';
 
@@ -69,7 +81,7 @@ export function iconSvg(name: IconName, size?: number): string {
   const sizeAttrs = size ? ` width="${size}" height="${size}" style="--oe-ico:${size}px"` : '';
   return (
     `<svg class="oe-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"${sizeAttrs} fill="none" ` +
-    `stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ` +
+    `stroke="currentColor" stroke-width="${ICON_STROKE_WIDTH}" stroke-linecap="round" stroke-linejoin="round" ` +
     `aria-hidden="true" focusable="false">${body}</svg>`
   );
 }
