@@ -11,12 +11,18 @@ importers:
       '@types/react':
         specifier: ^19.1.6
         version: 19.2.18
+      '@types/react-dom':
+        specifier: ~19.2.3
+        version: 19.2.7(@types/react@19.2.18)
       next:
         specifier: ^15.3.2
         version: 15.5.24(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.1.0
         version: 19.2.8
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.2.8(react@19.2.8)
       tsup:
         specifier: ^8.3.0
         version: 8.5.1(postcss@8.4.31)(typescript@5.9.3)
@@ -565,6 +571,11 @@ packages:
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
+
+  '@types/react-dom@19.2.7':
+    resolution: {integrity: sha512-I8bPpDLcHBv1qiIiXDCy71Rt8eQDKJP0sMSWJphDdAcdqiJ1sGpZamavoEIRZmYzjia9LuEb2HlYdDpmoENpvQ==}
+    peerDependencies:
+      '@types/react': ^19.2.0
 
   '@types/react@19.2.18':
     resolution: {integrity: sha512-AnzbBERsrLKtk2XSfTbYRLjQPdy116Sty4q+T+Bp3IC4l6jNBvreVPAHmpq9qhXQM7CXZPjLVmGMw9sy+hxQ3w==}
@@ -1173,6 +1184,10 @@ snapshots:
       tslib: 2.8.1
 
   '@types/estree@1.0.9': {}
+
+  '@types/react-dom@19.2.7(@types/react@19.2.18)':
+    dependencies:
+      '@types/react': 19.2.18
 
   '@types/react@19.2.18':
     dependencies:

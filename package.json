@@ -1,6 +1,6 @@
 {
   "name": "@openeos/ui",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "OpenEOS Designsystem — Tokens, Klassenbibliothek und React-Komponenten für Admin, POS, Shop und Displays",
   "license": "AGPL-3.0-only",
   "repository": {
@@ -26,6 +26,10 @@
       "types": "./dist/tokens.d.ts",
       "import": "./dist/tokens.js"
     },
+    "./icons": {
+      "types": "./dist/icons/index.d.ts",
+      "import": "./dist/icons/index.js"
+    },
     "./fonts": "./src/fonts.ts",
     "./styles.css": "./dist/styles.css",
     "./css/*": "./src/styles/*"
@@ -35,17 +39,23 @@
     "src/styles",
     "src/fonts.ts",
     "src/fonts/files",
+    "src/icons/svg",
+    "src/icons/README.md",
+    "src/icons/LICENSE-*.txt",
     "!**/.omc"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "icons": "node scripts/build-icons.mjs",
+    "test": "node --test test/*.test.mjs",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "next": ">=15",
-    "react": ">=18"
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "peerDependenciesMeta": {
     "next": {
@@ -54,8 +64,10 @@
   },
   "devDependencies": {
     "@types/react": "^19.1.6",
+    "@types/react-dom": "~19.2.3",
     "next": "^15.3.2",
     "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsup": "^8.3.0",
     "typescript": "^5.8.3"
   },
