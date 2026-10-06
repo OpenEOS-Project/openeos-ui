@@ -1,66 +1,20 @@
 import type { IconName } from './generated';
 
 /**
- * Altbestand → OpenEOS-Icon.
+ * Altbestand (Emoji) → OpenEOS-Icon.
  *
- * Produkte und Kategorien speichern ihr Bild bisher als
- * `pos-icon:<id>` (PNG aus @openeos/pos-icons) oder als Emoji. Neue
- * Daten verwenden `oe:<name>`; alte Werte werden über diese Tabelle
- * weiter dargestellt, ohne die Daten anzufassen. Was hier fehlt, zeigt
- * die Anwendung als `utensils` (siehe `LEGACY_FALLBACK_ICON`).
+ * Kategorien speicherten ihr Icon früher als Emoji. Neue Daten verwenden
+ * `oe:<name>`; alte Emojis werden über diese Tabelle weiter als Linien-Icon
+ * dargestellt, ohne die Daten anzufassen. Was hier fehlt, zeigt die
+ * Anwendung als `utensils` (siehe `LEGACY_FALLBACK_ICON`).
+ *
+ * Seit 0.5.0 stehen hier keine `pos-icon:<id>`-Werte mehr: Produkt-Icons
+ * aus @openeos/pos-icons sind Bilder und werden als Bild gezeigt, nicht
+ * auf ein Linien-Icon abgebildet (README, „Migration 0.4 → 0.5“).
  *
  * Die Emojis stehen nur als Schlüssel in Daten, nie im Markup.
  */
 export const legacyIconMap: Readonly<Record<string, IconName>> = {
-  /* @openeos/pos-icons (0.4.0) */
-  'pos-icon:almdudler': 'soda',
-  'pos-icon:almdudler-flasche': 'bottle',
-  'pos-icon:apfelschorle': 'bottle',
-  'pos-icon:apfelschorle-flasche': 'bottle',
-  'pos-icon:baconburger': 'bread',
-  'pos-icon:cola': 'soda',
-  'pos-icon:cola-flasche': 'bottle',
-  'pos-icon:cola-zero': 'soda',
-  'pos-icon:cola-zero-flasche': 'bottle',
-  'pos-icon:crepes-nutella': 'cake',
-  'pos-icon:crepes-puderzucker': 'cake',
-  'pos-icon:currywurst': 'sausage',
-  'pos-icon:currywurst-brot': 'sausage',
-  'pos-icon:currywurst-pommes': 'sausage',
-  'pos-icon:double-fire-burger': 'bread',
-  'pos-icon:eistee': 'soda',
-  'pos-icon:eistee-flasche': 'bottle',
-  'pos-icon:gedeck': 'wine',
-  'pos-icon:grillwurst': 'sausage',
-  'pos-icon:grillwurst-brot': 'sausage',
-  'pos-icon:grillwurst-pommes': 'sausage',
-  'pos-icon:hamburger': 'bread',
-  'pos-icon:johannisbeerschorle': 'bottle',
-  'pos-icon:johannisbeerschorle-flasche': 'bottle',
-  'pos-icon:limo-orange': 'soda',
-  'pos-icon:limo-orange-flasche': 'bottle',
-  'pos-icon:limo-zitrone': 'soda',
-  'pos-icon:limo-zitrone-flasche': 'bottle',
-  'pos-icon:pils': 'beer',
-  'pos-icon:pils-flasche': 'bottle',
-  'pos-icon:pommes': 'fries',
-  'pos-icon:radler': 'beer',
-  'pos-icon:radler-flasche': 'bottle',
-  'pos-icon:rotwein': 'wine',
-  'pos-icon:spezi': 'soda',
-  'pos-icon:spezi-flasche': 'bottle',
-  'pos-icon:steak': 'flame',
-  'pos-icon:steak-brot': 'flame',
-  'pos-icon:steak-pommes': 'flame',
-  'pos-icon:striebele': 'cake',
-  'pos-icon:wasser': 'water',
-  'pos-icon:wasser-flasche': 'bottle',
-  'pos-icon:wein': 'wine',
-  'pos-icon:weinschorle': 'wine',
-  'pos-icon:weinschorle-rot': 'wine',
-  'pos-icon:weinschorle-weiss': 'wine',
-  'pos-icon:weisswein': 'wine',
-
   /* Emojis aus Kategorie-Icons (ohne Variantenselektor U+FE0F) */
   '\u{1F37A}': 'beer', // Bierkrug
   '\u{1F37B}': 'beer', // anstoßende Bierkrüge
@@ -109,9 +63,10 @@ export const legacyIconMap: Readonly<Record<string, IconName>> = {
 export const LEGACY_FALLBACK_ICON: IconName = 'utensils';
 
 /**
- * Sucht einen Altwert (`pos-icon:<id>` oder Emoji) in `legacyIconMap`.
- * Liefert `undefined`, wenn nichts passt — die Anwendung entscheidet,
- * ob sie dann ein Foto, ein PNG oder `LEGACY_FALLBACK_ICON` zeigt.
+ * Sucht einen Altwert (Emoji) in `legacyIconMap`. Liefert `undefined`,
+ * wenn nichts passt — auch für `pos-icon:<id>` (seit 0.5.0); die
+ * Anwendung entscheidet, ob sie dann ein Foto, ein POS-Icon-Bild oder
+ * `LEGACY_FALLBACK_ICON` zeigt.
  */
 export function legacyIcon(value: string | null | undefined): IconName | undefined {
   if (!value) return undefined;

@@ -1,4 +1,6 @@
+<!-- Lucide "martini" (lucide-static 1.52.0, ISC, siehe LICENSE-lucide.txt). Erzeugt von scripts/build-icons.mjs, nicht von Hand ändern. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M6 5h12l-1.5 14a1.5 1.5 0 0 1-1.5 1.3H9a1.5 1.5 0 0 1-1.5-1.3z" />
-  <path d="M6.8 11h10.4" />
+  <path d="M12 12 4.207 4.207A.707.707 0 0 1 4.707 3h14.586a.707.707 0 0 1 .5 1.207z" />
+  <path d="M12 12v10" />
+  <path d="M7 22h10" />
 </svg>

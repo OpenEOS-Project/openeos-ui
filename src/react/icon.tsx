@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode, SVGAttributes } from 'react';
-import { ICON_NODES, type IconName } from '../icons/generated';
+import { ICON_NODES, ICON_STROKE_WIDTH, type IconName } from '../icons/generated';
 import { cx } from './utils';
 
 export interface IconProps extends Omit<SVGAttributes<SVGSVGElement>, 'className' | 'children' | 'name'> {
@@ -25,7 +25,7 @@ export function Icon({ name, size, label, filled, className, style, ...rest }: I
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={ICON_STROKE_WIDTH}
       strokeLinecap="round"
       strokeLinejoin="round"
       focusable="false"
