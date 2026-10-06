@@ -1,4 +1,6 @@
 import type { HTMLAttributes, ReactNode, TableHTMLAttributes } from 'react';
+import type { IconName } from '../icons/generated';
+import { Icon } from './icon';
 import { bem, cx } from './utils';
 
 /* ---------- Badge & Pill ---------- */
@@ -42,6 +44,31 @@ export function Status({ tone, className, children }: StatusProps) {
     <span className={cx('oe-status', className)}>
       <StatusDot tone={tone} />
       {children}
+    </span>
+  );
+}
+
+/* ---------- Status-Pille (Kassenkopf) ---------- */
+
+export interface StatusPillProps {
+  /** Icon vor dem Text (z. B. shield, printer, clock). */
+  icon?: IconName;
+  /** Statuspunkt statt Icon (z. B. live für „Online“). */
+  dot?: DotTone;
+  tone?: 'default' | 'warn' | 'danger';
+  label: ReactNode;
+  /** Text nur für Screenreader (kompakter Kopf); bleibt als sr-only im Markup. */
+  hideLabel?: boolean;
+  title?: string;
+  className?: string;
+}
+
+export function StatusPill({ icon, dot, tone = 'default', label, hideLabel, title, className }: StatusPillProps) {
+  return (
+    <span className={bem('oe-statuspill', [tone !== 'default' && tone], className)} title={title}>
+      {dot ? <StatusDot tone={dot} /> : null}
+      {icon ? <Icon name={icon} /> : null}
+      <span className={hideLabel ? 'oe-sr-only' : undefined}>{label}</span>
     </span>
   );
 }

@@ -1,6 +1,8 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
-import { useId } from 'react';
-import { cx } from './utils';
+import type { InputHTMLAttributes, KeyboardEvent, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { useId, useRef } from 'react';
+import type { IconName } from '../icons/generated';
+import { Icon, renderIcon } from './icon';
+import { bem, cx } from './utils';
 
 /* ---------- Feld-Hülle ---------- */
 
@@ -210,30 +212,185 @@ export function SettingToggle({
 export interface SegmentOption<T extends string = string> {
   id: T;
   label: ReactNode;
+  /** Icon vor dem Text: Name aus dem OpenEOS-Set oder eigenes Element. */
+  icon?: IconName | ReactNode;
+  disabled?: boolean;
 }
 
 export interface SegmentProps<T extends string = string> {
   options: ReadonlyArray<SegmentOption<T>>;
   value: T;
   onChange: (id: T) => void;
+  /** `lg`: mindestens 40 px hoch (Touch). */
+  size?: 'md' | 'lg';
   className?: string;
   'aria-label'?: string;
 }
 
-export function Segment<T extends string = string>({ options, value, onChange, className, ...rest }: SegmentProps<T>) {
+export function Segment<T extends string = string>({ options, value, onChange, size = 'md', className, ...rest }: SegmentProps<T>) {
   return (
-    <div className={cx('oe-segment', className)} role="group" aria-label={rest['aria-label']}>
+    <div className={bem('oe-segment', [size === 'lg' && 'lg'], className)} role="group" aria-label={rest['aria-label']}>
       {options.map((option) => (
         <button
           key={option.id}
           type="button"
           aria-pressed={option.id === value}
+          disabled={option.disabled}
           className={cx(option.id === value && 'is-active')}
           onClick={() => onChange(option.id)}
         >
+          {option.icon ? renderIcon(option.icon) : null}
           {option.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+/* ---------- Stepper ---------- */
+
+export interface StepperProps {
+  value: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  min?: number;
+  max?: number;
+  /**
+   * Bei `value === min + 1` zeigt die Minus-Taste einen Papierkorb —
+   * der nächste Tipp entfernt die Zeile (Warenkorb).
+   */
+  removeAtMin?: boolean;
+  /** `lg`: 46 × 46 px (Optionen-Sheet). Default md: 40 × 44 px. */
+  size?: 'md' | 'lg';
+  disabled?: boolean;
+  /** Zugängliche Namen der Tasten. */
+  labels?: { decrease?: string; increase?: string; remove?: string };
+  className?: string;
+}
+
+const DEFAULT_STEPPER_LABELS = { decrease: 'Weniger', increase: 'Mehr', remove: 'Entfernen' };
+
+export function Stepper({
+  value,
+  onIncrement,
+  onDecrement,
+  min = 0,
+  max,
+  removeAtMin,
+  size = 'md',
+  disabled,
+  labels,
+  className,
+}: StepperProps) {
+  const names = { ...DEFAULT_STEPPER_LABELS, ...labels };
+  const removes = Boolean(removeAtMin) && value === min + 1;
+  return (
+    <div className={bem('oe-stepper', [size === 'lg' && 'lg'], className)}>
+      <button
+        type="button"
+        onClick={onDecrement}
+        disabled={disabled || value <= min}
+        aria-label={removes ? names.remove : names.decrease}
+      >
+        <Icon name={removes ? 'trash' : 'minus'} />
+      </button>
+      <b className="oe-stepper__val" aria-live="polite">
+        {value}
+      </b>
+      <button
+        type="button"
+        onClick={onIncrement}
+        disabled={disabled || (max != null && value >= max)}
+        aria-label={names.increase}
+      >
+        <Icon name="plus" />
+      </button>
+    </div>
+  );
+}
+
+/* ---------- Auswahl großer Optionen (Zahlarten) ---------- */
+
+export interface ChoiceOption<T extends string = string> {
+  id: T;
+  label: ReactNode;
+  icon?: IconName;
+  disabled?: boolean;
+  /** Kleiner Zusatz rechts, z. B. Terminalname. */
+  hint?: ReactNode;
+}
+
+export interface ChoiceGroupProps<T extends string = string> {
+  options: ReadonlyArray<ChoiceOption<T>>;
+  value: T | null;
+  onChange: (id: T) => void;
+  /** `stack` (Default): untereinander. `row`: nebeneinander, Icon über Text. */
+  layout?: 'stack' | 'row';
+  className?: string;
+  'aria-label'?: string;
+}
+
+/**
+ * Einfachauswahl als große Knöpfe (role="radiogroup"). Pfeiltasten
+ * wechseln die Auswahl, Tab springt nur die gewählte Option an.
+ */
+export function ChoiceGroup<T extends string = string>({
+  options,
+  value,
+  onChange,
+  layout = 'stack',
+  className,
+  ...rest
+}: ChoiceGroupProps<T>) {
+  const refs = useRef<Array<HTMLButtonElement | null>>([]);
+  const enabled = options.filter((option) => !option.disabled);
+  const focusId = enabled.some((option) => option.id === value) ? value : enabled[0]?.id;
+
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const keys = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'];
+    if (!keys.includes(event.key) || enabled.length === 0) return;
+    event.preventDefault();
+    const current = enabled.findIndex((option) => option.id === value);
+    let next = current;
+    if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = enabled.length - 1;
+    else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (current + 1) % enabled.length;
+    else next = (current - 1 + enabled.length) % enabled.length;
+    const target = enabled[next];
+    if (!target) return;
+    onChange(target.id);
+    refs.current[options.indexOf(target)]?.focus();
+  };
+
+  return (
+    <div
+      className={bem('oe-choices', [layout === 'row' && 'row'], className)}
+      role="radiogroup"
+      aria-label={rest['aria-label']}
+      onKeyDown={onKeyDown}
+    >
+      {options.map((option, index) => {
+        const active = option.id === value;
+        return (
+          <button
+            key={option.id}
+            ref={(node) => {
+              refs.current[index] = node;
+            }}
+            type="button"
+            role="radio"
+            aria-checked={active}
+            tabIndex={option.id === focusId ? 0 : -1}
+            disabled={option.disabled}
+            className={cx('oe-choice', active && 'is-active')}
+            onClick={() => onChange(option.id)}
+          >
+            {option.icon ? <Icon name={option.icon} /> : null}
+            <span>{option.label}</span>
+            {option.hint ? <span className="oe-choice__hint">{option.hint}</span> : null}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -246,15 +403,19 @@ export interface ChipProps {
   active?: boolean;
   onRemove?: () => void;
   onClick?: () => void;
+  disabled?: boolean;
+  /** Zugänglicher Name des Entfernen-Kreuzes. */
+  removeLabel?: string;
   className?: string;
   children?: ReactNode;
 }
 
-export function Chip({ active, onRemove, onClick, className, children }: ChipProps) {
+export function Chip({ active, onRemove, onClick, disabled, removeLabel = 'Entfernen', className, children }: ChipProps) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       aria-pressed={onClick ? active : undefined}
       className={cx('oe-chip', active && 'is-active', className)}
     >
@@ -264,13 +425,13 @@ export function Chip({ active, onRemove, onClick, className, children }: ChipPro
           className="oe-chip__x"
           role="button"
           tabIndex={-1}
-          aria-label="Entfernen"
+          aria-label={removeLabel}
           onClick={(event) => {
             event.stopPropagation();
             onRemove();
           }}
         >
-          ✕
+          <Icon name="x" />
         </span>
       ) : null}
     </button>

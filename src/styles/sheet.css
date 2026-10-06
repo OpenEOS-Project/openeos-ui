@@ -1,0 +1,50 @@
+/* ==========================================================
+   SHEET — Dialograhmen der Kasse (und überall, wo ein Blatt
+   über der Seite liegt). Mittig mit Abstand zum Rand; bis 820 px
+   (Kassen-Breakpoint „kompakt“) als Bottom-Sheet mit Griff.
+   Ebene = .oe-scrim.oe-sheet-layer, Blatt = .oe-sheet.
+   ========================================================== */
+.oe-sheet-layer{z-index:300;overscroll-behavior:contain;animation:oe-fade var(--oe-dur-2) var(--oe-ease)}
+.oe-sheet{--oe-sheet-drag:0px;box-sizing:border-box;display:flex;flex-direction:column;width:100%;max-width:480px;max-height:calc(100dvh - 40px);background:var(--oe-surface);color:var(--oe-ink);border:1px solid var(--oe-line);border-radius:var(--oe-r-lg);box-shadow:var(--oe-sh-3);overflow:hidden;outline:0;transform:translateY(var(--oe-sheet-drag));animation:oe-sheet-in var(--oe-dur-2) var(--oe-ease)}
+.oe-sheet--wide{max-width:720px}
+.oe-sheet--pay{max-width:820px}
+.oe-sheet--done{max-width:400px}
+.oe-sheet.is-dragging{transition:none}
+.oe-sheet:not(.is-dragging){transition:transform var(--oe-dur-2) var(--oe-ease)}
+
+.oe-sheet__handle{display:none}
+.oe-sheet__hd{flex:none;display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--oe-line)}
+.oe-sheet__titles{flex:1;min-width:0}
+.oe-sheet__title{font:800 18px/1.2 var(--oe-f-sans);letter-spacing:-.02em;margin:0}
+.oe-sheet__sub{margin:2px 0 0;font:500 12px var(--oe-f-mono);color:var(--oe-mute)}
+.oe-sheet__close{min-width:44px;min-height:44px;margin:-6px -8px -6px 0}
+.oe-sheet__toolbar{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid var(--oe-line)}
+.oe-sheet__body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:grid;gap:18px;align-content:start;padding:18px}
+.oe-sheet__pinned{flex:none;padding:0 18px 18px}
+.oe-sheet__ft{flex:none;display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid var(--oe-line);background:var(--oe-paper-2)}
+.oe-sheet__ft>.oe-btn{min-height:44px;min-width:0}
+/* Breiter Primärknopf im Fuß darf umbrechen statt aus dem Blatt zu laufen */
+.oe-sheet__ft>.oe-grow{white-space:normal;text-align:center;line-height:1.15}
+.oe-sheet__body .oe-field,.oe-sheet__body .oe-input{min-width:0}
+
+@keyframes oe-fade{from{opacity:0}to{opacity:1}}
+@keyframes oe-sheet-in{from{transform:translateY(10px);opacity:.6}to{transform:none;opacity:1}}
+@keyframes oe-sheet-up{from{transform:translateY(100%)}to{transform:none}}
+
+@media (max-width:820px){
+  .oe-sheet-layer{place-items:end stretch;padding:0}
+  .oe-sheet{max-width:none;width:100%;max-height:94dvh;border-bottom:0;border-radius:var(--oe-r-lg) var(--oe-r-lg) 0 0;animation-name:oe-sheet-up}
+  /* Griff: sichtbarer Strich 40 × 4 px, Trefferfläche 44 px hoch */
+  .oe-sheet__handle{position:relative;flex:none;display:flex;justify-content:center;align-items:center;height:20px;margin-bottom:-8px;touch-action:none;cursor:grab}
+  .oe-sheet__handle::before{content:"";width:40px;height:4px;border-radius:var(--oe-r-full);background:var(--oe-line-2)}
+  .oe-sheet__handle::after{content:"";position:absolute;inset:-12px 0}
+  .oe-sheet__hd{padding:12px 14px}
+  .oe-sheet__toolbar{padding:10px 14px}
+  .oe-sheet__body{padding:14px;gap:14px}
+  .oe-sheet__pinned{padding:0 14px 14px}
+  .oe-sheet__ft{gap:8px;padding:12px 14px max(12px,env(safe-area-inset-bottom))}
+}
+@media (prefers-reduced-motion:reduce){
+  .oe-sheet-layer,.oe-sheet{animation:none}
+  .oe-sheet:not(.is-dragging){transition:none}
+}

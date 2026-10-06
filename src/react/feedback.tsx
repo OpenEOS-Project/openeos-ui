@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import type { IconName } from '../icons/generated';
+import { Icon } from './icon';
 import { bem, cx } from './utils';
 
 /* ---------- Banner ---------- */
@@ -31,18 +33,20 @@ export interface ToastProps {
   tone?: 'success' | 'danger';
   title?: ReactNode;
   onDismiss?: () => void;
+  /** Zugänglicher Name des Schließen-Knopfs. */
+  dismissLabel?: string;
   className?: string;
   children?: ReactNode;
 }
 
-export function Toast({ tone, title, onDismiss, className, children }: ToastProps) {
+export function Toast({ tone, title, onDismiss, dismissLabel = 'Schließen', className, children }: ToastProps) {
   return (
     <div className={bem('oe-toast', [tone], className)} role="status">
       {title ? <b>{title}</b> : null}
       {children ? <span>{children}</span> : null}
       {onDismiss ? (
-        <button type="button" className="oe-toast__x" onClick={onDismiss} aria-label="Schließen">
-          ✕
+        <button type="button" className="oe-toast__x" onClick={onDismiss} aria-label={dismissLabel}>
+          <Icon name="x" />
         </button>
       ) : null}
     </div>
@@ -116,5 +120,31 @@ export function Tooltip({ label, className, children }: { label: ReactNode; clas
         {label}
       </span>
     </span>
+  );
+}
+
+/* ---------- Hinweisfläche mit großem Icon ----------
+   Kartenterminal („Karte auflegen“), leere Karte, Warten auf etwas
+   außerhalb des Bildschirms. */
+
+export interface PromptProps {
+  icon: IconName;
+  title: ReactNode;
+  text?: ReactNode;
+  className?: string;
+  /** Unter dem Text, z. B. Spinner oder Abbrechen-Knopf. */
+  children?: ReactNode;
+}
+
+export function Prompt({ icon, title, text, className, children }: PromptProps) {
+  return (
+    <div className={cx('oe-prompt', className)} role="status">
+      <span className="oe-prompt__ico">
+        <Icon name={icon} />
+      </span>
+      <b className="oe-prompt__title">{title}</b>
+      {text ? <p className="oe-prompt__text">{text}</p> : null}
+      {children}
+    </div>
   );
 }
