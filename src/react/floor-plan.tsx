@@ -808,43 +808,6 @@ export function FloorPlan({
 
   return (
     <div className={cx(bem('oe-floor-wrap', [editing && 'edit']), className)}>
-      {drawKind || editOutline ? (
-        <div
-          className="oe-floor__toolbar"
-          onClick={(event) => event.stopPropagation()}
-          onPointerDown={(event) => event.stopPropagation()}
-        >
-          <span className="oe-floor__toolhint" role="status">
-            {drawKind === 'wall' ? labels.drawWall : drawKind === 'zone' ? labels.drawZone : labels.editOutline}
-          </span>
-          {drawKind ? (
-            <>
-              <button type="button" className="oe-btn oe-btn--sm oe-btn--ghost" disabled={drawing.length === 0} onClick={undoPoint}>
-                <Icon name="undo" />
-                <span>{labels.undoPoint}</span>
-              </button>
-              <button type="button" className="oe-btn oe-btn--sm oe-btn--ghost" onClick={cancelDrawing}>
-                <Icon name="x" />
-                <span>{labels.cancel}</span>
-              </button>
-              <button
-                type="button"
-                className="oe-btn oe-btn--sm oe-btn--primary"
-                disabled={drawing.length < minPoints}
-                onClick={finishDrawing}
-              >
-                <Icon name="check" />
-                <span>{labels.done}</span>
-              </button>
-            </>
-          ) : (
-            <button type="button" className="oe-btn oe-btn--sm oe-btn--primary" onClick={() => onToolCancel?.()}>
-              <Icon name="check" />
-              <span>{labels.done}</span>
-            </button>
-          )}
-        </div>
-      ) : null}
       <div
         ref={surfaceRef}
         className={bem('oe-floor', [
@@ -1073,6 +1036,43 @@ export function FloorPlan({
           : null}
 
       </div>
+      {drawKind || editOutline ? (
+        <div
+          className="oe-floor__toolbar"
+          onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          <span className="oe-floor__toolhint" role="status">
+            {drawKind === 'wall' ? labels.drawWall : drawKind === 'zone' ? labels.drawZone : labels.editOutline}
+          </span>
+          {drawKind ? (
+            <>
+              <button type="button" className="oe-btn oe-btn--sm oe-btn--ghost" disabled={drawing.length === 0} onClick={undoPoint}>
+                <Icon name="undo" />
+                <span>{labels.undoPoint}</span>
+              </button>
+              <button type="button" className="oe-btn oe-btn--sm oe-btn--ghost" onClick={cancelDrawing}>
+                <Icon name="x" />
+                <span>{labels.cancel}</span>
+              </button>
+              <button
+                type="button"
+                className="oe-btn oe-btn--sm oe-btn--primary"
+                disabled={drawing.length < minPoints}
+                onClick={finishDrawing}
+              >
+                <Icon name="check" />
+                <span>{labels.done}</span>
+              </button>
+            </>
+          ) : (
+            <button type="button" className="oe-btn oe-btn--sm oe-btn--primary" onClick={() => onToolCancel?.()}>
+              <Icon name="check" />
+              <span>{labels.done}</span>
+            </button>
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
