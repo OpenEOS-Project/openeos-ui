@@ -230,6 +230,13 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 
 ## Changelog
 
+### 0.6.1
+
+- **FloorPlan:** Die Werkzeugleiste beim Zeichnen bzw. Bearbeiten der
+  Raumform steht jetzt **unter** der Karte statt darüber. Vorher rutschte die
+  Karte beim Wechsel des Werkzeugs um die Höhe der Leiste nach unten — wer
+  gerade klickte, traf daneben.
+
 ### 0.6.0
 
 - **FloorPlan: Raumform, Wände, Zonen.** Neue Props `outline`, `walls`,
@@ -302,7 +309,7 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 | **`FloorItemKind` (Breaking für erschöpfende `switch`):** jetzt `'table' \| 'decor' \| 'wall' \| 'zone'`. `onSelect`, `onDelete`, `onDuplicate` können `'wall'`/`'zone'` liefern. | Zweige für Wände/Zonen ergänzen oder diese Fälle ignorieren. |
 | **`FloorChange.kind`** ist jetzt `FloorRectKind` (`'table' \| 'decor'`) — unverändert in der Sache, nur ein eigener Typ. | Nichts; wer den Typ ausschreibt, `FloorRectKind` nutzen. |
 | **Wand als Linienzug** kommt über `walls`, nicht über `decor`. `decor` bleibt rechteckig (`bar`, `wall`, `stage`, `label`). | Daten mit `points` (z. B. aus `table_areas.decor`) vor der Übergabe aufteilen: Rechtecke → `decor`, `{ type: 'wall', points }` → `walls`, `{ type: 'zone', … }` → `zones`. |
-| **Hülle im Bearbeitungsmodus** hat `.oe-floor-wrap--edit` mit 8 px Innenabstand (Platz für Punktgriffe am Rand); beim Zeichnen steht eine Werkzeugleiste (`.oe-floor__toolbar`) über der Karte. | Feste Höhen/Abstände um den Editor prüfen. |
+| **Hülle im Bearbeitungsmodus** hat `.oe-floor-wrap--edit` mit 8 px Innenabstand (Platz für Punktgriffe am Rand); beim Zeichnen steht eine Werkzeugleiste (`.oe-floor__toolbar`) unter der Karte (seit 0.6.1). | Feste Höhen/Abstände um den Editor prüfen. |
 | Neue Icons `pointer`, `zone`, `outline`, `ban` (97 statt 93) | Tests, die die Anzahl prüfen, anpassen. |
 
 ## Migration 0.4 → 0.5
