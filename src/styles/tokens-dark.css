@@ -82,6 +82,15 @@
   --oe-floor-grid-line: rgba(240, 237, 227, 0.06);
   --oe-floor-decor: var(--oe-paper-3);
   --oe-floor-wall: var(--oe-mute);
+  /* Seit 0.6.0: Umriss, Bereich außerhalb, Zonen (Grundton je Typ;
+     Fläche und Rand mischt floor.css daraus). */
+  --oe-floor-outside: color-mix(in oklab, var(--oe-mute) 20%, var(--oe-floor-bg));
+  --oe-floor-hatch: color-mix(in oklab, var(--oe-mute) 32%, transparent);
+  --oe-floor-outline: color-mix(in oklab, var(--oe-ink) 45%, transparent);
+  --oe-floor-zone-kitchen: var(--oe-warn);
+  --oe-floor-zone-blocked: var(--oe-danger);
+  --oe-floor-zone-bar: var(--oe-info);
+  --oe-floor-zone-other: var(--oe-mute);
 
   /* ---------- Linien ---------- */
   --oe-line: color-mix(in oklab, var(--oe-ink) 12%, transparent);

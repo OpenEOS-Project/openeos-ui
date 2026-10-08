@@ -2,6 +2,7 @@
   "alert": "triangle-alert",
   "arrow-right": "arrow-right",
   "backspace": "delete",
+  "ban": "ban",
   "beer": "beer",
   "bell": "bell",
   "bottle": "bottle-wine",
@@ -53,9 +54,11 @@
   "more": "ellipsis",
   "note": "sticky-note",
   "orders": "clipboard-list",
+  "outline": "pentagon",
   "percent": "percent",
   "pin": "map-pin",
   "plus": "plus",
+  "pointer": "mouse-pointer-2",
   "print": "printer",
   "printer": "printer",
   "qr": "qr-code",
@@ -90,6 +93,7 @@
   "wine": "wine",
   "x": "x",
   "x-circle": "circle-x",
+  "zone": "square-dashed",
   "zoom-in": "zoom-in",
   "zoom-out": "zoom-out"
 }

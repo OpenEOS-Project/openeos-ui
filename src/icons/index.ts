@@ -53,8 +53,9 @@ export const iconGroups: Readonly<Record<IconGroup, readonly IconName[]>> = {
     'table', 'table-round', 'users', 'user', 'clock', 'calendar', 'dashboard', 'orders',
     'box', 'device', 'printer', 'pin', 'chart', 'sliders', 'home', 'grid', 'list', 'note',
     'bell', 'mail', 'map', 'stage', 'wall', 'text', 'sun', 'moon', 'monitor', 'menu',
+    'pointer', 'zone', 'outline',
   ],
-  status: ['check-circle', 'x-circle', 'alert', 'info', 'wifi', 'wifi-off', 'shield'],
+  status: ['check-circle', 'x-circle', 'alert', 'info', 'wifi', 'wifi-off', 'shield', 'ban'],
 };
 
 const NAME_SET: ReadonlySet<string> = new Set(ICON_NAMES);

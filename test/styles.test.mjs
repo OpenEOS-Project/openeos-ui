@@ -28,6 +28,10 @@ const CLASSES = `
   oe-floor__table--busy oe-floor__table--wait oe-floor__label oe-floor__hint oe-floor__seats
   oe-floor__decor oe-floor__decor--bar oe-floor__decor--wall oe-floor__decor--stage oe-floor__decor--label
   oe-floor__handle
+  oe-floor__svg oe-floor__outside oe-floor__outline oe-floor__hatch oe-floor__zone oe-floor__zone--kitchen
+  oe-floor__zone--blocked oe-floor__zone--bar oe-floor__zone-fill oe-floor__zonelabel oe-floor__wall-line
+  oe-floor__wall-hit oe-floor__point oe-floor__point--add oe-floor__toolbar oe-floor__issue oe-floor--tool-wall
+  oe-floor--tool-zone oe-floor--tool-outline oe-floor-wrap--edit
   oe-receipt
 `.trim().split(/\s+/);
 
@@ -36,7 +40,8 @@ const STATES = ['.oe-tile--product.is-in', '.oe-tablechip.is-current', '.oe-tabl
   '.oe-floor__table.is-current', '.oe-floor__table.is-selected', '.oe-tile--product:disabled'];
 
 const TOKENS = ['--oe-ico', '--oe-receipt-bg', '--oe-receipt-ink', '--oe-receipt-line', '--oe-receipt-mute',
-  '--oe-floor-bg', '--oe-floor-grid-line', '--oe-floor-decor', '--oe-floor-wall', '--oe-warn-ink', '--oe-danger-ink'];
+  '--oe-floor-bg', '--oe-floor-grid-line', '--oe-floor-decor', '--oe-floor-wall', '--oe-floor-outside', '--oe-floor-hatch',
+  '--oe-floor-outline', '--oe-floor-zone-kitchen', '--oe-floor-zone-blocked', '--oe-floor-zone-bar', '--oe-floor-zone-other', '--oe-warn-ink', '--oe-danger-ink'];
 
 test('alle Klassen aus 6.2 sind im Bundle', () => {
   const missing = CLASSES.filter((name) => !new RegExp(`\\.${name}(?![\\w-])`).test(css));
