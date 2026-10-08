@@ -99,6 +99,10 @@ export const iconKeywords: Readonly<Record<IconName, { readonly de: readonly str
   moon: { de: ['mond', 'dunkel', 'nacht', 'dunkler modus', 'darstellung'], en: ['dark', 'night', 'dark mode', 'appearance'] },
   monitor: { de: ['bildschirm', 'system', 'anzeige', 'darstellung'], en: ['screen', 'system', 'display', 'appearance'] },
   menu: { de: ['menü', 'hauptmenü', 'burger', 'navigation', 'striche'], en: ['menu', 'main menu', 'hamburger', 'burger', 'navigation'] },
+  pointer: { de: ['auswahl', 'zeiger', 'mauszeiger', 'auswählen'], en: ['select', 'cursor', 'arrow'] },
+  zone: { de: ['zone', 'bereich', 'fläche', 'abschnitt'], en: ['area', 'region', 'section'] },
+  outline: { de: ['raumform', 'umriss', 'grundriss', 'form', 'vieleck'], en: ['shape', 'polygon', 'room'] },
+  ban: { de: ['gesperrt', 'verboten', 'sperre', 'kein zutritt'], en: ['blocked', 'forbidden', 'no entry'] },
 
   /* ---------- Status ---------- */
   'check-circle': { de: ['erfolg', 'bezahlt', 'erledigt', 'abgeschlossen'], en: ['success', 'paid', 'done', 'complete'] },

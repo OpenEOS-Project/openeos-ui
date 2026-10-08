@@ -125,6 +125,50 @@ test('FloorPlan: Lage nur über CSS-Variablen, Zustände als Klassen', () => {
   noSymbols(view + edit);
 });
 
+test('FloorPlan 0.6: Umriss, Zonen, Wände, Warnungen, Werkzeuge', () => {
+  const tables = [
+    { id: 't1', label: 'A01', shape: 'rect', x: 900, y: 100, width: 80, height: 80, rotation: 0 },
+    { id: 't2', label: 'A02', shape: 'rect', x: 120, y: 520, width: 80, height: 80, rotation: 0 },
+    { id: 't3', label: 'A03', shape: 'rect', x: 300, y: 300, width: 80, height: 80, rotation: 0 },
+  ];
+  const outline = [{ x: 0, y: 0 }, { x: 600, y: 0 }, { x: 600, y: 400 }, { x: 1200, y: 400 }, { x: 1200, y: 800 }, { x: 0, y: 800 }];
+  const zones = [
+    { id: 'z1', zoneType: 'kitchen', points: [{ x: 0, y: 0 }, { x: 200, y: 0 }, { x: 200, y: 200 }, { x: 0, y: 200 }] },
+    { id: 'z2', zoneType: 'blocked', label: 'Notausgang', points: [{ x: 100, y: 500 }, { x: 300, y: 500 }, { x: 300, y: 700 }] },
+  ];
+  const walls = [{ id: 'w1', points: [{ x: 0, y: 0 }, { x: 600, y: 0 }, { x: 600, y: 400 }], thickness: 12 }];
+  const view = render(h(FloorPlan, { width: 1200, height: 800, tables, outline, zones, walls }));
+  assert.match(view, /<svg class="oe-floor__svg" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true"/);
+  assert.match(view, /class="oe-floor__outside" d="M0 0H1200V800H0Z M0 0 L600 0 L600 400 L1200 400 L1200 800 L0 800Z" fill-rule="evenodd"/);
+  assert.match(view, /class="oe-floor__zone oe-floor__zone--kitchen"/);
+  assert.match(view, /class="oe-floor__zone oe-floor__zone--blocked"[\s\S]*oe-floor__zone-hatch/);
+  assert.match(view, /oe-floor__wall-line" points="0,0 600,0 600,400" stroke-width="12"/);
+  assert.match(view, /oe-floor__zonelabel oe-floor__zonelabel--kitchen" style="--x:8.3333%;--y:12.5%"[^>]*><svg[^>]*>[\s\S]*?<span>Küche</);
+  assert.match(view, />Notausgang</);
+  assert.doesNotMatch(view, /has-issue/, 'Warnungen nur im Bearbeitungsmodus');
+  assert.doesNotMatch(view, /role="button"/, 'Zonen und Wände sind in der Ansicht nicht anklickbar');
+
+  const edit = render(h(FloorPlan, { width: 1200, height: 800, tables, outline, zones, walls, mode: 'edit', selectedId: 'z2' }));
+  assert.match(edit, /oe-floor__table has-issue is-outside"[^>]*aria-label="Tisch A01, außerhalb des Raums"/);
+  assert.match(edit, /oe-floor__table has-issue is-blocked"[^>]*aria-label="Tisch A02, im gesperrten Bereich"/);
+  assert.match(edit, /aria-label="Tisch A03" role="button"/);
+  assert.match(edit, /oe-floor__zone-fill"[^>]*role="button" tabindex="0" aria-label="Gesperrt: Notausgang" aria-pressed="true"/);
+  assert.match(edit, /oe-floor__wall-hit"[^>]*aria-label="Wand"/);
+  assert.equal((edit.match(/class="oe-floor__point"/g) || []).length, 3, 'drei Punktgriffe der gewählten Zone');
+  assert.equal((edit.match(/oe-floor__point--add/g) || []).length, 3, 'drei Kantenmitten (geschlossen)');
+
+  const draw = render(h(FloorPlan, { width: 1200, height: 800, tables, mode: 'edit', tool: 'wall' }));
+  assert.match(draw, /class="oe-floor oe-floor--edit oe-floor--grid oe-floor--tool-wall"/);
+  assert.match(draw, /oe-floor__toolbar[\s\S]*Wand zeichnen[\s\S]*Fertig/);
+  assert.match(draw, /<button type="button" class="oe-btn oe-btn--sm oe-btn--primary" disabled="">/, 'Fertig erst ab zwei Punkten');
+
+  const shape = render(h(FloorPlan, { width: 1200, height: 800, tables: [], mode: 'edit', tool: 'outline' }));
+  assert.match(shape, /oe-floor__room is-editing/);
+  assert.equal((shape.match(/class="oe-floor__point"/g) || []).length, 4, 'ohne Umriss: Rechteck mit vier Ecken');
+  assert.match(shape, /aria-label="Punkt 4"/);
+  noSymbols(view + edit + draw + shape);
+});
+
 test('Sheet: Wischen schließt ab Schwelle oder schnellem Wisch, sonst Rückfedern', async () => {
   const { swipeShouldClose } = await import('../dist/index.js');
   // Weg: ab 120 px bzw. 35 % eines niedrigen Blatts

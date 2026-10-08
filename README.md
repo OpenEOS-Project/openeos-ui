@@ -110,7 +110,7 @@ import { Button, Card, CardHead, CardBody, Kpi, Kpis } from '@openeos/ui';
 Die Komponenten sind bewusst dünn: sie setzen Klassen und Struktur und
 halten keinen fachlichen Zustand. Ausnahmen mit eigenem Verhalten sind
 `Sheet` (Portal, Fokusfalle, Escape, Scroll-Sperre, Wischen) und
-`FloorPlan` im Bearbeitungsmodus (Ziehen, Eckgriff, Tastatur). Alle Texte
+`FloorPlan` im Bearbeitungsmodus (Ziehen, Eckgriff, Werkzeuge, Tastatur). Alle Texte
 sind Props mit deutschem Default (du-Form); Anwendungen übergeben
 übersetzte Texte.
 
@@ -133,7 +133,7 @@ sind Props mit deutschem Default (du-Form); Anwendungen übergeben
 | `Prompt` | gestrichelte Hinweisfläche mit großem Icon (Kartenterminal) | `.oe-prompt*` |
 | `UserChip` | Benutzer mit Schloss-Knopf | `.oe-userchip*` |
 | `StatusPill` | Kopf-Status (Online, TSE, Drucker, Uhr) | `.oe-statuspill*` |
-| `FloorPlan` | Tischplan, `mode="view"` (Kasse) bzw. `"edit"` (Verwaltung) | `.oe-floor*` |
+| `FloorPlan` | Tischplan, `mode="view"` (Kasse) bzw. `"edit"` (Verwaltung); seit 0.6.0 mit Raumform, Wänden und Zonen | `.oe-floor*` |
 | `Receipt` | jetzt mit Einzelpreis-Spalte, `info`- und `note`-Zeile | `.oe-receipt*` |
 
 Ohne React-Komponente, als Klassen: `.oe-due` / `.oe-due__amount`
@@ -144,7 +144,43 @@ Ohne React-Komponente, als Klassen: `.oe-due` / `.oe-due__amount`
 Prozent (`--x`, `--y`, `--w`, `--h`, `--r`); die Fläche skaliert über
 `aspect-ratio`. Die Rechenfunktionen (`snapToGrid`, `clampToArea`,
 `pxToUnits`, `rotateBy`, `moveRect`, `resizeRect`, `toPercent`) sind
-einzeln exportiert. Eine statische Übersicht aller Bausteine in hell und
+einzeln exportiert.
+
+**Seit 0.6.0: Raumform, Wände, Zonen.** Neben rechteckiger Deko (`decor`)
+nimmt `FloorPlan` auf:
+
+| Prop | Typ | Darstellung |
+|---|---|---|
+| `outline` | `FloorPoint[] \| null` | Umriss des Raums (Polygon). Außerhalb grau schraffiert. Ohne (oder < 3 Punkte) gilt die ganze Fläche. |
+| `walls` | `FloorWall[]` (`id`, `points` ≥ 2, `thickness?` Default 10) | Linienzug (SVG-Polyline), Stärke in Einheiten |
+| `zones` | `FloorZone[]` (`id`, `zoneType: 'kitchen' \| 'blocked' \| 'bar' \| 'other'`, `points` ≥ 3, `label?`) | Polygon, Farbe aus dem Typ, `blocked` schraffiert; Beschriftung mit Icon im Schwerpunkt. Reine Darstellung, nie anklickbar in `view`. |
+
+Koordinaten in Einheiten des Bereichs; das SVG liegt mit
+`viewBox="0 0 width height"` unter Deko und Tischen. Im Bearbeitungsmodus
+wählt `tool` das Werkzeug:
+
+- `select` (Default): Tische/Deko wie bisher; Wände und Zonen anklicken,
+  ziehen (verschiebt alle Punkte), Punktgriffe ziehen, an Kantenmitten
+  Punkte einfügen, Entf löscht den gewählten Punkt bzw. ohne Punktauswahl das
+  Element (`onDelete(id, 'wall' | 'zone')`), Pfeiltasten verschieben.
+  Änderungen kommen als `onShapeCommit({ id, kind, points })`.
+- `wall` / `zone`: Punkte klicken/tippen, Einrasten ans Raster und an
+  0/45/90°; Doppelklick, Enter, „Fertig“ oder (Zone) Tipp auf den ersten
+  Punkt beendet → `onShapeCreate({ kind, points })`. Rücktaste nimmt den
+  letzten Punkt, Esc bricht ab (ohne Punkte: `onToolCancel()`).
+- `outline`: Umriss (Default: Rechteck der Fläche) mit Punktgriffen
+  bearbeiten → `onOutlineCommit(points)`; „Fertig“ ruft `onToolCancel()`.
+
+Tische außerhalb des Umrisses bzw. in gesperrten Zonen markiert der
+Bearbeitungsmodus (`.has-issue`, Warn-Icon, Zusatz im `aria-label`;
+abschaltbar mit `showIssues={false}`). Alle Texte über `labels`
+(`FLOOR_LABELS_DE`). Rechenfunktionen ohne DOM: `snapPoint`,
+`pointInPolygon`, `polygonCentroid`, `polygonArea`, `movePoints`,
+`insertPoint`, `removePoint`, `edgeMidpoints`, `rectOutline`,
+`isRectOutline`, `tableIssue`; Grenzen `FLOOR_MAX_POINTS` (100),
+`FLOOR_MIN_LINE_POINTS` (2), `FLOOR_MIN_POLYGON_POINTS` (3).
+
+Eine statische Übersicht aller Bausteine in hell und
 dunkel liegt in `examples/pos.html` (nach `pnpm build` über einen lokalen
 Server öffnen).
 
@@ -165,7 +201,7 @@ import { iconNames, iconGroups, iconKeywords, iconSources, iconSvg, isIconName, 
 iconSvg('beer', 20)                     // SVG-String ohne React (Doku, Landing, statische Seiten)
 ```
 
-93 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
+97 Linien-Icons in fünf Gruppen (`food`, `actions`, `payment`,
 `operations`, `status`); Größe über `--oe-ico` (Default 18 px), Farbe über
 `currentColor`. **Alle Icons stammen aus [Lucide](https://lucide.dev)**
 (ISC) und werden zur Buildzeit ins Paket übernommen — keine
@@ -193,6 +229,21 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### 0.6.0
+
+- **FloorPlan: Raumform, Wände, Zonen.** Neue Props `outline`, `walls`,
+  `zones`, `tool`, `onShapeCreate`, `onShapeCommit`, `onOutlineCommit`,
+  `onToolCancel`, `showIssues`, `zoneLabel`, `labels`. Darstellung als SVG
+  in `view` und `edit`, hell und dunkel; Werkzeuge Wand zeichnen, Zone
+  zeichnen, Raumform bearbeiten (Punktgriffe, Einrasten an Raster und
+  0/45/90°, Entf/Esc/Enter). Warnung für Tische außerhalb des Umrisses bzw.
+  in gesperrten Zonen.
+- **Rechenfunktionen** für Punkte und Polygone (siehe oben), mit `node --test`.
+- **Tokens** `--oe-floor-outside`, `--oe-floor-hatch`, `--oe-floor-outline`,
+  `--oe-floor-zone-kitchen|blocked|bar|other` (hell und dunkel).
+- **Icons** `pointer` (Lucide `mouse-pointer-2`), `zone` (`square-dashed`),
+  `outline` (`pentagon`), `ban` (`ban`) — 97 Icons.
 
 ### 0.5.3
 
@@ -243,6 +294,16 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
   — Primärknöpfe in `.pos-root` hatten unsichtbaren Text. Kein Breaking
   Change; eigene `.pos-root`-Regeln der App gewinnen jetzt immer. Die Datei
   bleibt veraltet und entfällt in 0.5.0 (statt `.pos-root` → `.oe-root`).
+
+## Migration 0.5 → 0.6
+
+| Änderung | Was tun |
+|---|---|
+| **`FloorItemKind` (Breaking für erschöpfende `switch`):** jetzt `'table' \| 'decor' \| 'wall' \| 'zone'`. `onSelect`, `onDelete`, `onDuplicate` können `'wall'`/`'zone'` liefern. | Zweige für Wände/Zonen ergänzen oder diese Fälle ignorieren. |
+| **`FloorChange.kind`** ist jetzt `FloorRectKind` (`'table' \| 'decor'`) — unverändert in der Sache, nur ein eigener Typ. | Nichts; wer den Typ ausschreibt, `FloorRectKind` nutzen. |
+| **Wand als Linienzug** kommt über `walls`, nicht über `decor`. `decor` bleibt rechteckig (`bar`, `wall`, `stage`, `label`). | Daten mit `points` (z. B. aus `table_areas.decor`) vor der Übergabe aufteilen: Rechtecke → `decor`, `{ type: 'wall', points }` → `walls`, `{ type: 'zone', … }` → `zones`. |
+| **Hülle im Bearbeitungsmodus** hat `.oe-floor-wrap--edit` mit 8 px Innenabstand (Platz für Punktgriffe am Rand); beim Zeichnen steht eine Werkzeugleiste (`.oe-floor__toolbar`) über der Karte. | Feste Höhen/Abstände um den Editor prüfen. |
+| Neue Icons `pointer`, `zone`, `outline`, `ban` (97 statt 93) | Tests, die die Anzahl prüfen, anpassen. |
 
 ## Migration 0.4 → 0.5
 

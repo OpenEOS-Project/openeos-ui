@@ -14,6 +14,7 @@ export type IconName =
   | 'alert'
   | 'arrow-right'
   | 'backspace'
+  | 'ban'
   | 'beer'
   | 'bell'
   | 'bottle'
@@ -65,9 +66,11 @@ export type IconName =
   | 'more'
   | 'note'
   | 'orders'
+  | 'outline'
   | 'percent'
   | 'pin'
   | 'plus'
+  | 'pointer'
   | 'print'
   | 'printer'
   | 'qr'
@@ -102,6 +105,7 @@ export type IconName =
   | 'wine'
   | 'x'
   | 'x-circle'
+  | 'zone'
   | 'zoom-in'
   | 'zoom-out';
 
@@ -110,6 +114,7 @@ export const ICON_NAMES: readonly IconName[] = [
   'alert',
   'arrow-right',
   'backspace',
+  'ban',
   'beer',
   'bell',
   'bottle',
@@ -161,9 +166,11 @@ export const ICON_NAMES: readonly IconName[] = [
   'more',
   'note',
   'orders',
+  'outline',
   'percent',
   'pin',
   'plus',
+  'pointer',
   'print',
   'printer',
   'qr',
@@ -198,6 +205,7 @@ export const ICON_NAMES: readonly IconName[] = [
   'wine',
   'x',
   'x-circle',
+  'zone',
   'zoom-in',
   'zoom-out',
 ];
@@ -207,6 +215,7 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   alert: 'triangle-alert',
   'arrow-right': 'arrow-right',
   backspace: 'delete',
+  ban: 'ban',
   beer: 'beer',
   bell: 'bell',
   bottle: 'bottle-wine',
@@ -258,9 +267,11 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   more: 'ellipsis',
   note: 'sticky-note',
   orders: 'clipboard-list',
+  outline: 'pentagon',
   percent: 'percent',
   pin: 'map-pin',
   plus: 'plus',
+  pointer: 'mouse-pointer-2',
   print: 'printer',
   printer: 'printer',
   qr: 'qr-code',
@@ -295,6 +306,7 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   wine: 'wine',
   x: 'x',
   'x-circle': 'circle-x',
+  zone: 'square-dashed',
   'zoom-in': 'zoom-in',
   'zoom-out': 'zoom-out',
 };
@@ -304,6 +316,7 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   alert: [['path', { d: 'm21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3' }], ['path', { d: 'M12 9v4' }], ['path', { d: 'M12 17h.01' }]],
   'arrow-right': [['path', { d: 'M5 12h14' }], ['path', { d: 'm12 5 7 7-7 7' }]],
   backspace: [['path', { d: 'M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z' }], ['path', { d: 'm12 9 6 6' }], ['path', { d: 'm18 9-6 6' }]],
+  ban: [['circle', { cx: '12', cy: '12', r: '10' }], ['path', { d: 'M4.929 4.929 19.07 19.071' }]],
   beer: [['path', { d: 'M17 11h1a3 3 0 0 1 0 6h-1' }], ['path', { d: 'M9 12v6' }], ['path', { d: 'M13 12v6' }], ['path', { d: 'M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z' }], ['path', { d: 'M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8' }]],
   bell: [['path', { d: 'M10.268 21a2 2 0 0 0 3.464 0' }], ['path', { d: 'M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326' }]],
   bottle: [['path', { d: 'M10 3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a6 6 0 0 0 1.2 3.6l.6.8A6 6 0 0 1 17 13v8a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1v-8a6 6 0 0 1 1.2-3.6l.6-.8A6 6 0 0 0 10 5z' }], ['path', { d: 'M17 13h-4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h4' }]],
@@ -355,9 +368,11 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   more: [['circle', { cx: '12', cy: '12', r: '1' }], ['circle', { cx: '19', cy: '12', r: '1' }], ['circle', { cx: '5', cy: '12', r: '1' }]],
   note: [['path', { d: 'M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z' }], ['path', { d: 'M15 3v5a1 1 0 0 0 1 1h5' }]],
   orders: [['rect', { width: '8', height: '4', x: '8', y: '2', rx: '1', ry: '1' }], ['path', { d: 'M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2' }], ['path', { d: 'M12 11h4' }], ['path', { d: 'M12 16h4' }], ['path', { d: 'M8 11h.01' }], ['path', { d: 'M8 16h.01' }]],
+  outline: [['path', { d: 'M10.83 2.38a2 2 0 0 1 2.34 0l8 5.74a2 2 0 0 1 .73 2.25l-3.04 9.26a2 2 0 0 1-1.9 1.37H7.04a2 2 0 0 1-1.9-1.37L2.1 10.37a2 2 0 0 1 .73-2.25z' }]],
   percent: [['line', { 'x1': '19', 'x2': '5', 'y1': '5', 'y2': '19' }], ['circle', { cx: '6.5', cy: '6.5', r: '2.5' }], ['circle', { cx: '17.5', cy: '17.5', r: '2.5' }]],
   pin: [['path', { d: 'M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' }], ['circle', { cx: '12', cy: '10', r: '3' }]],
   plus: [['path', { d: 'M5 12h14' }], ['path', { d: 'M12 5v14' }]],
+  pointer: [['path', { d: 'M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z' }]],
   print: [['path', { d: 'M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2' }], ['path', { d: 'M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6' }], ['rect', { x: '6', y: '14', width: '12', height: '8', rx: '1' }]],
   printer: [['path', { d: 'M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2' }], ['path', { d: 'M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6' }], ['rect', { x: '6', y: '14', width: '12', height: '8', rx: '1' }]],
   qr: [['rect', { width: '5', height: '5', x: '3', y: '3', rx: '1' }], ['rect', { width: '5', height: '5', x: '16', y: '3', rx: '1' }], ['rect', { width: '5', height: '5', x: '3', y: '16', rx: '1' }], ['path', { d: 'M21 16h-3a2 2 0 0 0-2 2v3' }], ['path', { d: 'M21 21v.01' }], ['path', { d: 'M12 7v3a2 2 0 0 1-2 2H7' }], ['path', { d: 'M3 12h.01' }], ['path', { d: 'M12 3h.01' }], ['path', { d: 'M12 16v.01' }], ['path', { d: 'M16 12h1' }], ['path', { d: 'M21 12v.01' }], ['path', { d: 'M12 21v-1' }]],
@@ -392,6 +407,7 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   wine: [['path', { d: 'M8 22h8' }], ['path', { d: 'M7 10h10' }], ['path', { d: 'M12 15v7' }], ['path', { d: 'M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z' }]],
   x: [['path', { d: 'M18 6 6 18' }], ['path', { d: 'm6 6 12 12' }]],
   'x-circle': [['circle', { cx: '12', cy: '12', r: '10' }], ['path', { d: 'm15 9-6 6' }], ['path', { d: 'm9 9 6 6' }]],
+  zone: [['path', { d: 'M5 3a2 2 0 0 0-2 2' }], ['path', { d: 'M19 3a2 2 0 0 1 2 2' }], ['path', { d: 'M21 19a2 2 0 0 1-2 2' }], ['path', { d: 'M5 21a2 2 0 0 1-2-2' }], ['path', { d: 'M9 3h1' }], ['path', { d: 'M9 21h1' }], ['path', { d: 'M14 3h1' }], ['path', { d: 'M14 21h1' }], ['path', { d: 'M3 9v1' }], ['path', { d: 'M21 9v1' }], ['path', { d: 'M3 14v1' }], ['path', { d: 'M21 14v1' }]],
   'zoom-in': [['circle', { cx: '11', cy: '11', r: '8' }], ['line', { 'x1': '21', 'x2': '16.65', 'y1': '21', 'y2': '16.65' }], ['line', { 'x1': '11', 'x2': '11', 'y1': '8', 'y2': '14' }], ['line', { 'x1': '8', 'x2': '14', 'y1': '11', 'y2': '11' }]],
   'zoom-out': [['circle', { cx: '11', cy: '11', r: '8' }], ['line', { 'x1': '21', 'x2': '16.65', 'y1': '21', 'y2': '16.65' }], ['line', { 'x1': '8', 'x2': '14', 'y1': '11', 'y2': '11' }]],
 };
