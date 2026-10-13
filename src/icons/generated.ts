@@ -35,6 +35,7 @@ export type IconName =
   | 'chevron-right'
   | 'chevron-up'
   | 'clock'
+  | 'code'
   | 'coffee'
   | 'contactless'
   | 'copy'
@@ -135,6 +136,7 @@ export const ICON_NAMES: readonly IconName[] = [
   'chevron-right',
   'chevron-up',
   'clock',
+  'code',
   'coffee',
   'contactless',
   'copy',
@@ -236,6 +238,7 @@ export const ICON_SOURCES: Readonly<Record<IconName, string>> = {
   'chevron-right': 'chevron-right',
   'chevron-up': 'chevron-up',
   clock: 'clock',
+  code: 'code-xml',
   coffee: 'coffee',
   contactless: 'nfc',
   copy: 'copy',
@@ -337,6 +340,7 @@ export const ICON_NODES: Readonly<Record<IconName, readonly IconNode[]>> = {
   'chevron-right': [['path', { d: 'm9 18 6-6-6-6' }]],
   'chevron-up': [['path', { d: 'm18 15-6-6-6 6' }]],
   clock: [['circle', { cx: '12', cy: '12', r: '10' }], ['path', { d: 'M12 6v6l4 2' }]],
+  code: [['path', { d: 'm18 16 4-4-4-4' }], ['path', { d: 'm6 8-4 4 4 4' }], ['path', { d: 'm14.5 4-5 16' }]],
   coffee: [['path', { d: 'M10 2v2' }], ['path', { d: 'M14 2v2' }], ['path', { d: 'M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1' }], ['path', { d: 'M6 2v2' }]],
   contactless: [['path', { d: 'M6 8.32a7.43 7.43 0 0 1 0 7.36' }], ['path', { d: 'M9.46 6.21a11.76 11.76 0 0 1 0 11.58' }], ['path', { d: 'M12.91 4.1a15.91 15.91 0 0 1 .01 15.8' }], ['path', { d: 'M16.37 2a20.16 20.16 0 0 1 0 20' }]],
   copy: [['rect', { width: '14', height: '14', x: '8', y: '8', rx: '2', ry: '2' }], ['path', { d: 'M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2' }]],

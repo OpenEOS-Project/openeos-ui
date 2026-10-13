@@ -230,6 +230,13 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 
 ## Changelog
 
+### 0.6.2
+
+- **Lizenz:** `AGPL-3.0-or-later` statt `AGPL-3.0-only` (einheitlich mit
+  allen OpenEOS-Repos), Copyright-Vermerk in README und `NOTICE` (liegt
+  jetzt im Paket).
+- **Icon `code`** (Lucide `code-xml`) für Quellcode-Links.
+
 ### 0.6.1
 
 - **FloorPlan:** Die Werkzeugleiste beim Zeichnen bzw. Bearbeiten der
@@ -400,7 +407,11 @@ funktioniert weiter, klassische Tokens nicht mehr.
 
 ## Lizenz
 
-AGPL-3.0-only. Schriften: SIL OFL 1.1 (`src/fonts/files/OFL-*.txt`).
+Copyright (C) 2026 LUXCODE by Lukas Lukic-Spitznagel und Mitwirkende.
+
+Lizenziert unter der GNU Affero General Public License v3.0 oder (nach
+deiner Wahl) jeder späteren Version (`AGPL-3.0-or-later`), siehe
+[LICENSE](LICENSE) und [NOTICE](NOTICE). Schriften: SIL OFL 1.1 (`src/fonts/files/OFL-*.txt`).
 Icons: ausschließlich [Lucide](https://lucide.dev), ISC (Teile MIT von
 Feather) — `src/icons/LICENSE-lucide.txt`, Details in
 `src/icons/README.md`.
