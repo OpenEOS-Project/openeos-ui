@@ -102,6 +102,7 @@ export const iconKeywords: Readonly<Record<IconName, { readonly de: readonly str
   pointer: { de: ['auswahl', 'zeiger', 'mauszeiger', 'auswählen'], en: ['select', 'cursor', 'arrow'] },
   zone: { de: ['zone', 'bereich', 'fläche', 'abschnitt'], en: ['area', 'region', 'section'] },
   outline: { de: ['raumform', 'umriss', 'grundriss', 'form', 'vieleck'], en: ['shape', 'polygon', 'room'] },
+  code: { de: ['quellcode', 'code', 'open source', 'entwicklung', 'programm'], en: ['source code', 'source', 'open source', 'developer', 'program'] },
   ban: { de: ['gesperrt', 'verboten', 'sperre', 'kein zutritt'], en: ['blocked', 'forbidden', 'no entry'] },
 
   /* ---------- Status ---------- */
