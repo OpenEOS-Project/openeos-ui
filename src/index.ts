@@ -22,9 +22,11 @@ export {
   Button,
   ButtonLink,
   ButtonGroup,
+  IconButton,
   Actions,
   type ButtonProps,
   type ButtonLinkProps,
+  type IconButtonProps,
   type ButtonVariant,
   type ButtonSize,
 } from './react/button';
@@ -78,7 +80,6 @@ export {
   NoData,
   Modal,
   Scrim,
-  Tooltip,
   Prompt,
   type PromptProps,
   type BannerProps,
@@ -172,6 +173,8 @@ export {
   DropdownSearch,
   type DropdownProps,
   type DropdownOptionProps,
+  type PanelAlign,
+  type PanelPlacement,
   type DropdownLinkProps,
   type DropdownSearchProps,
 } from './react/dropdown';
@@ -192,6 +195,19 @@ export {
   type CategoryButtonProps,
   type UserChipProps,
 } from './react/pos';
+
+export { Tooltip, type TooltipProps } from './react/tooltip';
+
+export {
+  DataTable,
+  type DataTableProps,
+  type DataColumn,
+  type DataColumnPriority,
+  type DataColumnMobile,
+  type RowAction,
+} from './react/data-table';
+export { DataPager, pageItems, PAGER_LABELS_DE, type DataPagerProps, type DataPagerLabels } from './react/data-pager';
+export { FilterBar, useMediaQuery, FILTER_BAR_QUERY, type FilterBarProps } from './react/filter-bar';
 
 export { Sheet, type SheetProps } from './react/sheet';
 export { useSwipeToClose, swipeShouldClose, type SwipeToCloseOptions } from './react/swipe';

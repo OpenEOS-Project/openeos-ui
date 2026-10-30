@@ -33,6 +33,11 @@ const CLASSES = `
   oe-floor__wall-hit oe-floor__point oe-floor__point--add oe-floor__toolbar oe-floor__issue oe-floor--tool-wall
   oe-floor--tool-zone oe-floor--tool-outline oe-floor-wrap--edit
   oe-receipt
+  oe-dt oe-dt--dense oe-dt--sticky oe-dt--clickable oe-dt__table oe-dt__th oe-dt__td oe-dt__td--num oe-dt__td--title oe-dt__td--actions
+  oe-dt__p2 oe-dt__p3 oe-dt__m-title oe-dt__m-trailing oe-dt__m-l2 oe-dt__m-hidden oe-dt__inline oe-dt__opt--inline oe-dt__more--m oe-dt__empty oe-dt__foot
+  oe-filterbar oe-filterbar__lead oe-filterbar__fields oe-filterbar__toggle oe-filterbar__sheet
+  oe-pager__pages oe-pager__gap oe-pager__cur oe-pager__size oe-pager--compact
+  oe-tip__bubble--float oe-tip__bubble--bottom oe-btn__badge oe-dd__trigger--icon oe-dd__trigger--xs
 `.trim().split(/\s+/);
 
 const STATES = ['.oe-tile--product.is-in', '.oe-tablechip.is-current', '.oe-tablechip:disabled', '.oe-keypad button:disabled',
