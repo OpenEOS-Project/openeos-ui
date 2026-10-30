@@ -110,19 +110,6 @@ export function Scrim({ className, children }: { className?: string; children?: 
   return <div className={cx('oe-scrim', className)}>{children}</div>;
 }
 
-/* ---------- Tooltip ---------- */
-
-export function Tooltip({ label, className, children }: { label: ReactNode; className?: string; children?: ReactNode }) {
-  return (
-    <span className={cx('oe-tip', className)}>
-      {children}
-      <span className="oe-tip__bubble" role="tooltip">
-        {label}
-      </span>
-    </span>
-  );
-}
-
 /* ---------- Hinweisfläche mit großem Icon ----------
    Kartenterminal („Karte auflegen“), leere Karte, Warten auf etwas
    außerhalb des Bildschirms. */

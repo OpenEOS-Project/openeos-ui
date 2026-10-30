@@ -32,7 +32,7 @@ function Chevron() {
 const EDGE = 8;
 
 /* Auf dem Server gibt es kein Layout; useLayoutEffect würde dort warnen. */
-const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+export const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 interface Bounds {
   left: number;
@@ -66,22 +66,33 @@ function visibleBounds(from: HTMLElement): Bounds {
   return b;
 }
 
-interface PanelPos {
-  align: 'start' | 'end';
-  placement: 'bottom' | 'top';
+export type PanelAlign = 'start' | 'center' | 'end';
+export type PanelPlacement = 'bottom' | 'top';
+
+export interface PanelPos {
+  align: PanelAlign;
+  placement: PanelPlacement;
   /** Feste waagerechte Lage (px relativ zum Auslöser-Wrapper), wenn keine Bündigkeit passt. */
   left?: number;
 }
+
+/** Abstand zwischen Auslöser und Panel (px). */
+export const PANEL_GAP = 5;
 
 /**
  * Wählt Bündigkeit und Richtung so, dass das Panel sichtbar bleibt:
  * erst die gewünschte, dann die gespiegelte, sonst an den Rand
  * geschoben. Nach oben nur, wenn unten kein Platz ist und oben schon.
+ * `center` (Tooltip) wird nicht gespiegelt, nur an den Rand geschoben.
+ *
+ * Auch für Portale brauchbar: `wrap` ist dann der Auslöser selbst,
+ * die Lage ergibt sich aus dessen `getBoundingClientRect()`.
  */
-function resolvePanelPos(
+export function resolvePanelPos(
   wrap: HTMLElement,
   panel: HTMLElement,
   want: PanelPos,
+  gap = PANEL_GAP,
 ): PanelPos {
   const w = wrap.getBoundingClientRect();
   const width = panel.offsetWidth;
@@ -92,22 +103,21 @@ function resolvePanelPos(
   const maxR = b.right - EDGE;
 
   /* Linke Kante je Bündigkeit; "start" ist in RTL rechts. */
-  const leftFor = (a: 'start' | 'end') =>
-    (a === 'start') !== rtl ? w.left : w.right - width;
+  const leftFor = (a: PanelAlign) =>
+    a === 'center' ? w.left + (w.width - width) / 2 : (a === 'start') !== rtl ? w.left : w.right - width;
   const fits = (l: number) => l >= minL && l + width <= maxR;
 
-  const other = want.align === 'start' ? 'end' : 'start';
+  const other: PanelAlign = want.align === 'start' ? 'end' : want.align === 'end' ? 'start' : 'center';
   let align = want.align;
   let left: number | undefined;
   if (!fits(leftFor(want.align))) {
-    if (fits(leftFor(other))) align = other;
+    if (other !== want.align && fits(leftFor(other))) align = other;
     else {
       const clamped = Math.max(minL, Math.min(leftFor(want.align), maxR - width));
       left = Math.round(clamped - w.left);
     }
   }
 
-  const gap = 5;
   const below = b.bottom - EDGE - (w.bottom + gap);
   const above = w.top - gap - (b.top + EDGE);
   let placement = want.placement;
@@ -119,14 +129,18 @@ function resolvePanelPos(
 
 /* ---------- Dropdown ---------- */
 
-export interface DropdownProps {
+export interface DropdownProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'children' | 'prefix' | 'type' | 'onClick'> {
   /** Inhalt des Auslösers. Ohne trigger wird label verwendet. */
   trigger?: ReactNode;
   label?: ReactNode;
   prefix?: ReactNode;
-  triggerVariant?: 'quiet';
-  triggerSize?: 'sm';
+  /** `icon`: quadratischer, ruhiger Auslöser ohne Chevron (z. B. „Weitere Aktionen“); dann `aria-label` setzen. */
+  triggerVariant?: 'quiet' | 'icon';
+  triggerSize?: 'sm' | 'xs';
   block?: boolean;
+  /** Chevron im Auslöser; bei `triggerVariant="icon"` immer aus. */
+  chevron?: boolean;
   /**
    * Bevorzugte Bündigkeit des Panels am Auslöser (`end` = rechtsbündig).
    * Passt das Panel so nicht in den sichtbaren Bereich (Viewport bzw.
@@ -153,10 +167,12 @@ export function Dropdown({
   triggerVariant,
   triggerSize,
   block,
+  chevron = true,
   align = 'start',
   placement = 'bottom',
   className,
   children,
+  ...triggerProps
 }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<PanelPos | null>(null);
@@ -213,6 +229,7 @@ export function Dropdown({
   return (
     <div ref={wrapRef} className={cx('oe-dd', open && 'is-open', className)}>
       <button
+        {...triggerProps}
         type="button"
         className={bem('oe-dd__trigger', [triggerVariant, triggerSize, block && 'block'])}
         aria-haspopup="menu"
@@ -222,7 +239,7 @@ export function Dropdown({
       >
         {prefix ? <span className="oe-dd__pre">{prefix}</span> : null}
         {trigger ?? <span className="oe-dd__val">{label}</span>}
-        <Chevron />
+        {chevron && triggerVariant !== 'icon' ? <Chevron /> : null}
       </button>
 
       <div

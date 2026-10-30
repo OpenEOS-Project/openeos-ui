@@ -1,0 +1,109 @@
+/* ==========================================================
+   9b · DATATABLE, FILTERBAR, PAGER (Admin-Listen, seit 0.7.0)
+   Desktop: dichte <table>, kein waagerechtes Scrollen — Spalten
+   .oe-dt__p3 fallen unter 1180 px, .oe-dt__p2 unter 1024 px weg.
+   Telefon (≤ 767 px): jede Zeile als zweizeiliger Eintrag.
+   ========================================================== */
+.oe-dt{--oe-dt-py:9px;--oe-dt-px:12px;--oe-dt-fs:13.5px;--oe-dt-sticky-top:0px;position:relative;background:var(--oe-surface);border:1px solid var(--oe-line);border-radius:var(--oe-r);font-size:var(--oe-dt-fs)}
+.oe-dt--dense{--oe-dt-py:5px;--oe-dt-px:10px;--oe-dt-fs:13px}
+.oe-dt__table{width:100%;border-collapse:separate;border-spacing:0;table-layout:auto}
+.oe-dt__th{text-align:start;padding:8px var(--oe-dt-px);font:500 11px var(--oe-f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--oe-mute);background:var(--oe-paper-2);border-bottom:1px solid var(--oe-line);white-space:nowrap;vertical-align:middle}
+.oe-dt__th:first-child{border-start-start-radius:calc(var(--oe-r) - 1px)}
+.oe-dt__th:last-child{border-start-end-radius:calc(var(--oe-r) - 1px)}
+.oe-dt--sticky .oe-dt__th{position:sticky;top:var(--oe-dt-sticky-top);z-index:2}
+.oe-dt__td{padding:var(--oe-dt-py) var(--oe-dt-px);border-bottom:1px solid var(--oe-line);vertical-align:middle;line-height:1.3}
+.oe-dt__tr:last-child .oe-dt__td{border-bottom:0}
+.oe-dt__tr:last-child .oe-dt__td:first-child{border-end-start-radius:calc(var(--oe-r) - 1px)}
+.oe-dt__tr:last-child .oe-dt__td:last-child{border-end-end-radius:calc(var(--oe-r) - 1px)}
+.oe-dt__tr:hover .oe-dt__td{background:color-mix(in oklab, var(--oe-green-soft) 35%, transparent)}
+.oe-dt--clickable .oe-dt__tr{cursor:pointer}
+.oe-dt--clickable .oe-dt__tr:focus-visible{outline:0}
+.oe-dt--clickable .oe-dt__tr:focus-visible .oe-dt__td{background:var(--oe-green-soft);box-shadow:inset 0 0 0 1px var(--oe-green-ink)}
+.oe-dt__th--num,.oe-dt__td--num{text-align:end;font-family:var(--oe-f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.oe-dt__th--num{font-family:var(--oe-f-mono)}
+.oe-dt__th--end,.oe-dt__td--end{text-align:end}
+.oe-dt__th--center,.oe-dt__td--center{text-align:center}
+/* Titelzelle nimmt den Rest der Breite und kürzt mit Auslassung. */
+.oe-dt__td--title{max-width:0;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--oe-ink)}
+.oe-dt__td--title>*{overflow:hidden;text-overflow:ellipsis}
+.oe-dt__th--actions,.oe-dt__td--actions{width:1%;white-space:nowrap;text-align:end;padding-inline-start:4px}
+.oe-dt__actions{display:inline-flex;align-items:center;justify-content:flex-end;gap:2px;vertical-align:middle}
+/* Desktop: Inline-Aktionen sichtbar, dieselben im Dropdown versteckt;
+   das ⋯ nur, wenn etwas übrig bleibt. */
+.oe-dd__opt.oe-dt__opt--inline{display:none}
+.oe-dd.oe-dt__more--m{display:none}
+.oe-dt__empty{text-align:center;color:var(--oe-mute);padding:36px var(--oe-dt-px)}
+.oe-dt__foot{display:flex;align-items:center;gap:var(--oe-s3);padding:8px var(--oe-dt-px);border-top:1px solid var(--oe-line);background:var(--oe-paper)}
+.oe-dt__foot:last-child{border-end-start-radius:calc(var(--oe-r) - 1px);border-end-end-radius:calc(var(--oe-r) - 1px)}
+.oe-dt--loading .oe-dt__table{opacity:.5;pointer-events:none}
+.oe-dt__loading{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.oe-dt__td .oe-badge{vertical-align:middle}
+
+/* Spalten nach Priorität (Desktop) */
+@media (min-width:768px) and (max-width:1179px){.oe-dt__p3{display:none}}
+@media (min-width:768px) and (max-width:1023px){.oe-dt__p2{display:none}}
+
+/* Telefon: zweizeiliger Eintrag je Zeile. Alle Zellregeln mit
+   .oe-dt__tr davor, damit keine die andere nur per Reihenfolge schlägt. */
+@media (max-width:767px){
+  .oe-dt__table,.oe-dt__table tbody{display:block}
+  .oe-dt__table thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+  .oe-dt__tr{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:8px;row-gap:0;padding:8px var(--oe-dt-px);padding-inline-end:46px;border-bottom:1px solid var(--oe-line)}
+  .oe-dt__tr .oe-dt__m-l2 .oe-badge{font-size:10px;padding-top:1px;padding-bottom:1px}
+  .oe-dt__tr:last-child{border-bottom:0}
+  .oe-dt__tr::before{content:"";order:3;flex-basis:100%;height:0}
+  .oe-dt__tr .oe-dt__td{display:block;padding:0;border:0;background:none;text-align:start;min-width:0;max-width:none;width:auto;border-radius:0!important}
+  .oe-dt__tr:hover .oe-dt__td,.oe-dt--clickable .oe-dt__tr:focus-visible .oe-dt__td{background:none;box-shadow:none}
+  .oe-dt__tr:hover{background:color-mix(in oklab, var(--oe-green-soft) 35%, transparent)}
+  .oe-dt--clickable .oe-dt__tr:focus-visible{background:var(--oe-green-soft);box-shadow:inset 0 0 0 1px var(--oe-green-ink)}
+  .oe-dt__tr .oe-dt__m-title{order:1;flex:1 1 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--oe-ink);font-family:var(--oe-f-sans)}
+  .oe-dt__tr .oe-dt__m-trailing{order:2;flex:none;white-space:nowrap}
+  .oe-dt__tr .oe-dt__m-l2{order:4;flex:0 1 auto;font-size:12px;color:var(--oe-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--oe-f-sans);font-variant-numeric:tabular-nums}
+  .oe-dt__tr .oe-dt__m-l2.is-empty,.oe-dt__tr .oe-dt__m-hidden{display:none}
+  .oe-dt__tr .oe-dt__m-l2:not(.is-empty)~.oe-dt__m-l2:not(.is-empty)::before{content:"\00b7";margin-inline-end:8px;color:var(--oe-mute-2)}
+  .oe-dt__tr .oe-dt__td--actions{order:2;position:absolute;inset-inline-end:6px;top:0;bottom:0;display:flex;align-items:center;padding:0;width:auto}
+  /* Offenes Menü über die folgenden Zeilen heben */
+  .oe-dt__tr:has(.oe-dd.is-open){z-index:5}
+  .oe-btn.oe-dt__inline{display:none}
+  .oe-dd__opt.oe-dt__opt--inline{display:flex}
+  .oe-dd.oe-dt__more--m{display:inline-block}
+  .oe-dt__more .oe-dd__trigger{min-width:36px;min-height:36px}
+  .oe-dt__tr .oe-dt__empty{text-align:center;padding:28px var(--oe-dt-px)}
+  .oe-dt__tr--empty{display:block}
+  .oe-dt__foot{padding:8px 10px}
+}
+
+/* Filterzeile */
+.oe-filterbar{display:flex;align-items:center;gap:var(--oe-s2);flex-wrap:wrap}
+.oe-filterbar__lead{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:var(--oe-s2)}
+.oe-filterbar__fields{display:flex;align-items:center;gap:var(--oe-s2);flex-wrap:wrap}
+.oe-filterbar__fields .oe-field{min-width:0}
+.oe-filterbar__actions{margin-inline-start:auto;display:flex;align-items:center;gap:var(--oe-s2)}
+.oe-filterbar__toggle{display:none}
+.oe-filterbar__sheet{display:grid;gap:14px}
+.oe-filterbar__sheet .oe-field,.oe-filterbar__sheet .oe-input,.oe-filterbar__sheet .oe-select-wrap,.oe-filterbar__sheet .oe-dd{width:100%}
+.oe-filterbar__sheet .oe-dd__trigger{display:flex;width:100%}
+@media (max-width:767px){
+  .oe-filterbar{flex-wrap:nowrap}
+  .oe-filterbar__lead{flex:1 1 auto}
+  .oe-filterbar__fields{display:none}
+  .oe-filterbar__toggle{display:block;flex:none}
+  .oe-filterbar__actions{margin-inline-start:0;flex:none}
+}
+
+/* Pager (Ergänzungen zu .oe-pager in table.css) */
+.oe-pager{flex-wrap:wrap}
+.oe-pager__pages{display:inline-flex;align-items:center;gap:5px}
+.oe-pager__gap{min-width:18px;text-align:center;color:var(--oe-mute-2)}
+.oe-pager__gap::before{content:"\2026"}
+.oe-pager__cur{display:none;color:var(--oe-mute);font-size:12px;padding:0 4px;white-space:nowrap}
+.oe-pager__size{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--oe-mute);margin-inline-end:4px}
+.oe-pager__size select{height:30px;padding:0 24px 0 8px;border-radius:var(--oe-r-xs);border:1px solid var(--oe-line-2);background:var(--oe-surface);color:var(--oe-ink);font:inherit;appearance:auto}
+.oe-pager .oe-btn{min-width:30px;min-height:30px;padding:0}
+.oe-pager--compact .oe-pager__pages{display:none}
+.oe-pager--compact .oe-pager__cur{display:inline}
+@media (max-width:767px){
+  .oe-pager__pages{display:none}
+  .oe-pager__cur{display:inline}
+  .oe-pager__info{flex-basis:100%;order:-1}
+}

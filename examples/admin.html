@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>@openeos/ui 0.7.0 · Admin-Tabellen</title>
+<!--
+  Spielwiese für DataTable, DataPager, FilterBar, IconButton und Tooltip.
+  Voraussetzung: `pnpm build && pnpm examples` (bündelt examples/admin.tsx
+  samt React nach examples/dist/admin.global.js). Über einen lokalen Server
+  öffnen, z. B.  npx serve .  →  http://localhost:3000/examples/admin.html
+  Dunkel: ?theme=dark
+-->
+<link rel="stylesheet" href="../dist/styles.css" />
+<style>
+  @font-face{font-family:"Geist";src:url("../src/fonts/files/geist-latin-wght-normal.woff2") format("woff2");font-weight:100 900}
+  @font-face{font-family:"JetBrains Mono";src:url("../src/fonts/files/jetbrains-mono-latin-wght-normal.woff2") format("woff2");font-weight:100 800}
+  html,body{margin:0}
+  body{min-height:100vh}
+  .ex{max-width:1200px;margin:0 auto;padding:24px 20px 60px;display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+  .ex-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .ex-hd h1{font:800 32px var(--oe-f-display);letter-spacing:-.03em;margin:0}
+  .ex-sec{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+  .ex-sec>h2{margin:0}
+  .ex-split{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+  .ex-log{margin:0;font:500 12px var(--oe-f-mono);color:var(--oe-mute)}
+  @media (max-width:767px){.ex{padding:12px 10px 40px;gap:16px}.ex-hd h1{font-size:24px}}
+</style>
+</head>
+<body class="oe-root">
+<div id="app"></div>
+<script>
+  if (new URLSearchParams(location.search).get('theme') === 'dark') document.documentElement.classList.add('dark');
+</script>
+<script src="dist/admin.global.js"></script>
+</body>
+</html>

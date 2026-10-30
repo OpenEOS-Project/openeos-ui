@@ -184,6 +184,101 @@ Eine statische Übersicht aller Bausteine in hell und
 dunkel liegt in `examples/pos.html` (nach `pnpm build` über einen lokalen
 Server öffnen).
 
+### Admin-Tabellen (seit 0.7.0)
+
+Dichte Listen für die Verwaltung: auf dem Desktop alles sichtbar ohne
+waagerechtes Scrollen, Aktionen als Icon-Knöpfe mit Tooltip, auf dem
+Telefon (≤ 767 px) jede Zeile als kompakter zweizeiliger Eintrag. Eine
+Spielwiese liegt in `examples/admin.html` (`pnpm build && pnpm examples`,
+dann über einen lokalen Server öffnen).
+
+| Komponente | Zweck | Klassen |
+|---|---|---|
+| `DataTable<T>` | Tabelle aus `rows` + `columns`, Spalten-Prioritäten, Telefon-Rollen, Zeilenaktionen, Zeilenklick, `dense`, `stickyHeader`, `loading`, `empty`, `footer` | `.oe-dt*` |
+| `DataPager` | Seitenwahl (`page`, `pageSize`, `total`, `onChange`, `pageSizes`, `compact`) | `.oe-pager*` |
+| `FilterBar` | Filterzeile; ≤ 767 px nur `leading` + Filter-Knopf mit Zähler, der ein `Sheet` mit den Kindern öffnet | `.oe-filterbar*` |
+| `IconButton` | `Button iconOnly` mit Pflicht-`label` (aria-label) und Tooltip; `size` xs/sm/md, `variant` wie Button, `badge`, `href` | `.oe-btn--icon`, `.oe-btn__badge` |
+| `Tooltip` | Hover (300 ms), Tastaturfokus, langes Drücken; Portal, weicht Rändern aus, Escape schließt, `aria-describedby` | `.oe-tip__bubble--float` |
+
+```tsx
+import { DataTable, DataPager, FilterBar, IconButton, Badge, Select, SearchInput } from '@openeos/ui';
+import type { DataColumn, RowAction } from '@openeos/ui';
+
+const columns: DataColumn<Order>[] = [
+  { id: 'number', header: 'Nr.', cell: (o) => o.number, mobile: 'meta', width: 90 },
+  { id: 'guest', header: 'Gast', cell: (o) => <span title={o.guest}>{o.guest}</span>, mobile: 'title' },
+  { id: 'status', header: 'Status', cell: (o) => <Badge tone="success">Bezahlt</Badge>, mobile: 'subtitle' },
+  { id: 'table', header: 'Tisch', cell: (o) => o.table, priority: 2, mobile: 'meta' },
+  { id: 'items', header: 'Pos.', cell: (o) => o.items, num: true, priority: 3 },
+  { id: 'total', header: 'Summe', cell: (o) => eur(o.total), num: true, mobile: 'trailing' },
+];
+const actions = (o: Order): RowAction[] => [
+  { id: 'open', label: 'Öffnen', icon: 'eye', primary: true, href: `/orders/${o.id}` },
+  { id: 'print', label: 'Bon drucken', icon: 'print', onClick: () => print(o) },
+  { id: 'cancel', label: 'Stornieren', icon: 'x-circle', danger: true, hidden: o.cancelled, onClick: () => cancel(o) },
+];
+
+<FilterBar leading={<SearchInput … />} activeCount={active} onReset={reset} actions={<Button variant="primary">Neu</Button>}>
+  <Select aria-label="Status" …>…</Select>
+</FilterBar>
+<DataTable
+  rows={orders} rowKey="id" columns={columns} actions={actions} inlineActions={2}
+  dense stickyHeader caption="Bestellungen" onRowClick={(o) => router.push(`/orders/${o.id}`)}
+  footer={<DataPager page={page} pageSize={25} total={total} onChange={setPage} />}
+/>
+```
+
+**Spalten.** `priority` 1 (Default) ist immer da, 2 verschwindet unter
+1024 px, 3 unter 1180 px — als Klassen `.oe-dt__p2` / `.oe-dt__p3` auf `th`
+und `td`, ohne JavaScript. `num` setzt Mono, Tabellenziffern, rechtsbündig
+und `nowrap`; `align`, `width`, `minWidth`, `className` wie erwartet. Die
+Spalte mit `mobile: 'title'` (ohne Angabe: die erste) nimmt auf dem Desktop
+die Restbreite und kürzt mit Auslassung.
+
+**Telefon (≤ 767 px).** `mobile` ordnet jede Spalte einer Rolle zu: Zeile 1
+= `title` (fett, gekürzt) + `trailing` (rechts, z. B. Summe oder Status),
+Zeile 2 = `subtitle` und `meta` in Spaltenreihenfolge, durch einen Punkt
+getrennt (leere Zellen fallen weg), `hidden` (Default für alle anderen) ist
+unsichtbar. Der Kopf bleibt für Screenreader im Markup. `<table>`, `<tr>`,
+`<td>` bleiben erhalten und tragen explizite Rollen (`table`, `row`,
+`cell`, `columnheader`), damit `getByRole('row')` / `getByRole('cell')`
+auch dann greifen, wenn CSS die Zeile als Flex-Grid zeichnet. Zelleninhalt
+wird unverändert gerendert — `title`-Attribute bleiben.
+
+**Aktionen.** `actions(row)` liefert `RowAction[]` (`id`, `label`, `icon`,
+`onClick` oder `href`, `danger`, `primary`, `disabled`, `hidden`). Desktop:
+die ersten `inlineActions` (Default 2) als `IconButton` (xs, Tooltip =
+`label`, `data-action={id}`), der Rest im ⋯-Dropdown (`aria-label`
+`moreLabel`, Default „Weitere Aktionen“). Telefon: nur das ⋯, das Menü
+enthält alle Aktionen mit Text. Die Aktionszelle stoppt die Weitergabe —
+`onRowClick` feuert nur bei Klicks auf Zellen (und Enter/Leertaste auf der
+fokussierbaren Zeile), nicht bei Links, Knöpfen oder Feldern darin und
+nicht bei markiertem Text.
+
+**Weitere Props.** `caption` (Pflicht, nur für Screenreader), `empty`
+(Default „Keine Einträge“), `loading` (`aria-busy`, Spinner, Zeilen
+abgedunkelt), `footer` (unter der Tabelle, z. B. `DataPager`), `dense`,
+`stickyHeader` (Kopf klebt am Scroll-Container; Versatz über
+`--oe-dt-sticky-top`), `rowClassName`, `actionsLabel`, `loadingLabel`.
+
+**DataPager.** `page` 1-basiert, `onChange(page, pageSize)`; `pageSizes`
+zeigt ein Select; ≤ 767 px oder `compact` nur Zurück/Weiter und „Seite 3
+von 10“. Texte über `labels` (`PAGER_LABELS_DE`), `pageItems(page, pages)`
+liefert die Zahlenreihe mit `null` als Lücke.
+
+**FilterBar.** Kinder sind die Filterfelder (ihr Zustand gehört der
+Anwendung); `leading` (Suche) und `actions` (z. B. „Neu“) bleiben immer
+sichtbar. ≤ 767 px (`useMediaQuery(FILTER_BAR_QUERY)`) werden die Kinder
+nur im `Sheet` gerendert, das der Filter-Knopf (Badge = `activeCount`)
+öffnet; `onReset` zeigt „Zurücksetzen“ im Fuß.
+
+**Tooltip.** `<Tooltip label>` klont sein Kind (ein Element, das Props an
+sein DOM-Element durchreicht — `Button`, `IconButton`, `Dropdown`,
+`<span>`) und hängt Hover-, Fokus- und Pointer-Handler an. `placement`
+`top` (Default) oder `bottom`, `delay` 300 ms, `disabled`. Die Blase liegt
+als `position: fixed` in einem Portal und nutzt die Kollisionslogik des
+Dropdowns. `always` zeigt die Blase statisch wie bis 0.6 (ohne Portal).
+
 **Kassen-Breakpoints:** kompakt ≤ 820 px, mittel ≤ 1180 px, darüber breit —
 als `breakpoints.posCompact` / `breakpoints.posMedium` in
 `@openeos/ui/tokens`. `.oe-catnav--responsive`, `.oe-sheet`,
@@ -229,6 +324,30 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### 0.7.0
+
+- **DataTable** (`src/react/data-table.tsx`, `.oe-dt*`): dichte
+  Admin-Tabelle mit Spalten-Prioritäten (3 fällt unter 1180 px, 2 unter
+  1024 px — reine CSS-Klassen), Telefon-Ansicht ≤ 767 px als zweizeiliger
+  Eintrag (`mobile: title | subtitle | meta | trailing | hidden`),
+  Zeilenaktionen inline als `IconButton` + Rest im ⋯-Dropdown (Telefon:
+  alles im Dropdown mit Text), `onRowClick` (Maus und Tastatur, Aktionen
+  stoppen die Weitergabe), `dense`, `stickyHeader`, `caption`, `empty`,
+  `loading`, `footer`. `<table>/<tr>/<td>` mit expliziten ARIA-Rollen.
+- **DataPager** zur `.oe-pager`-Klasse (Seitenzahlen mit Lücken, Select
+  für die Seitengröße, kompakt auf dem Telefon) und **FilterBar** (inline;
+  ≤ 767 px Filter-Knopf mit Zähler → `Sheet`).
+- **IconButton**: `Button iconOnly` mit Pflicht-`label` (aria-label) und
+  Tooltip, `size` xs/sm/md, `badge`, `href`.
+- **Tooltip** verhält sich jetzt: öffnet bei Hover (300 ms), Tastaturfokus
+  und langem Drücken, Portal mit Kollisionslogik, Escape schließt,
+  `aria-describedby`. Die statische Blase von vorher gibt es mit `always`.
+- **Dropdown**: `triggerVariant="icon"` (quadratisch, ohne Chevron),
+  `triggerSize="xs"`, `chevron={false}`; Button-Attribute (`aria-label`,
+  Handler) gehen an den Auslöser. `resolvePanelPos` kennt `align: 'center'`.
+- **Spielwiese** `examples/admin.html` (`pnpm examples`), Tests mit jsdom
+  für Tooltip und Zeilenklick.
 
 ### 0.6.2
 
@@ -308,6 +427,14 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
   — Primärknöpfe in `.pos-root` hatten unsichtbaren Text. Kein Breaking
   Change; eigene `.pos-root`-Regeln der App gewinnen jetzt immer. Die Datei
   bleibt veraltet und entfällt in 0.5.0 (statt `.pos-root` → `.oe-root`).
+
+## Migration 0.6 → 0.7
+
+| Änderung | Was tun |
+|---|---|
+| **`Tooltip`** zeigt die Blase nicht mehr dauerhaft, sondern bei Hover/Fokus/langem Drücken in einem Portal. Das Kind muss ein einzelnes Element sein, das Props durchreicht. | Für feste Hinweise `always` setzen; sonst nichts. |
+| `Tooltip` kommt aus `src/react/tooltip.tsx` (Export aus dem Paket unverändert). | Nichts. |
+| `DropdownProps` erbt jetzt Button-Attribute; `triggerVariant` erlaubt `'icon'`, `triggerSize` `'xs'`. | Nichts. |
 
 ## Migration 0.5 → 0.6
 

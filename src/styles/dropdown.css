@@ -53,6 +53,14 @@
   border-color: transparent;
 }
 .oe-dd__trigger--sm { padding: 6px 9px; font-size: 13px; min-height: var(--oe-control-h-sm); }
+.oe-dd__trigger--xs { padding: 5px 8px; font-size: 12px; }
+/* Nur ein Icon, ruhig, quadratisch — „Weitere Aktionen“. */
+.oe-dd__trigger--icon { padding: 5px; border-color: transparent; background: transparent; color: var(--oe-mute); border-radius: var(--oe-r-xs); }
+.oe-dd__trigger--icon:hover { background: color-mix(in oklab, var(--oe-ink) 5%, transparent); border-color: transparent; color: var(--oe-ink); }
+.oe-dd__trigger--icon svg { width: 15px; height: 15px; color: inherit; transition: none; }
+.oe-dd__trigger--icon.oe-dd__trigger--sm { padding: 6px; }
+.oe-dd.is-open > .oe-dd__trigger--icon { background: color-mix(in oklab, var(--oe-ink) 8%, transparent); border-color: transparent; color: var(--oe-ink); }
+.oe-dd.is-open > .oe-dd__trigger--icon svg { transform: none; }
 .oe-dd__trigger--block { display: flex; width: 100%; }
 
 .oe-dd__panel {

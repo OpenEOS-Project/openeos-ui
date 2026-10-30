@@ -43,3 +43,11 @@
 .oe-tip{position:relative;display:inline-flex}
 .oe-tip__bubble{position:absolute;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);background:var(--oe-contrast);color:var(--oe-on-contrast);padding:5px 9px;border-radius:var(--oe-r-xs);font:500 12px var(--oe-f-sans);white-space:nowrap;box-shadow:var(--oe-sh-2)}
 .oe-tip__bubble::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--oe-contrast)}
+/* Schwebende Blase (Portal, seit 0.7.0): feste Lage aus JS, Pfeil
+   unter dem Auslöser auch wenn die Blase an den Rand rückt. */
+.oe-tip__bubble--float{--oe-tip-arrow:50%;position:fixed;bottom:auto;left:0;top:0;transform:none;z-index:400;max-width:min(280px,calc(100vw - 16px));white-space:normal;line-height:1.3;pointer-events:none;animation:oe-tip-in var(--oe-dur-2) var(--oe-ease)}
+.oe-tip__bubble--float.is-measuring{visibility:hidden;animation:none}
+.oe-tip__bubble--float::after{left:var(--oe-tip-arrow)}
+.oe-tip__bubble--bottom::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:var(--oe-contrast)}
+@keyframes oe-tip-in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.oe-tip__bubble--float{animation:none}}
