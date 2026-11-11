@@ -248,7 +248,9 @@ auch dann greifen, wenn CSS die Zeile als Flex-Grid zeichnet. Zelleninhalt
 wird unverändert gerendert — `title`-Attribute bleiben.
 
 **Aktionen.** `actions(row)` liefert `RowAction[]` (`id`, `label`, `icon`,
-`onClick` oder `href`, `danger`, `primary`, `disabled`, `hidden`). Desktop:
+`onClick` oder `href` mit optional `target`/`rel` — `target: '_blank'`
+setzt ohne eigenes `rel` `noopener noreferrer` —, `danger`, `primary`,
+`disabled`, `hidden`). Desktop:
 die ersten `inlineActions` (Default 2) als `IconButton` (xs, Tooltip =
 `label`, `data-action={id}`), der Rest im ⋯-Dropdown (`aria-label`
 `moreLabel`, Default „Weitere Aktionen“). Telefon: nur das ⋯, das Menü
@@ -326,6 +328,14 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
 `Keypad`, `Chip` und `Toast` daran.
 
 ## Changelog
+
+### Unveröffentlicht
+
+- **DataTable:** `RowAction` kennt `target` und `rel` für Links (z. B. den
+  Shop in einem neuen Tab), inline und im ⋯-Menü.
+- **DataTable, Telefon:** Zeile 2 bricht nicht mehr in eine dritte Zeile
+  um (mit Trennpunkt vorn). Die Teile wachsen höchstens bis zu ihrem
+  Inhalt und teilen sich den Rest; lange Teile werden gekürzt.
 
 ### 0.7.0
 

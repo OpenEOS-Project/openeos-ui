@@ -58,7 +58,7 @@
   .oe-dt--clickable .oe-dt__tr:focus-visible{background:var(--oe-green-soft);box-shadow:inset 0 0 0 1px var(--oe-green-ink)}
   .oe-dt__tr .oe-dt__m-title{order:1;flex:1 1 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--oe-ink);font-family:var(--oe-f-sans)}
   .oe-dt__tr .oe-dt__m-trailing{order:2;flex:none;white-space:nowrap}
-  .oe-dt__tr .oe-dt__m-l2{order:4;flex:0 1 auto;font-size:12px;color:var(--oe-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--oe-f-sans);font-variant-numeric:tabular-nums}
+  .oe-dt__tr .oe-dt__m-l2{order:4;flex:1 1 0%;max-width:max-content;font-size:12px;color:var(--oe-mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--oe-f-sans);font-variant-numeric:tabular-nums}
   .oe-dt__tr .oe-dt__m-l2.is-empty,.oe-dt__tr .oe-dt__m-hidden{display:none}
   .oe-dt__tr .oe-dt__m-l2:not(.is-empty)~.oe-dt__m-l2:not(.is-empty)::before{content:"\00b7";margin-inline-end:8px;color:var(--oe-mute-2)}
   .oe-dt__tr .oe-dt__td--actions{order:2;position:absolute;inset-inline-end:6px;top:0;bottom:0;display:flex;align-items:center;padding:0;width:auto}
