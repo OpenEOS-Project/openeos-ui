@@ -137,3 +137,16 @@ test('FilterBar: Kinder inline, Filter-Knopf mit Zähler, Sheet erst im Browser'
   assert.match(html, /<span class="oe-btn__badge" aria-hidden="true">2<\/span>/);
   assert.doesNotMatch(html, /oe-sheet/);
 });
+
+test('DataTable: Link-Aktion mit target öffnet neuen Tab (rel noopener), inline und im Menü', () => {
+  const linkActions = () => [
+    { id: 'shop', label: 'Shop öffnen', icon: 'eye', href: 'https://shop.example.org/x', target: '_blank' },
+    { id: 'docs', label: 'Hilfe', icon: 'info', href: '/hilfe', target: '_blank', rel: 'help' },
+    { id: 'edit', label: 'Bearbeiten', icon: 'edit', onClick() {} },
+  ];
+  const html = render(h(DataTable, { rows: rows.slice(0, 1), rowKey: 'id', columns, caption: 'x', actions: linkActions }));
+  // inline als IconButton-Link
+  assert.match(html, /<a[^>]*href="https:\/\/shop\.example\.org\/x"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/);
+  // im Menü (DropdownLink) dasselbe, eigenes rel bleibt
+  assert.match(html, /<a[^>]*href="\/hilfe"[^>]*target="_blank"[^>]*rel="help"[^>]*role="menuitem"/);
+});

@@ -51,6 +51,9 @@ export interface RowAction {
   onClick?: (event: MouseEvent<HTMLElement>) => void;
   /** Als Link (z. B. Detailseite). */
   href?: string;
+  /** Mit `href`: Ziel (z. B. `_blank` für einen neuen Tab) und `rel`. */
+  target?: string;
+  rel?: string;
   danger?: boolean;
   /** Hervorgehoben (accent) in der Inline-Leiste. */
   primary?: boolean;
@@ -251,6 +254,11 @@ function actionVariant(a: RowAction) {
   return a.danger ? 'danger-quiet' : a.primary ? 'accent' : 'quiet';
 }
 
+/** Neuer Tab ohne eigenes `rel`: `noopener noreferrer`. */
+function linkRel(a: RowAction): string | undefined {
+  return a.rel ?? (a.target === '_blank' ? 'noopener noreferrer' : undefined);
+}
+
 function RowActions({ actions, inline, moreLabel }: { actions: RowAction[]; inline: number; moreLabel: string }) {
   const inlineActs = actions.slice(0, inline);
   const overflow = actions.slice(inline);
@@ -265,6 +273,8 @@ function RowActions({ actions, inline, moreLabel }: { actions: RowAction[]; inli
           label={a.label}
           icon={a.icon}
           href={a.disabled ? undefined : a.href}
+          target={a.href && !a.disabled ? a.target : undefined}
+          rel={a.href && !a.disabled ? linkRel(a) : undefined}
           disabled={a.disabled}
           onClick={a.onClick}
           data-action={a.id}
@@ -287,7 +297,7 @@ function RowActions({ actions, inline, moreLabel }: { actions: RowAction[]; inli
               'data-action': a.id,
             };
             return a.href && !a.disabled ? (
-              <DropdownLink key={a.id} {...common} href={a.href} onClick={a.onClick}>
+              <DropdownLink key={a.id} {...common} href={a.href} target={a.target} rel={linkRel(a)} onClick={a.onClick}>
                 {a.label}
               </DropdownLink>
             ) : (
