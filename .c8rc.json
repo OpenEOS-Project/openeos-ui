@@ -1,0 +1,6 @@
+{
+  "reporter": ["lcov", "text-summary"],
+  "report-dir": "coverage",
+  "exclude-after-remap": true,
+  "exclude": ["test/**", "examples/**", "scripts/**", "node_modules/**"]
+}

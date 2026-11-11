@@ -21,6 +21,10 @@ jobs:
     name: Typecheck, build, pack
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      # Codecov upload via OIDC instead of a token (see codecov.yml).
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -49,11 +53,26 @@ jobs:
       - name: Build
         run: pnpm build
 
-      # node:test without extra dependencies, against the built dist/.
-      - name: Test
-        run: pnpm test
-
       # Lists exactly what `npm publish` would upload, so a missing or stray
-      # file shows up in the PR rather than on npm.
+      # file shows up in the PR rather than on npm. Runs before the tests:
+      # those rebuild dist/ with source maps, which are not published.
       - name: Pack (dry run)
         run: npm pack --dry-run
+
+      # node:test against dist/, rebuilt with source maps so c8 can map the
+      # coverage back to src/ (coverage/lcov.info).
+      - name: Test
+        run: pnpm test:cov
+
+      # Must never turn CI red: if Codecov is down or its app is not set up
+      # yet, the job carries on. Fork PRs have no OIDC token; the action
+      # then uploads tokenless, which Codecov accepts for public repos.
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
+        continue-on-error: true
+        with:
+          use_oidc: true
+          files: ./coverage/lcov.info
+          disable_search: true
+          flags: ui
+          fail_ci_if_error: false

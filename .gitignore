@@ -4,3 +4,4 @@ examples/dist/
 .omc/
 *.tsbuildinfo
 .DS_Store
+coverage/
