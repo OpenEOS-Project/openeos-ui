@@ -1,0 +1,28 @@
+# Codecov: coverage is informational, never a blocker.
+# Uploaded from the build job in .github/workflows/ci.yml
+# (OIDC, no token needed; PRs from forks upload tokenless).
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+    patch:
+      default:
+        informational: true
+
+comment:
+  layout: "condensed_header, condensed_files, condensed_footer"
+  behavior: default
+  require_changes: false
+
+flags:
+  ui:
+    paths:
+      - src/
+
+ignore:
+  - "test/**"
+  - "examples/**"
+  - "scripts/**"
+  - "**/*.stories.*"
+  - "src/icons/generated.ts"

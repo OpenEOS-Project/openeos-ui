@@ -1,5 +1,7 @@
 # @openeos/ui
 
+[![codecov](https://codecov.io/gh/OpenEOS-Project/openeos-ui/branch/main/graph/badge.svg)](https://codecov.io/gh/OpenEOS-Project/openeos-ui)
+
 Das OpenEOS-Designsystem: Tokens, Klassenbibliothek und React-Komponenten
 für Admin, POS, Shop, Landing und Displays.
 
