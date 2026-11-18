@@ -2,3 +2,10 @@ allowBuilds:
   esbuild: set this to true or false
 onlyBuiltDependencies:
   - esbuild
+# Dev-only: next 15 pins postcss 8.4.31, c8 still pulls glob 13 /
+# minimatch 10. The newer releases keep the same API. Remove once the
+# packages depend on them directly.
+overrides:
+  'postcss@<8.5.23': ^8.5.32
+  'glob@>=9.0.0 <14.0.2': ^14.0.2
+  'minimatch@>=7.0.0 <11.0.1': ^11.0.1
