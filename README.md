@@ -335,7 +335,8 @@ zeigt CSS (z. B. `.oe-given b:empty`). Seit 0.4.0 halten sich auch
   abschneidender Vorfahren (`overflow-y` ≠ `visible`, auch `clip`) und
   öffnet nach oben, wenn darunter kein Platz ist — etwa das ⋯-Menü der
   einzigen Zeile in einer Karte mit `overflow: hidden`. Passt es auf keiner
-  Seite, nimmt es die mit mehr Platz. Der Tooltip (Portal) ist davon nicht
+  Seite, nimmt es die mit mehr Platz und wird auf diesen begrenzt (der
+  Inhalt scrollt). Der Tooltip (Portal) ist davon nicht
   betroffen. Gemeldet in OpenEOS-Project/openeos-web#185.
 - **DataTable:** `RowAction` kennt `target` und `rel` für Links (z. B. den
   Shop in einem neuen Tab), inline und im ⋯-Menü.

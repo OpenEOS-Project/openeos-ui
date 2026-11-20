@@ -45,6 +45,9 @@ const { createElement: h, act } = await import('react');
 const { createRoot } = await import('react-dom/client');
 const { Dropdown, DropdownOption, Tooltip } = await import('../dist/index.js');
 
+/** Höchsthöhe des Panels aus dem letzten `openIn` ('' = keine). */
+let lastMaxHeight = '';
+
 /**
  * Dropdown in einer Karte. `card` ist deren Rechteck, `trigger` das des
  * Auslösers, `panel` die Panelhöhe; `overflowY` der senkrechte Überlauf der Karte.
@@ -70,7 +73,9 @@ function openIn({ card, trigger, panel = 120, overflowX = 'hidden', overflowY = 
   rects.set(wrap, trigger);
   sizes.set(host.querySelector('.oe-dd__panel'), [180, panel]);
   act(() => host.querySelector('.oe-dd__trigger').click());
-  const cls = host.querySelector('.oe-dd__panel').classList;
+  const panelEl = host.querySelector('.oe-dd__panel');
+  lastMaxHeight = panelEl.style.maxHeight;
+  const cls = panelEl.classList;
   const placed = cls.contains('oe-dd__panel--top') ? 'top' : 'bottom';
   act(() => root.unmount());
   host.remove();
@@ -100,11 +105,14 @@ test('Dropdown: ohne abschneidende Vorfahren bleibt es unten, solange der Viewpo
 
 test('Dropdown: genug Platz unten in der Karte → unten', () => {
   assert.equal(openIn({ card: [100, 100, 900, 600], trigger: [800, 140, 832, 172] }), 'bottom');
+  assert.equal(lastMaxHeight, '', 'passt → keine Begrenzung');
 });
 
 test('Dropdown: passt nirgends → die Seite mit mehr Platz', () => {
   // Karte 100…300, Panel 200 hoch: oben 250-5-108 = 137, unten 292-287 = 5 → oben
   assert.equal(openIn({ card, trigger: lastRow, panel: 200 }), 'top');
+  // … und auf diesen Platz begrenzt, der Rest scrollt
+  assert.equal(lastMaxHeight, '137px');
   // Auslöser oben in der Karte: oben 0, unten mehr → bleibt unten
   assert.equal(openIn({ card, trigger: [800, 110, 832, 142], panel: 200 }), 'bottom');
   // gewünscht oben, oben kaum Platz, unten mehr → unten

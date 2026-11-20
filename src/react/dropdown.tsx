@@ -84,6 +84,8 @@ export interface PanelPos {
   placement: PanelPlacement;
   /** Feste waagerechte Lage (px relativ zum Auslöser-Wrapper), wenn keine Bündigkeit passt. */
   left?: number;
+  /** Höchsthöhe (px), wenn das Panel auf keiner Seite ganz passt — der Rest scrollt. */
+  maxHeight?: number;
 }
 
 /** Abstand zwischen Auslöser und Panel (px). */
@@ -94,7 +96,8 @@ export const PANEL_GAP = 5;
  * erst die gewünschte, dann die gespiegelte, sonst an den Rand
  * geschoben. Senkrecht kippt das Panel, wenn auf der gewünschten Seite
  * kein Platz ist und auf der anderen schon; passt es auf keiner, gewinnt
- * die Seite mit mehr Platz. Der Platz endet auch am Rand abschneidender
+ * die Seite mit mehr Platz, und das Panel wird auf diesen Platz begrenzt
+ * (`maxHeight`, der Inhalt scrollt). Der Platz endet auch am Rand abschneidender
  * Vorfahren (eine Karte mit `overflow: hidden` und nur einer Zeile).
  * `center` (Tooltip) wird nicht gespiegelt, nur an den Rand geschoben.
  *
@@ -112,7 +115,8 @@ export function resolvePanelPos(
 ): PanelPos {
   const w = wrap.getBoundingClientRect();
   const width = panel.offsetWidth;
-  const height = panel.offsetHeight;
+  /* Natürliche Höhe, auch wenn eine frühere Messung das Panel begrenzt hat. */
+  const height = Math.max(panel.offsetHeight, panel.scrollHeight + panel.offsetHeight - panel.clientHeight);
   const b = visibleBounds(wrap, !portal);
   const rtl = getComputedStyle(wrap).direction === 'rtl';
   const minL = b.left + EDGE;
@@ -141,8 +145,10 @@ export function resolvePanelPos(
   /* Passt es hier nicht, kippen, wenn drüben mehr Platz ist — ob es dort
      ganz passt oder nur weniger abgeschnitten wird. */
   if (height > here && there > here) placement = want.placement === 'bottom' ? 'top' : 'bottom';
+  const room = Math.max(here, there);
+  const maxHeight = height > room ? Math.max(0, Math.floor(room)) : undefined;
 
-  return { align, placement, left };
+  return { align, placement, left, maxHeight };
 }
 
 /* ---------- Dropdown ---------- */
@@ -217,8 +223,13 @@ export function Dropdown({
 
   const eff = pos ?? { align, placement };
   const panelStyle: CSSProperties | undefined =
-    /* Inline schlägt die logischen Insets der Klasse in beiden Richtungen. */
-    eff.left !== undefined ? { left: eff.left, right: 'auto' } : undefined;
+    eff.left !== undefined || eff.maxHeight !== undefined
+      ? {
+          /* Inline schlägt die logischen Insets der Klasse in beiden Richtungen. */
+          ...(eff.left !== undefined ? { left: eff.left, right: 'auto' } : null),
+          ...(eff.maxHeight !== undefined ? { maxHeight: eff.maxHeight } : null),
+        }
+      : undefined;
 
   useEffect(() => {
     if (!open) return;
