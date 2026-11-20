@@ -138,8 +138,9 @@ export function resolvePanelPos(
   const above = w.top - gap - (b.top + EDGE);
   const [here, there] = want.placement === 'bottom' ? [below, above] : [above, below];
   let placement = want.placement;
-  /* Kippen, wenn es nur drüben passt — oder nirgends, drüben aber mehr Platz ist. */
-  if (height > here && (there >= height || there > here)) placement = want.placement === 'bottom' ? 'top' : 'bottom';
+  /* Passt es hier nicht, kippen, wenn drüben mehr Platz ist — ob es dort
+     ganz passt oder nur weniger abgeschnitten wird. */
+  if (height > here && there > here) placement = want.placement === 'bottom' ? 'top' : 'bottom';
 
   return { align, placement, left };
 }
