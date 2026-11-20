@@ -43,10 +43,14 @@ interface Bounds {
 
 /**
  * Sichtbarer Bereich für das Panel: Viewport, geschnitten mit allen
- * Vorfahren, die waagerecht abschneiden (overflow ≠ visible). Ein
- * scrollender Inhaltsbereich etwa schneidet links an der Seitenleiste ab.
+ * Vorfahren, die abschneiden (overflow ≠ visible, auch `clip`). Ein
+ * scrollender Inhaltsbereich etwa schneidet links an der Seitenleiste ab,
+ * eine Karte mit `overflow: hidden` unten unter ihrer letzten Zeile.
+ *
+ * `clipY: false` lässt die senkrechte Begrenzung der Vorfahren weg — für
+ * Panels in einem Portal, die deren Überlauf nicht betrifft.
  */
-function visibleBounds(from: HTMLElement): Bounds {
+function visibleBounds(from: HTMLElement, clipY = true): Bounds {
   const vv = window.visualViewport;
   const b: Bounds = {
     left: vv?.offsetLeft ?? 0,
@@ -56,11 +60,17 @@ function visibleBounds(from: HTMLElement): Bounds {
   };
   for (let el = from.parentElement; el && el !== document.body; el = el.parentElement) {
     const cs = getComputedStyle(el);
-    if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+    const cutX = cs.overflowX !== 'visible';
+    const cutY = clipY && cs.overflowY !== 'visible';
+    if (!cutX && !cutY) continue;
     const r = el.getBoundingClientRect();
-    if (cs.overflowX !== 'visible') {
+    if (cutX) {
       b.left = Math.max(b.left, r.left);
       b.right = Math.min(b.right, r.right);
+    }
+    if (cutY) {
+      b.top = Math.max(b.top, r.top);
+      b.bottom = Math.min(b.bottom, r.bottom);
     }
   }
   return b;
@@ -74,6 +84,8 @@ export interface PanelPos {
   placement: PanelPlacement;
   /** Feste waagerechte Lage (px relativ zum Auslöser-Wrapper), wenn keine Bündigkeit passt. */
   left?: number;
+  /** Höchsthöhe (px), wenn das Panel auf keiner Seite ganz passt — der Rest scrollt. */
+  maxHeight?: number;
 }
 
 /** Abstand zwischen Auslöser und Panel (px). */
@@ -82,22 +94,30 @@ export const PANEL_GAP = 5;
 /**
  * Wählt Bündigkeit und Richtung so, dass das Panel sichtbar bleibt:
  * erst die gewünschte, dann die gespiegelte, sonst an den Rand
- * geschoben. Nach oben nur, wenn unten kein Platz ist und oben schon.
+ * geschoben. Senkrecht kippt das Panel, wenn auf der gewünschten Seite
+ * kein Platz ist und auf der anderen schon; passt es auf keiner, gewinnt
+ * die Seite mit mehr Platz, und das Panel wird auf diesen Platz begrenzt
+ * (`maxHeight`, der Inhalt scrollt). Der Platz endet auch am Rand abschneidender
+ * Vorfahren (eine Karte mit `overflow: hidden` und nur einer Zeile).
  * `center` (Tooltip) wird nicht gespiegelt, nur an den Rand geschoben.
  *
  * Auch für Portale brauchbar: `wrap` ist dann der Auslöser selbst,
- * die Lage ergibt sich aus dessen `getBoundingClientRect()`.
+ * die Lage ergibt sich aus dessen `getBoundingClientRect()`. Dann
+ * `{ portal: true }` übergeben — das Panel liegt außerhalb der Vorfahren,
+ * deren senkrechter Überlauf schneidet es nicht ab.
  */
 export function resolvePanelPos(
   wrap: HTMLElement,
   panel: HTMLElement,
   want: PanelPos,
   gap = PANEL_GAP,
+  { portal = false }: { portal?: boolean } = {},
 ): PanelPos {
   const w = wrap.getBoundingClientRect();
   const width = panel.offsetWidth;
-  const height = panel.offsetHeight;
-  const b = visibleBounds(wrap);
+  /* Natürliche Höhe, auch wenn eine frühere Messung das Panel begrenzt hat. */
+  const height = Math.max(panel.offsetHeight, panel.scrollHeight + panel.offsetHeight - panel.clientHeight);
+  const b = visibleBounds(wrap, !portal);
   const rtl = getComputedStyle(wrap).direction === 'rtl';
   const minL = b.left + EDGE;
   const maxR = b.right - EDGE;
@@ -120,11 +140,15 @@ export function resolvePanelPos(
 
   const below = b.bottom - EDGE - (w.bottom + gap);
   const above = w.top - gap - (b.top + EDGE);
+  const [here, there] = want.placement === 'bottom' ? [below, above] : [above, below];
   let placement = want.placement;
-  if (want.placement === 'bottom' && height > below && above >= height) placement = 'top';
-  else if (want.placement === 'top' && height > above && below >= height) placement = 'bottom';
+  /* Passt es hier nicht, kippen, wenn drüben mehr Platz ist — ob es dort
+     ganz passt oder nur weniger abgeschnitten wird. */
+  if (height > here && there > here) placement = want.placement === 'bottom' ? 'top' : 'bottom';
+  const room = Math.max(here, there);
+  const maxHeight = height > room ? Math.max(0, Math.floor(room)) : undefined;
 
-  return { align, placement, left };
+  return { align, placement, left, maxHeight };
 }
 
 /* ---------- Dropdown ---------- */
@@ -199,8 +223,13 @@ export function Dropdown({
 
   const eff = pos ?? { align, placement };
   const panelStyle: CSSProperties | undefined =
-    /* Inline schlägt die logischen Insets der Klasse in beiden Richtungen. */
-    eff.left !== undefined ? { left: eff.left, right: 'auto' } : undefined;
+    eff.left !== undefined || eff.maxHeight !== undefined
+      ? {
+          /* Inline schlägt die logischen Insets der Klasse in beiden Richtungen. */
+          ...(eff.left !== undefined ? { left: eff.left, right: 'auto' } : null),
+          ...(eff.maxHeight !== undefined ? { maxHeight: eff.maxHeight } : null),
+        }
+      : undefined;
 
   useEffect(() => {
     if (!open) return;
