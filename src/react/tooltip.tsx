@@ -122,7 +122,7 @@ function FloatingTooltip({ label, placement = 'top', delay = 300, disabled, id, 
       const el = anchor.current;
       const b = bubble.current;
       if (!el || !b || !el.isConnected) return;
-      const r = resolvePanelPos(el, b, { align: 'center', placement }, GAP);
+      const r = resolvePanelPos(el, b, { align: 'center', placement }, GAP, { portal: true });
       const w = el.getBoundingClientRect();
       const width = b.offsetWidth;
       const left = r.left !== undefined ? w.left + r.left : w.left + (w.width - width) / 2;
