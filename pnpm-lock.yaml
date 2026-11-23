@@ -17,8 +17,8 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0
       '@types/react-dom':
-        specifier: ~19.2.7
-        version: 19.2.7(@types/react@19.3.0)
+        specifier: ~19.3.0
+        version: 19.3.0(@types/react@19.3.0)
       c8:
         specifier: ^12.0.0
         version: 12.0.0
@@ -26,8 +26,8 @@ importers:
         specifier: ^25.0.1
         version: 25.0.1
       lucide-static:
-        specifier: 1.52.0
-        version: 1.52.0
+        specifier: 1.76.0
+        version: 1.76.0
       next:
         specifier: ^15.5.29
         version: 15.5.29(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -629,10 +629,10 @@ packages:
   '@types/istanbul-lib-coverage@2.0.6':
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
 
-  '@types/react-dom@19.2.7':
-    resolution: {integrity: sha512-I8bPpDLcHBv1qiIiXDCy71Rt8eQDKJP0sMSWJphDdAcdqiJ1sGpZamavoEIRZmYzjia9LuEb2HlYdDpmoENpvQ==}
+  '@types/react-dom@19.3.0':
+    resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
     peerDependencies:
-      '@types/react': ^19.2.0
+      '@types/react': ^19.3.0
 
   '@types/react@19.3.0':
     resolution: {integrity: sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==}
@@ -939,8 +939,8 @@ packages:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
 
-  lucide-static@1.52.0:
-    resolution: {integrity: sha512-0zZYihAze4ZmUCcyNa9OkWYqn/Y5f9AdTh02AZIxMtP5ravcTTfoSIAnUPBH6ZvKxt+ZW28JB0ldzLRyD82fcw==}
+  lucide-static@1.76.0:
+    resolution: {integrity: sha512-8izOkC4xBdjtiIF641S1a21rEZP2DXiAcaRFYMXxwxnaFmgUUqLgelmRMxrNenjuW2pUJZIXEpOMuUcVyadF5Q==}
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
@@ -1681,7 +1681,7 @@ snapshots:
 
   '@types/istanbul-lib-coverage@2.0.6': {}
 
-  '@types/react-dom@19.2.7(@types/react@19.3.0)':
+  '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
       '@types/react': 19.3.0
 
@@ -2004,7 +2004,7 @@ snapshots:
 
   lru-cache@11.5.3: {}
 
-  lucide-static@1.52.0: {}
+  lucide-static@1.76.0: {}
 
   magic-string@0.30.21:
     dependencies:
